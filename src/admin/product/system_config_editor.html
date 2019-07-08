@@ -1,0 +1,198 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="" style="margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">系列</label>
+
+        <div class="layui-input-inline" >
+            <select name="config_set_id" id="config_set_id"  lay-verify="required" lay-filter="config_set_id">
+                <option value=""></option>
+            </select>
+
+        </div>
+
+
+    </div>
+    <div class="layui-form-item">
+    <label class="layui-form-label">颜色</label>
+    <div class="layui-input-inline" >
+
+        <select name="config_color_id" id="config_color_id"  lay-verify="required" lay-filter="config_color_id">
+            <option value=""></option>
+        </select>
+    </div>
+    </div>
+    <div class="layui-form-item">
+    <label class="layui-form-label">单价</label>
+    <div class="layui-input-inline">
+        <input type="number" id="config_price" name="config_price" required  lay-verify="required" autocomplete="off"  class="layui-input">
+    </div>
+    </div>
+
+
+
+
+    <div class="layui-form-item" style="margin-top: 20px">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+
+<script>
+    var freight_id="";
+    var config_color_id="";
+    var class_parent_id="";
+    var boardSetBeans=[];
+    var form;
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','upload','autocomplete', 'form','layedit'], function(){
+        form = layui.form;
+        var $ = layui.$
+                , upload = layui.upload,autocomplete=layui.autocomplete,layedit = layui.layedit;
+
+        var desc_index=layeditRender(layedit,'demo',{height:300});
+
+        // uploadRender(upload,'#upload_img','#product_img');//渲染上传图片
+
+
+
+
+        var config_id=getParameter(0,"config_id")
+        var type=getParameter(1,"type")//1：直接从发布页进来 2：从商品列表进来
+
+
+        post(home_url+"/houseController/v1.0/getBoardSetLinks",{},function (data) {
+            boardSetBeans=data;
+            $.each(data, function (index, item) {
+                $('#config_set_id').append(new Option(item.set_name, item.set_id));// 下拉菜单里添加元素
+                if(class_parent_id==item.set_id){
+                    $.each(item.boardColorBeans, function (rowID, node) {
+                        $('#config_color_id').append(new Option(node.color_name, node.color_id));// 下拉菜单里添加元素
+                    });
+                }
+            });
+
+            if(!isNull(class_parent_id)){
+                $('#config_set_id').val(class_parent_id);//设置默认选中
+                $('#config_color_id').val(config_color_id);//设置默认选中
+            }
+            form.render("select");
+        })
+
+
+        form.on('select(config_set_id)',function (data) {
+            var sonBeans=[];
+            for(var i=0;i<boardSetBeans.length;i++){
+                var boardSetBean=boardSetBeans[i];
+                if(data.value==boardSetBean.set_id){
+                    sonBeans=boardSetBean.boardColorBeans;
+                }
+            }
+            $('#config_color_id').empty();
+            $('#config_color_id').append(new Option("", ""));
+            $.each(sonBeans, function (index, item) {
+                $('#config_color_id').append(new Option(item.color_name, item.color_id));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+
+
+
+
+        if(config_id!="-1"){
+            post(home_url+"/houseController/v1.0/getSystemConfigDetail",{config_id:config_id},function (data) {
+                config_set_id=data.config_set_id;
+                config_color_id=data.config_color_id;
+                class_parent_id=data.config_set_id;
+                $("#config_price").val(data.config_price)
+
+
+                $("#config_set_id").val(data.config_set_id)
+                $.each(boardSetBeans, function (index, item) {
+                    if(class_parent_id==item.set_id){
+                        $.each(item.boardColorBeans, function (rowID, node) {
+                            $('#config_color_id').append(new Option(node.color_name, node.color_id));// 下拉菜单里添加元素
+                        });
+                    }
+                });
+                $("#config_color_id").val(data.config_color_id)
+                form.render();
+
+            })
+        }
+
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            var config_set_id_param =$("#config_set_id").val();
+            var config_color_id_param =$("#config_color_id").val();
+            if(config_id=="-1") {
+                post(home_url + "/houseController/v1.0/insertSystemConfig", params, function () {
+                    if(type=='1'){
+                        window.location.reload();//刷新当前页面
+                    }else{
+                        window.parent.location.reload();//刷新父页面
+                        var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                        parent.layer.close(index)//关闭当前层
+                    }
+                })
+            }else{
+                params["config_id"]=config_id;
+                post(home_url + "/houseController/v1.0/updateSystemConfig", params, function () {
+                    if(type=='1'){
+                        window.location.reload();//刷新当前页面
+                    }else{
+                        window.parent.location.reload();//刷新父页面
+                        var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                        parent.layer.close(index)//关闭当前层
+                    }
+                })
+
+
+            }
+        });
+    });
+
+
+
+    function uploadProduct_img(){
+        $("#upload_img").click();
+    }
+    function uploadProduct_imgs(){
+        $("#upload_imgs").click();
+    }
+</script>
+</body>
+</html>

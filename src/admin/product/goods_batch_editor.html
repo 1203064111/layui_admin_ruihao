@@ -1,0 +1,96 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+
+
+</head>
+<body>
+
+<form class="layui-form" action="" style="margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">批次号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="batch_no" name="batch_no" required  lay-verify="required"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">批次价格</label>
+        <div class="layui-input-inline">
+            <input type="text" id="batch_price" name="batch_price" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">批次库存</label>
+        <div class="layui-input-inline">
+            <input type="text" id="batch_stock" name="batch_stock" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','upload', 'form'], function(){
+        var $ = layui.$
+                ,form = layui.form, upload = layui.upload;
+
+        var batch_id=getParameter(0,"batch_id")
+        var goods_id=getParameter(1,"goods_id")
+
+        if(batch_id!="-1"){
+            post(home_url+"/goodsController/v1.0/getGoodsBatchDetail",{batch_id:batch_id},function (data) {
+                $("#batch_no").val(data.batch_no)
+                $("#batch_price").val(data.batch_price)
+                $("#batch_stock").val(data.batch_stock)
+            })
+        }else{
+
+        }
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["goods_id"]=goods_id;
+            if(batch_id=="-1") {
+                post(home_url + "/goodsController/v1.0/insertGoodsBatch", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }else{
+                params["batch_id"]=batch_id;
+                post(home_url + "/goodsController/v1.0/updateGoodsBatch", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+
+                })
+            }
+        });
+    });
+</script>
+</body>
+</html>

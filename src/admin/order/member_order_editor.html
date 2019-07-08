@@ -1,0 +1,250 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../js/autocomplete.css">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="">
+
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">预约编号</label>
+        <div class="zhengan-label-div">
+            <label id="order_no" name="order_no"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">预约标题</label>
+        <div class="zhengan-label-div">
+            <label id="order_title" name="order_title"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">用户手机号</label>
+        <div class="zhengan-label-div">
+            <label id="order_phone" name="order_phone"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">经销商名称</label>
+        <div class="zhengan-label-div">
+            <label id="merchants_name" name="merchants_name"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">经销商电话</label>
+        <div class="zhengan-label-div">
+            <label id="merchants_phone" name="merchants_phone"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">经销商地址</label>
+        <div class="zhengan-label-div">
+            <label id="merchants_address" name="merchants_address"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">预约来源</label>
+        <div class="zhengan-label-div">
+            <label id="order_resource_show" name="order_resource_show"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">预约时间</label>
+        <div class="zhengan-label-div">
+            <label id="order_time" name="order_time"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">到店时间</label>
+        <div class="zhengan-label-div">
+            <label id="arrive_time" name="arrive_time"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">推送状态</label>
+        <div class="zhengan-label-div">
+            <label id="push_state_show" name="push_state_show"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">预约状态</label>
+        <div class="layui-input-block" style="width:200px;">
+            <select name="order_state" id="order_state" lay-verify="required" lay-filter="parent_id">
+                <option value="0">未完成</option>
+                <option value="1">已到店未购买</option>
+                <option value="2">已到店已购买</option>
+                <option value="10">已关闭</option>
+            </select>
+        </div>
+    </div>
+    <div id="remarkUrl">
+        <div class="layui-form-item">
+            <label class="layui-form-label">未完成备注</label>
+            <div class="layui-input-inline">
+                <input type="text" id="order_remark" name="order_remark"  placeholder="" autocomplete="off"
+                       class="layui-input" style="width:400px">
+            </div>
+        </div>
+    </div>
+    <div id="remark2Url">
+        <div class="layui-form-item">
+            <label class="layui-form-label">已完成备注</label>
+            <div class="layui-input-inline">
+                <input type="text" id="order_remark2" name="order_remark2"  placeholder="" autocomplete="off"
+                       class="layui-input" style="width:400px">
+            </div>
+        </div>
+    </div>
+    <div class="layui-card" style="margin: 10px">
+        <div class="layui-card-body">
+            <table id="houseConfigBeans" lay-filter="houseConfigBeans"></table>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+        </div>
+    </div>
+
+</form>
+<script>
+
+    var supplierBean={};
+    var houseConfigBeans=[];
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form','autocomplete','table'], function(){
+
+        var $ = layui.$
+            ,form = layui.form,autocomplete=layui.autocomplete,table=layui.table;
+
+        var order_id=getParameter(0,"order_id")
+        if(order_id!="-1"){
+            post(home_url+"/memberController/v1.0/getMemberOrderDetail",{order_id:order_id},function (data) {
+                document.getElementById('order_no').innerHTML = data.order_no;
+                document.getElementById('order_title').innerHTML = data.order_title;
+                document.getElementById('order_phone').innerHTML = data.order_phone;
+                document.getElementById('merchants_name').innerHTML = data.merchants_name;
+                document.getElementById('merchants_phone').innerHTML = data.merchants_phone;
+                document.getElementById('merchants_address').innerHTML = data.merchants_address;
+                document.getElementById('order_resource_show').innerHTML = data.order_resource_show;
+                document.getElementById('order_time').innerHTML = data.order_time;
+                document.getElementById('arrive_time').innerHTML = data.arrive_time;
+                document.getElementById('push_state_show').innerHTML = data.push_state_show;
+
+
+                $("#order_state").val(data.order_state);
+                $("#order_remark").val(data.order_remark);
+                $("#order_remark2").val(data.order_remark2);
+
+                form.render("select");
+                houseConfigBeans=data.houseConfigBeans;
+
+                if ($("#order_state").val() == '0') {
+
+                    $("#remarkUrl").hide();
+                    $("#remark2Url").hide();
+                } else if ($("#order_state").val() == '1') {
+
+                    $("#remarkUrl").show();
+                } else if ($("#order_state").val() == '2'){
+
+                    $("#remark2Url").show();
+
+                } else{
+                    $("#remarkUrl").hide();
+                    $("#remark2Url").hide();
+                }
+                form.on('select(parent_id)', function (data) {
+                    if (data.value == '0') {
+
+                        $("#remarkUrl").hide();
+                        $("#remark2Url").hide();
+                        $("#order_remark").attr("lay-verify", "");
+                        $("#order_remark").val("");
+                    } else if (data.value == '1') {
+
+                        $("#remarkUrl").show();
+                        $("#remark2Url").hide();
+                        // $("#order_remark").attr("lay-verify", "required");
+                    }else if (data.value == '2') {
+                        $("#remarkUrl").hide();
+                        $("#remark2Url").show();
+                    }
+                    form.render("select");
+                });
+                renderHouses(table);
+            })
+        }else{
+
+        }
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var params = data.field;
+            params["order_state"] = $("#order_state").val();
+            params["order_remark"] = $("#order_remark").val();
+            params["order_remark2"] = $("#order_remark2").val();
+            params["order_id"]=order_id;
+            post(home_url + "/memberController/v1.0/updateMemberOrder", params, function () {
+                window.parent.location.reload();//刷新父页面
+                var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                parent.layer.close(index)//关闭当前层
+            })
+
+        });
+
+    });
+
+
+
+    function renderHouses(table) {
+        tableRender2(table,'#houseConfigBeans',[[
+            // {field:'config_name',title: '配置名称'}
+            {field:'house_type_name',title: '房型'}
+            ,{field:'house_style_name',title: '风格'}
+            ,{field:'up_board_set_name',title: '上面板系列名'}
+            ,{field:'up_board_color_name',title: '上面板颜色'}
+            ,{field:'up_board_length',title: '上面板长度'}
+            ,{field:'up_board_height',title: '上面板高度'}
+            // ,{field:'up_board_price',title: '上面板价格'}
+
+
+            ,{field:'down_board_set_name',title: '下面板系列名'}
+            ,{field:'down_board_length',title: '下面板长度'}
+            ,{field:'down_board_height',title: '下面板高度'}
+            // ,{field:'down_board_area',title: '下面板面积'}
+            // ,{field:'down_board_price',title: '下面板价格'}
+            ,{field:'down_board_color_name',title: '下面板颜色'}
+            ,{field:'total_price',title: '预约总价'}
+            ,{field:'budget_name',title: '预算范围'}
+
+        ]],houseConfigBeans)
+
+    }
+</script>
+</body>
+</html>

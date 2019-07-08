@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+<div id="provider">
+
+</div>
+
+<div class="layui-form-item">
+    <div class="layui-input-block">
+        <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+    </div>
+</div>
+<script id="provider_demo" type="text/html">
+    <div style="margin-top: 20px">
+        {{# layui.each(d, function(index, item){ }}
+        {{#  if((index+1)==1){ }}
+        <div style="display: flex;">
+            {{#  } }}
+            <div class="layui-form-item">
+                <label class="layui-form-label">{{item.percent_name}}</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="freight_add_range" name="freight_add_range" required  lay-verify="required"
+                           autocomplete="off" class="layui-input" value="{{item.percent_value}}"
+                           onchange='editor("{{index}}","percent_value",this.value)'>
+                </div>
+            </div>
+            {{#  if((index+1)%3==0&&(index+1)!=1){ }}
+        </div>
+        <div style="display: flex;">
+            {{#  } }}
+
+            {{#  }); }}
+            {{#  if(d.length%3!=0){ }}
+        </div>
+        {{#  } }}
+    </div>
+</script>
+
+<script>
+    var percentBeans=[];
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','element', 'form','laytpl'], function(){
+        var laytpl = layui.laytpl;
+        var element=layui.element;
+        var $ = layui.$
+                ,form = layui.form;
+
+        post(home_url+"/settingController/v1.0/getPercents",{},function (data) {
+            percentBeans=data;
+            renderProvider();
+        })
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            post(home_url+"/settingController/v1.0/updatePercents",{percents:JSON.stringify(percentBeans)},function () {
+                tip("保存成功",1)
+            })
+        });
+    });
+
+
+    function renderProvider() {
+        layui.use(['laytpl','element'], function(){
+            var laytpl = layui.laytpl;
+            var element=layui.element;
+
+            var getTpl = provider_demo.innerHTML
+                    ,view = document.getElementById('provider');
+            laytpl(getTpl).render(percentBeans
+                    , function(html){
+                        view.innerHTML = html;
+                        element.render()
+                    });
+        });
+    }
+
+    function editor(index,key,value){
+        percentBeans[index][key]=value;
+    }
+
+
+</script>
+</body>
+</html>

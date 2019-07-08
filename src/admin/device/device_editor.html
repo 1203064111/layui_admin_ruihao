@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+
+
+</head>
+<body>
+
+<form class="layui-form" action="" style="margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">设备型号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="device_version" name="device_version" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <label class="layui-form-label">设备编号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="device_no" name="device_no" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <label class="layui-form-label">设备名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="device_name" name="device_name" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">设备图片</label>
+        <div class="layui-upload">
+            <img class="layui-upload-img" id="device_img" onclick="select_img('#upload_img')">
+            <button type="button" class="layui-btn" style="display: none" id="upload_img" name="upload_img" >
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">省市区</label>
+        <div class="layui-input-inline">
+            <select name="device_province" id="device_province" lay-verify="required" lay-filter="device_province">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="device_city" id="device_city" lay-verify="required" lay-filter="device_city">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="device_country" id="device_country" lay-verify="required" lay-filter="device_country">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">详细地址</label>
+        <div class="layui-input-inline">
+            <input type="text" id="device_address" name="device_address" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <label class="layui-form-label">经度</label>
+        <div class="layui-input-inline">
+            <input type="text" id="device_longitude" name="device_longitude" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <label class="layui-form-label">纬度</label>
+        <div class="layui-input-inline">
+            <input type="text" id="device_latitude" name="device_latitude" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">需要提醒的库存数量</label>
+        <div class="layui-input-inline">
+            <input type="text" id="remind_stock" name="remind_stock" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <div style="padding-bottom: 10px;">
+                    货道列表
+                    <button type="button"  class="layui-btn layuiadmin-btn-list" data-type="add">添加</button>
+                </div>
+                <table id="deviceCargoBeans" lay-filter="deviceCargoBeans"></table>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" style="display: none" id="cargo_imgs"  name="cargo_imgs">
+        <i class="layui-icon">&#xe67c;</i>上传图片
+    </button>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="deleteCargo"><i class="layui-icon layui-icon-delete"></i>删除</a>
+</script>
+
+<script>
+    var provinceBeans=[];
+    var cityBeans=[];
+    var countryBeans=[];
+    var deviceBean={};
+    var deviceCargoBeans=[];
+    var cargo_index;
+    var table;
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload','table', 'form'], function () {
+        var $ = layui.$
+                , form = layui.form, upload = layui.upload;
+        table=layui.table;
+
+        uploadRender(upload, '#upload_img', '#device_img');//渲染上传图片
+
+        uploadRender(upload,'#cargo_imgs','#cargo_imgs',function (src) {
+            deviceCargoBeans[cargo_index].cargo_img=src;
+            renderCargo()
+        });
+
+        $.getJSON("../city.json", function (data){
+            provinceBeans=data;
+            renderAddress(provinceBeans,deviceBean);
+        });
+
+        form.on('select(device_province)',function (data) {
+            for(var i=0;i<provinceBeans.length;i++){
+                var provinceBean=provinceBeans[i];
+                if(data.value==provinceBean.name){
+                    cityBeans=provinceBean.cityBeans;
+                }
+            }
+            $('#device_city').empty();
+            $('#device_city').append(new Option("", ""));
+            $('#device_country').empty();
+            $('#device_country').append(new Option("", ""));
+            $.each(cityBeans, function (rowID, item) {
+                $('#device_city').append(new Option(item.name, item.name));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+
+        form.on('select(device_city)',function (data) {
+            for(var i=0;i<cityBeans.length;i++){
+                var cityBean=cityBeans[i];
+                if(data.value==cityBean.name){
+                    countryBeans=cityBean.cityBeans;
+                }
+            }
+            $('#device_country').empty();
+            $('#device_country').append(new Option("", ""));
+            $.each(countryBeans, function (rowID, item) {
+                $('#device_country').append(new Option(item.name, item.name));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+
+
+        function renderAddress(provinceBeans,deviceBean) {
+            $.each(provinceBeans, function (index, item) {
+                $('#device_province').append(new Option(item.name, item.name));// 下拉菜单里添加元素
+                if(deviceBean.device_province==item.name){
+                    cityBeans=item.cityBeans;
+                    $.each(cityBeans, function (rowID, node) {
+                        $('#device_city').append(new Option(node.name, node.name));// 下拉菜单里添加元素
+                        if(deviceBean.device_city==node.name){
+                            countryBeans=node.cityBeans;
+                            $.each(countryBeans, function (rowID, menu) {
+                                $('#device_country').append(new Option(menu.name, menu.name));// 下拉菜单里添加元素
+                            });
+                        }
+
+                    });
+                }
+            });
+
+            $("#device_province").val(deviceBean.device_province);
+            $("#device_city").val(deviceBean.device_city);
+            $("#device_country").val(deviceBean.device_country);
+            form.render("select");
+        }
+
+        var device_id = getParameter(0, "device_id")
+        if (device_id != "-1") {
+            post(home_url + "/deviceController/v1.0/getDeviceDetail", {device_id: device_id}, function (data) {
+                deviceBean=data;
+                deviceCargoBeans=data.deviceCargoBeans;
+
+                $("#device_version").val(data.device_version)
+                $("#device_no").val(data.device_no)
+                $("#device_name").val(data.device_name)
+                $("#device_img").attr('src', data.device_img);
+
+                $("#device_address").val(data.device_address)
+                $("#device_longitude").val(data.device_longitude)
+                $("#device_latitude").val(data.device_latitude)
+                $("#remind_stock").val(data.remind_stock)
+
+                renderCargo();
+                renderAddress(provinceBeans,deviceBean);
+            })
+        }else{
+            renderCargo();
+        }
+
+
+
+
+        table.on('tool(deviceCargoBeans)', function(obj){
+            var data = obj.data;
+            if(obj.event == 'deleteCargo'){
+                var index = $("tr").index(obj.tr)-1;
+                deviceCargoBeans.splice(index,1);
+                renderCargo();
+            }
+        });
+
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var params = data.field;
+            params["device_img"] = $("#device_img")[0].src;
+            params["cargos"] = JSON.stringify(deviceCargoBeans);
+            if (device_id == "-1") {
+                post(home_url + "/deviceController/v1.0/insertDevice", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            } else {
+                params["device_id"] = device_id;
+                post(home_url + "/deviceController/v1.0/updateDevice", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+        });
+
+
+        var $ = layui.$, active = {
+            add: function(){
+                deviceCargoBeans.push({cargo_no:"",product_name:"",cargo_num:""})
+                renderCargo();
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+    
+    function selectProduct(index) {
+        layer.open({
+            type: 2
+            ,title: '选择产品'
+            ,content: 'device_product.html'
+            ,area: ["80%","80%"]
+            ,btn: ['确定', '关闭']
+            ,yes:function (index2, layero) {
+                var productBean = layero.find("iframe")[0].contentWindow.productBean;
+                if(!isNull(productBean.product_id)){
+                    deviceCargoBeans[index]["product_id"]=productBean.product_id;
+                    deviceCargoBeans[index]["product_name"]=productBean.product_name;
+                    deviceCargoBeans[index]["product_now_price"]=productBean.product_now_price;
+                    renderCargo()
+                }
+                layer.close(index2);
+            }
+        });
+    }
+
+    /**
+     * 渲染货道列表
+     */
+    function renderCargo(){
+        tableRender2(table,'#deviceCargoBeans',[[
+            {field:'cargo_no',title: '货道号',templet:function (d) {
+                return '<input type="text" name="cargo_no" required lay-verify="required" ' +
+                        'autocomplete="off" onchange="editorCargo('+d.LAY_TABLE_INDEX+',this.name,this.value)" class="zhengan-input" value="'+d.cargo_no+'"/>'
+            }},
+            {field:'cargo_name',title: '货道名称',templet:function (d) {
+                return '<input type="text" name="cargo_name" required lay-verify="required" ' +
+                        'autocomplete="off" onchange="editorCargo('+d.LAY_TABLE_INDEX+',this.name,this.value)" class="zhengan-input" value="'+d.cargo_name+'"/>'
+            }},
+            {field:'cargo_img', title: '货道图片(300*300 png)',width: 200,templet:function (d) {
+                return '<div onclick="click_img('+d.LAY_TABLE_INDEX+')"><img src="'+d.cargo_img+'" width="50px" height="50px"></div>';
+            }}
+            ,{field:'product_name',title: '产品名称',templet:function (d) {
+                return '<div style="display: flex"><p>'+d.product_name+'</p><a style="margin-left: 5px" class="layui-btn layui-btn-normal layui-btn-xs" onclick="selectProduct('+d.LAY_TABLE_INDEX+')"><i class="layui-icon layui-icon-edit"></i>编辑</a></div>';
+            }}
+            ,{field:'cargo_num',title: '货道数量',templet:function (d) {
+                return '<input type="text" name="cargo_num" required lay-verify="required" ' +
+                        'autocomplete="off" onchange="editorCargo('+d.LAY_TABLE_INDEX+',this.name,this.value)" class="zhengan-input" value="'+d.cargo_num+'"/>'
+            }}
+            ,{field: 'right', title: '操作', width: 100, toolbar:"#barDemo"}
+        ]],deviceCargoBeans)
+    }
+
+    function editorCargo(index,key,value) {
+        deviceCargoBeans[index][key]=value;
+    }
+
+    function click_img(index) {
+        cargo_index=index;
+        $("#cargo_imgs").click();
+    }
+
+</script>
+</body>
+</html>

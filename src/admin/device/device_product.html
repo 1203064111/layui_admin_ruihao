@@ -1,0 +1,62 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../js/autocomplete.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品</label>
+        <div class="layui-input-inline">
+            <input type="text" id="product_name" name="product_name" required  lay-verify="required"  class="layui-input">
+        </div>
+    </div>
+</form>
+<script>
+
+    var productBean={};
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','autocomplete', 'form'], function(){
+
+
+        var $ = layui.$
+                ,form = layui.form,autocomplete=layui.autocomplete;
+
+        var cate = layui.data(db_name);
+        var systemAccountBean=cate.systemAccountBean;
+        autocomplete.render({
+            elem: $('#product_name')[0],
+            url: home_url+"/goodsController/v1.0/getProducts",
+            template_val: '{{d.product_name}}',
+            template_txt: '{{d.product_name}}',
+            method:'post',
+            key:"product_name",
+            params:{account_id1:systemAccountBean.account_id,
+                system_token:systemAccountBean.system_token},
+            onselect: function (resp) {
+                productBean=resp;
+            }
+        })
+    });
+</script>
+</body>
+</html>

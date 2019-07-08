@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+
+</head>
+<body>
+
+
+<form class="layui-form" action="">
+
+    <div class="layui-form-item">
+
+
+        <label class="layui-form-label">ID</label>
+        <div class="layui-input-inline">
+            <input type="text" id="member_id" name="member_id" required lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">账户</label>
+        <div class="layui-input-inline">
+            <input type="text" id="member_account" name="member_account" required lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input" readonly>
+        </div>
+
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input type="text" id="member_nick_name" name="member_nick_name" required lay-verify="required"
+                   placeholder="" autocomplete="off"
+                   class="layui-input">
+        </div>
+
+
+        <label class="layui-form-label">绑定手机号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="member_balance" name="member_balance" placeholder="" required lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+
+
+    </div>
+
+    <div class="layui-form-item">
+
+
+        <label class="layui-form-label">联系电话</label>
+        <div class="layui-input-inline">
+            <input type="text" id="member_phoneNum" name="member_phoneNum" required lay-verify="required" placeholder=""
+                   autocomplete="off"
+                   class="layui-input">
+        </div>
+
+        <label class="layui-form-label">联系地址</label>
+        <div class="layui-input-inline">
+            <input type="text" id="member_adress" name="member_address" placeholder="" required lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">注册日期</label>
+        <div class="layui-input-inline">
+            <input type="text" id="member_register" name="member_register" placeholder="" required lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">最后登录日</label>
+        <div class="layui-input-inline">
+            <input type="text" id="member_lastLoginDate" name="member_lastLoginDate" placeholder="" required
+                   lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-inline">
+            <input type="text" id="member_sex" name="member_sex" placeholder="" required lay-verify="required"
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">用户头像</label>
+        <div class="layui-card-body">
+            <div class="layui-upload">
+                <img class="layui-upload-img" id="test-upload-normal-img">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="layui-form-item" style="width: 915px;margin: auto">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this" style="width: 200px">消费记录</li>
+                <li style="width: 200px">充值记录</li>
+                <li style="width: 200px">提现记录</li>
+                <li style="width: 200px">销售记录</li>
+            </ul>
+            <div class="layui-tab-content" style="height: 100px;">
+                <div class="layui-tab-item layui-show">1</div>
+                <div class="layui-tab-item">2</div>
+                <div class="layui-tab-item">3</div>
+                <div class="layui-tab-item">4</div>
+
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<script>
+
+
+    var member_id = "";
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload', 'form'], function () {
+        var $ = layui.$
+            , form = layui.form, upload = layui.upload;
+        ;
+
+
+        uploadRender(upload, '#member_img', '#test-upload-normal-img');//渲染上传图片
+
+
+        var member_id = getParameter(0, "member_id")
+        post(home_url + "/memberController/v1.0/getMemberDetail", {member_id: member_id}, function (data) {
+
+            member_id = data.member_id;
+            $('#member_id').val(data.member_id);
+            $('#member_account').val(data.member_account);
+            $("#member_nick_name").val(data.member_nick_name);
+            $("#test-upload-normal-img").attr('src', data.member_img);
+            $("#member_balance").val(data.member_balance);
+            form.render("select");
+
+
+        })
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var params = data.field;
+            params["member_img"] = $("#test-upload-normal-img")[0].src;
+            params["member_id"] = member_id;
+            post(home_url + "/memberController/v1.0/updateMember", params, function () {
+                window.parent.location.reload();//刷新父页面
+                var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                parent.layer.close(index)//关闭当前层
+            })
+
+        });
+
+    });
+
+
+</script>
+</body>
+</html>

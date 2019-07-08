@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../js/autocomplete.css">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">经销商名称</label>
+        <div class="zhengan-label-div">
+            <label id="merchants_name" name="merchants_name"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">经销商电话</label>
+        <div class="zhengan-label-div">
+            <label id="merchants_phone" name="merchants_phone"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">经销商地址</label>
+        <div class="zhengan-label-div">
+            <label id="merchants_address" name="merchants_address"  class="zhengan-lable"></label>
+        </div>
+    </div>
+
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">微信端经销商ID</label>-->
+        <!--<div class="zhengan-label-div">-->
+            <!--<label id="wx_merchants_id" name="wx_merchants_id"  class="zhengan-lable"></label>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">上面板系列组合</label>
+        <div  style="display: flex">
+            <select name="up_set_id" id="up_set_id"  lay-verify="required" lay-filter="up_set_id">
+                <option value=""></option>
+            </select>
+
+            <select name="up_set_class_id" id="up_set_class_id"  lay-verify="required" lay-filter="up_set_class_id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上面板颜色</label>
+        <div class="zhengan-label-div">
+            <label id="up_board_color_name" name="up_board_color_name"  class="zhengan-lable"></label>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">上面板数量</label>
+        <div class="layui-input-inline">
+            <input type="number" id="count_up" name="count_up" required lay-verify="required"   placeholder="" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <label class="layui-form-label">下面板系列组合</label>
+        <div  style="display: flex">
+            <select name="down_set_id" id="down_set_id"  lay-verify="required" lay-filter="house_type_id">
+                <option value="" ></option>
+            </select>
+
+            <select name="down_set_class_id" id="down_set_class_id"  lay-verify="required" lay-filter="house_style_id" >
+                <option value="" ></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">下面板颜色</label>
+        <div class="zhengan-label-div">
+            <label id="down_board_color_name" name="down_board_color_name"  class="zhengan-lable"></label>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">下面板数量</label>
+
+        <div class="layui-input-inline">
+            <input  type="number" id="count_down" name="count_down" required lay-verify="required" autocomplete="off"
+                    placeholder=""
+                    class="layui-input">
+        </div>
+    </div>
+
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+        </div>
+    </div>
+
+</form>
+<script>
+
+    var supplierBean={};
+    var houseConfigBeans=[];
+    var up_boardClassBeans=[];
+    var down_boardClassBeans=[];
+    var houseConfigBean = "";
+    var up_class_id= "";
+    var up_set_class_id="";
+    var down_class_id="";
+    var down_set_class_id="";
+    var merchants_address_new ="";
+
+    var up_color_id="";
+    var down_color_id="";
+
+    var merchants_id = "";
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form','autocomplete','table'], function(){
+
+        var $ = layui.$
+            ,form = layui.form,autocomplete=layui.autocomplete,table=layui.table;
+
+        var order_id=getParameter(0,"order_id")
+        post(home_url+"/houseController/v1.0/getBoardSetClassLinks",{},function (data) {
+            console.log(data)
+            up_boardClassBeans=data;
+            $.each(data, function (index, item) {
+                $('#up_set_id').append(new Option(item.set_name, item.set_id));// 下拉菜单里添加元素
+                if(up_class_id==item.set_id){
+                    $.each(item.boardSetClassBeans, function (rowID, node) {
+                        $('#up_set_class_id').append(new Option(node.class_name,node.wx_class_id));// 下拉菜单里添加元素
+                    });
+                }
+            });
+            if(!isNull(up_class_id)){
+                $('#up_set_id').val(up_class_id);//设置默认选中
+                $('#up_set_class_id').val(up_set_class_id);//设置默认选中
+            }
+            form.render("select");
+        })
+        form.on('select(up_set_id)',function (data) {
+            var up_setClassBeans=[];
+            for(var i=0;i<up_boardClassBeans.length;i++){
+                var setBean=up_boardClassBeans[i];
+                if(data.value==setBean.set_id){
+                    up_setClassBeans=typeClassBean.boardSetClassBeans;
+                }
+            }
+            $('#up_set_class_id').empty();
+            $('#up_set_class_id').append(new Option("", ""));
+            $.each(up_setClassBeans, function (index, item) {
+                $('#up_set_class_id').append(new Option(item.class_name, item.wx_class_id));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+        post(home_url+"/houseController/v1.0/getBoardSetClassLinks",{},function (data) {
+            console.log(data)
+            down_boardClassBeans=data;
+            $.each(data, function (index, item) {
+                $('#down_set_id').append(new Option(item.set_name, item.set_id));// 下拉菜单里添加元素
+                if(down_class_id==item.set_id){
+                    $.each(item.boardSetClassBeans, function (rowID, node) {
+                        $('#down_set_class_id').append(new Option(node.class_name,node.wx_class_id));// 下拉菜单里添加元素
+                    });
+                }
+            });
+            if(!isNull(down_class_id)){
+                $('#down_set_id').val(down_class_id);//设置默认选中
+                $('#down_set_class_id').val(down_set_class_id);//设置默认选中
+            }
+            form.render("select");
+        })
+        form.on('select(down_set_id)',function (data) {
+            var down_setClassBeans=[];
+            for(var i=0;i<down_boardClassBeans.length;i++){
+                var setBean=down_boardClassBeans[i];
+                if(data.value==setBean.set_id){
+                    down_setClassBeans=typeClassBean.boardSetClassBeans;
+                }
+            }
+            $('#down_set_class_id').empty();
+            $('#down_set_class_id').append(new Option("", ""));
+            $.each(down_setClassBeans, function (index, item) {
+                $('#down_set_class_id').append(new Option(item.class_name, item.wx_class_id));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+        if(order_id!="-1"){
+            post(home_url+"/memberController/v1.0/getMemberOrderDetail",{order_id:order_id},function (data) {
+                houseConfigBean= data.houseConfigBean;
+
+                up_color_id= houseConfigBean.up_board_color_id;
+                down_color_id= houseConfigBean.down_board_color_id;
+
+                up_class_id = houseConfigBean.up_board_set_id;
+                console.log("123:"+up_class_id)
+                if(up_class_id===14){
+                    up_class_id =11;
+                }
+                down_class_id = houseConfigBean.down_board_set_id;
+                if(down_class_id===14){
+                    down_class_id =11;
+                }
+                merchants_id  =  data.merchants_id;
+                document.getElementById('merchants_name').innerHTML = data.merchants_name;
+                document.getElementById('merchants_phone').innerHTML = data.merchants_phone;
+                document.getElementById('merchants_address').innerHTML = data.merchants_address;
+                document.getElementById('down_board_color_name').innerHTML = houseConfigBean.down_board_color_name;
+                document.getElementById('up_board_color_name').innerHTML = houseConfigBean.up_board_color_name;
+                merchants_address_new = data.merchants_address;
+                $("#up_set_id").val(up_class_id);
+                $.each(up_boardClassBeans, function (index, item) {
+                    if(up_class_id==item.set_id){
+                        $.each(item.boardSetClassBeans, function (rowID, node) {
+                            $('#up_set_class_id').append(new Option(node.class_name, node.wx_class_id));// 下拉菜单里添加元素
+                        });
+                    }
+                });
+
+                $("#down_set_id").val(down_class_id);
+                $.each(down_boardClassBeans, function (index, item) {
+                    if(down_class_id==item.set_id){
+                        $.each(item.boardSetClassBeans, function (rowID, node) {
+                            $('#down_set_class_id').append(new Option(node.class_name, node.wx_class_id));// 下拉菜单里添加元素
+                        });
+                    }
+                });
+                // $("#house_style_id").val(data.house_style_id);
+
+
+
+
+                form.render();
+
+            })
+        }else{
+
+        }
+        var $ = layui.$, active = {
+
+        };
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var params = data.field;
+            console.log(params["down_set_class_id"]);
+            params["merchants_id"]=merchants_id;
+            params["up_color_id"] = up_color_id;
+            params["merchants_address"]=merchants_address_new;
+            params["down_color_id"] = down_color_id;
+            params["order_id"]=order_id;
+            post(home_url + "/memberController/v1.0/pushOrder", params, function () {
+                window.parent.location.reload();//刷新父页面
+                var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                parent.layer.close(index)//关闭当前层
+            })
+
+        });
+
+    });
+
+
+
+
+</script>
+</body>
+</html>

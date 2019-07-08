@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+<div id="provider">
+
+</div>
+<div id="city" style="display:none">
+
+</div>
+<script id="provider_demo" type="text/html">
+    <div>
+        {{# layui.each(d, function(index, item){ }}
+        {{#  if((index+1)==1){ }}
+        <div style="display: flex;">
+            {{#  } }}
+            <div style="display: flex;align-items: center;margin-left: 20px">
+                {{#  if((item.is_check)=="1"){ }}
+                <input type="checkbox"  onclick="clickProvider('{{index}}',this.checked)" checked/>
+                {{#  } }}
+                {{#  if((item.is_check)!="1"){ }}
+                <input type="checkbox" onclick="clickProvider('{{index}}',this.checked)"/>
+                {{#  } }}
+                <p>{{item.name}}</p>
+                <p1 style="color:red;fontSize:10">{{isNull(item.count)?"":item.count<=0?"":item.count}}</p1>
+                <i onclick="showProvider('{{index}}')" class="layui-icon layui-icon-down"></i>
+            </div>
+            {{#  if((index+1)%5==0&&(index+1)!=1){ }}
+        </div>
+        <div style="display: flex;">
+            {{#  } }}
+
+            {{#  }); }}
+            {{#  if(d.length%5!=0){ }}
+        </div>
+        {{#  } }}
+    </div>
+</script>
+<script id="city_demo" type="text/html">
+    <div>
+        {{# layui.each(d, function(index, item){ }}
+        {{#  if((index+1)==1){ }}
+        <div style="display: flex;">
+            {{#  } }}
+            <div style="display: flex;align-items: center;margin-left: 20px">
+                {{#  if((item.is_check)=="1"){ }}
+                <input type="checkbox" onclick="clickCity('{{index}}',this.checked)" checked/>
+                {{#  } }}
+                {{#  if((item.is_check)!="1"){ }}
+                <input type="checkbox" onclick="clickCity('{{index}}',this.checked)"/>
+                {{#  } }}
+                <p>{{item.name}}</p>
+            </div>
+            {{#  if((index+1)%5==0&&(index+1)!=1){ }}
+        </div>
+        <div style="display: flex;">
+            {{#  } }}
+
+            {{#  }); }}
+            {{#  if(d.length%5!=0){ }}
+        </div>
+        {{#  } }}
+    </div>
+</script>
+<script>
+    var freeBeans=[];
+    var provider_index=0;
+    var cityBeans=[];
+    var count=0;
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','element', 'form','laytpl'], function(){
+        var laytpl = layui.laytpl;
+        var element=layui.element;
+        var $ = layui.$
+                ,form = layui.form;
+        freeBeans=window.parent.freeBeans;
+        renderProvider();
+    });
+
+    function showProvider(index) {
+        provider_index=index;
+        cityBeans=freeBeans[index].children;
+        count=getNull(freeBeans[index].count,0);
+
+        renderCity();
+
+        layer.open({
+            type: 1
+            ,title: '请选择'
+            ,content:$('#city')
+            ,area: ['90%','90%']
+        });
+    }
+    function clickProvider(index,checked){
+        var beans=freeBeans[index].children;
+        if(checked){
+            freeBeans[index].is_check='1';
+            freeBeans[index].count=beans.length;
+        }else{
+            freeBeans[index].is_check='0';
+            freeBeans[index].count=0;
+        }
+        for(var i=0;i<beans.length;i++){
+            beans[i].is_check=checked?"1":"0";
+        }
+        freeBeans[index].children=beans;
+        renderProvider();
+    }
+
+    function clickCity(index,checked) {
+        if(checked){
+            count++;
+            cityBeans[index].is_check='1';
+        }else{
+            count--;
+            cityBeans[index].is_check='0';
+        }
+        freeBeans[provider_index].count=count;
+        freeBeans[provider_index].children=cityBeans;
+
+        if(count==cityBeans.length){
+            freeBeans[provider_index].is_check='1';
+        }else{
+            freeBeans[provider_index].is_check='0';
+        }
+        renderProvider();
+    }
+
+    function renderProvider() {
+        layui.use(['laytpl','element'], function(){
+            var laytpl = layui.laytpl;
+            var element=layui.element;
+
+            var getTpl = provider_demo.innerHTML
+                    ,view = document.getElementById('provider');
+            laytpl(getTpl).render(freeBeans
+                    , function(html){
+                        view.innerHTML = html;
+                        element.render()
+                    });
+        });
+    }
+
+    function renderCity(){
+        layui.use(['laytpl','element'], function(){
+            var laytpl = layui.laytpl;
+            var element=layui.element;
+
+            var getTpl = city_demo.innerHTML
+                    ,view = document.getElementById('city');
+            laytpl(getTpl).render(cityBeans
+                    , function(html){
+                        view.innerHTML = html;
+                        element.render()
+                    });
+        });
+    }
+</script>
+</body>
+</html>

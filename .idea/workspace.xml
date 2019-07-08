@@ -1,0 +1,1014 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" readonly="true" id="ca6a3fcb-61d6-4ec9-8189-a2e79da7bd23" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/layuiadmin/modules/test.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/src/layuiadmin/modules/zhu.js" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="$PROJECT_DIR$/dist/layuiadmin/tpl/system/about.html" afterPath="$PROJECT_DIR$/dist/layuiadmin/tpl/system/about.html" />
+      <change beforePath="$PROJECT_DIR$/dist/views/app/content/contform.html" afterPath="$PROJECT_DIR$/dist/views/app/content/contform.html" />
+      <change beforePath="$PROJECT_DIR$/src/admin/common.js" afterPath="$PROJECT_DIR$/src/admin/common.js" />
+      <change beforePath="$PROJECT_DIR$/src/admin/order/member_order.html" afterPath="$PROJECT_DIR$/src/admin/order/member_order.html" />
+      <change beforePath="$PROJECT_DIR$/src/layuiadmin/tpl/system/about.html" afterPath="$PROJECT_DIR$/src/layuiadmin/tpl/system/about.html" />
+      <change beforePath="$PROJECT_DIR$/src/views/app/content/contform.html" afterPath="$PROJECT_DIR$/src/views/app/content/contform.html" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="common.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/common.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="348">
+              <caret line="24" column="1" lean-forward="true" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+              <folding>
+                <marker date="1561732068554" expanded="true" signature="7539:7556" ph="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="account_add.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/system/account_add.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2430">
+              <caret line="162" column="69" lean-forward="false" selection-start-line="162" selection-start-column="50" selection-end-line="162" selection-end-column="69" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="merchants.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/admin/merchants/merchants.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="621">
+              <caret line="86" column="43" lean-forward="false" selection-start-line="86" selection-start-column="29" selection-end-line="86" selection-end-column="43" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="jquery.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/js/jquery.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="116655">
+              <caret line="7789" column="19" lean-forward="false" selection-start-line="7789" selection-start-column="19" selection-end-line="7789" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="member_order.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/order/member_order.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="320">
+              <caret line="129" column="6" lean-forward="true" selection-start-line="129" selection-start-column="6" selection-end-line="129" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="board_color_editor.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/product/board_color_editor.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1380">
+              <caret line="92" column="19" lean-forward="false" selection-start-line="92" selection-start-column="19" selection-end-line="92" selection-end-column="19" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="member_order_push.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/order/member_order_push.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="621">
+              <caret line="162" column="47" lean-forward="true" selection-start-line="162" selection-start-column="47" selection-end-line="162" selection-end-column="47" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="system_config_editor.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/product/system_config_editor.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1995">
+              <caret line="133" column="70" lean-forward="false" selection-start-line="133" selection-start-column="49" selection-end-line="133" selection-end-column="70" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="system_config.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/product/system_config.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1275">
+              <caret line="85" column="32" lean-forward="true" selection-start-line="85" selection-start-column="32" selection-end-line="85" selection-end-column="32" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="banner.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/admin/banner/banner.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="810">
+              <caret line="54" column="20" lean-forward="false" selection-start-line="54" selection-start-column="20" selection-end-line="56" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>class_code</find>
+      <find>group_id</find>
+      <find>deleteMemberGroup</find>
+      <find>group_ids</find>
+      <find>member_img</find>
+      <find>layer.</find>
+      <find>houseConfigBeans</find>
+      <find>house_type_id</find>
+      <find>style_class_idstyle_class_id</find>
+      <find>style_class_id</find>
+      <find>up_set_id</find>
+      <find>styleBeans</find>
+      <find>house_style_id</find>
+      <find>typeClassBeans</find>
+      <find>style_parent_id</find>
+      <find>order_phone</find>
+      <find>type=&quot;number&quot;</find>
+      <find>setClassBeans</find>
+      <find>active</find>
+      <find>down_set_id</find>
+      <find>up_color_id</find>
+      <find>材料颜色</find>
+      <find>order_state</find>
+      <find>order_id</find>
+      <find>merchants_address</find>
+      <find>up_class_id</find>
+      <find>type</find>
+      <find>application/json</find>
+      <find>x-www-form-urlencode</find>
+      <find>平方米</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>瑞好</replace>
+      <replace>life1.rehau.cn</replace>
+      <replace>life2.rehau.cn</replace>
+      <replace>life3.erehau.com</replace>
+      <replace />
+    </replaceStrings>
+    <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
+    </dirStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/admin/banner/banner.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_logins.html" />
+        <option value="$PROJECT_DIR$/src/admin/gather/member_address_count.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/case_assessment_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/order/coupon_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/order/coupon_view.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_login.html" />
+        <option value="$PROJECT_DIR$/src/admin/merchants/merchants.html" />
+        <option value="$PROJECT_DIR$/src/admin/order/coupon.html" />
+        <option value="$PROJECT_DIR$/src/admin/product/board_color.html" />
+        <option value="$PROJECT_DIR$/src/admin/product/board_set.html" />
+        <option value="$PROJECT_DIR$/src/admin/product/house_goods.html" />
+        <option value="$PROJECT_DIR$/src/admin/product/house_style.html" />
+        <option value="$PROJECT_DIR$/src/admin/product/house_type.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/case.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/figure.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/html.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/system_information_class.html" />
+        <option value="$PROJECT_DIR$/src/admin/system/account.html" />
+        <option value="$PROJECT_DIR$/src/admin/system/banner.html" />
+        <option value="$PROJECT_DIR$/src/admin/system/system_log.html" />
+        <option value="$PROJECT_DIR$/src/admin/product/budget.html" />
+        <option value="$PROJECT_DIR$/src/admin/gather/merchants_count.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_order_by_member.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_message_group.html" />
+        <option value="$PROJECT_DIR$/src/admin/system/banner_add.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/system_information_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/database.html" />
+        <option value="$PROJECT_DIR$/src/admin/system/role.html" />
+        <option value="$PROJECT_DIR$/src/admin/gather/merchants_count_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/system_information.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/case_assessment.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/information.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_group.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_group_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_group_message.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/system_information_class_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/figure_type.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_select.html" />
+        <option value="$PROJECT_DIR$/src/admin/member/member_group_list.html" />
+        <option value="$PROJECT_DIR$/src/admin/order/house_config.html" />
+        <option value="$PROJECT_DIR$/src/admin/setting/figure_type_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/product/system_config_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/order/member_order_editor.html" />
+        <option value="$PROJECT_DIR$/src/admin/secuity.html" />
+        <option value="$PROJECT_DIR$/src/admin/product/system_config.html" />
+        <option value="$PROJECT_DIR$/src/admin/order/member_order_push.html" />
+        <option value="$PROJECT_DIR$/src/admin/order/member_order.html" />
+        <option value="$PROJECT_DIR$/src/admin/common.js" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <gulpfiles>
+      <GulpfileState>
+        <gulpfile-path>$PROJECT_DIR$/gulpfile.js</gulpfile-path>
+      </GulpfileState>
+    </gulpfiles>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
+    <option name="width" value="1440" />
+    <option name="height" value="796" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="banner" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="device" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="gather" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="merchants" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="order" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="product" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="setting" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+              <item name="system" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="WebStorm_ruihao" type="b2602c69:ProjectViewProjectNode" />
+              <item name="WebStorm_ruihao" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/admin" />
+      <recent name="$PROJECT_DIR$/src/admin/order" />
+      <recent name="$PROJECT_DIR$/src/admin/setting" />
+      <recent name="$PROJECT_DIR$/src/admin/gather" />
+      <recent name="$PROJECT_DIR$/src/admin/system" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>$USER_HOME$/.subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$/.idea" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$/.idea" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$PROJECT_DIR$" />
+          <option name="myCopyRoot" value="$PROJECT_DIR$" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ca6a3fcb-61d6-4ec9-8189-a2e79da7bd23" name="Default" comment="" />
+      <created>1553333031741</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1553333031741</updated>
+      <workItem from="1553333034721" duration="1157000" />
+      <workItem from="1553485532493" duration="13127000" />
+      <workItem from="1553564793090" duration="6358000" />
+      <workItem from="1553584078229" duration="128000" />
+      <workItem from="1553586252797" duration="11516000" />
+      <workItem from="1553651335705" duration="14938000" />
+      <workItem from="1553738076025" duration="398000" />
+      <workItem from="1553823547386" duration="9426000" />
+      <workItem from="1554102742832" duration="6062000" />
+      <workItem from="1554169054426" duration="1119000" />
+      <workItem from="1554774510730" duration="2346000" />
+      <workItem from="1554861160965" duration="4352000" />
+      <workItem from="1554867009038" duration="4763000" />
+      <workItem from="1554948657361" duration="1739000" />
+      <workItem from="1555297845624" duration="1102000" />
+      <workItem from="1555317131345" duration="373000" />
+      <workItem from="1555379095601" duration="9812000" />
+      <workItem from="1555472832708" duration="1203000" />
+      <workItem from="1555488698323" duration="600000" />
+      <workItem from="1555493891315" duration="739000" />
+      <workItem from="1555498918893" duration="1996000" />
+      <workItem from="1555573900099" duration="5371000" />
+      <workItem from="1555903011808" duration="5238000" />
+      <workItem from="1556262797516" duration="2963000" />
+      <workItem from="1556430802919" duration="6162000" />
+      <workItem from="1556504402419" duration="16835000" />
+      <workItem from="1556590809123" duration="16468000" />
+      <workItem from="1557038738999" duration="5653000" />
+      <workItem from="1557109465848" duration="9824000" />
+      <workItem from="1557143031955" duration="604000" />
+      <workItem from="1557194728108" duration="8877000" />
+      <workItem from="1557280080054" duration="13591000" />
+      <workItem from="1557385283142" duration="11825000" />
+      <workItem from="1557468257197" duration="3489000" />
+      <workItem from="1557589008832" duration="474000" />
+      <workItem from="1557713811118" duration="4950000" />
+      <workItem from="1557798283149" duration="12774000" />
+      <workItem from="1557971519385" duration="18478000" />
+      <workItem from="1558058830929" duration="15603000" />
+      <workItem from="1558275978711" duration="106000" />
+      <workItem from="1558317781585" duration="4751000" />
+      <workItem from="1558404565784" duration="11000000" />
+      <workItem from="1558490700846" duration="5315000" />
+      <workItem from="1558596747674" duration="4973000" />
+      <workItem from="1558676564168" duration="7320000" />
+      <workItem from="1558922855873" duration="4779000" />
+      <workItem from="1559010603892" duration="5210000" />
+      <workItem from="1559183675389" duration="204000" />
+      <workItem from="1559270339310" duration="1467000" />
+      <workItem from="1559360289068" duration="3331000" />
+      <workItem from="1559468087296" duration="763000" />
+      <workItem from="1559630616543" duration="1702000" />
+      <workItem from="1559723662011" duration="1524000" />
+      <workItem from="1559799709586" duration="2000" />
+      <workItem from="1560135024798" duration="6793000" />
+      <workItem from="1560165292179" duration="642000" />
+      <workItem from="1560391851334" duration="33000" />
+      <workItem from="1560500944354" duration="558000" />
+      <workItem from="1560864716924" duration="525000" />
+      <workItem from="1560909341444" duration="22000" />
+      <workItem from="1560950326842" duration="398000" />
+      <workItem from="1561012405428" duration="555000" />
+      <workItem from="1561102976836" duration="668000" />
+      <workItem from="1561359029207" duration="8890000" />
+      <workItem from="1561431987795" duration="3895000" />
+      <workItem from="1561516884827" duration="3240000" />
+      <workItem from="1561619045449" duration="795000" />
+      <workItem from="1561621494538" duration="4187000" />
+      <workItem from="1561706433918" duration="1906000" />
+      <workItem from="1561732011629" duration="234000" />
+    </task>
+    <task id="LOCAL-00001">
+      <created>1555297930033</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1555297930033</updated>
+    </task>
+    <task id="LOCAL-00002">
+      <created>1555384171031</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1555384171031</updated>
+    </task>
+    <task id="LOCAL-00003">
+      <created>1555384189028</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1555384189028</updated>
+    </task>
+    <task id="LOCAL-00004">
+      <created>1556605484034</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1556605484034</updated>
+    </task>
+    <task id="LOCAL-00005">
+      <created>1556619695028</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1556619695028</updated>
+    </task>
+    <task id="LOCAL-00006">
+      <created>1556619878028</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1556619878028</updated>
+    </task>
+    <task id="LOCAL-00007">
+      <created>1557305917031</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1557305917031</updated>
+    </task>
+    <task id="LOCAL-00008">
+      <created>1557309875028</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1557309875028</updated>
+    </task>
+    <task id="LOCAL-00009">
+      <created>1557310112028</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1557310112028</updated>
+    </task>
+    <task id="LOCAL-00010">
+      <created>1557310163030</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1557310163030</updated>
+    </task>
+    <task id="LOCAL-00011">
+      <created>1558276049031</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1558276049031</updated>
+    </task>
+    <task id="LOCAL-00012">
+      <created>1558539167037</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1558539167037</updated>
+    </task>
+    <task id="LOCAL-00013">
+      <created>1559038208034</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1559038208034</updated>
+    </task>
+    <task id="LOCAL-00014">
+      <created>1560151624034</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1560151624034</updated>
+    </task>
+    <task id="LOCAL-00015">
+      <created>1561622531030</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1561622531030</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="338221000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1440" height="796" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947146" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.07703281" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/admin/member/member_message_group.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="104" column="34" lean-forward="true" selection-start-line="104" selection-start-column="34" selection-end-line="104" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/gather/bargin_count.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1260">
+          <caret line="84" column="21" lean-forward="false" selection-start-line="84" selection-start-column="21" selection-end-line="84" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/gather/bargin_order_count.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/gather/member_order_count.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6345">
+          <caret line="423" column="87" lean-forward="false" selection-start-line="423" selection-start-column="60" selection-end-line="423" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/system/banner_add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="49" column="14" lean-forward="false" selection-start-line="49" selection-start-column="14" selection-end-line="49" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/user/administrators/roleform.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="283">
+          <caret line="49" column="41" lean-forward="false" selection-start-line="49" selection-start-column="36" selection-end-line="49" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/setting/database.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1245">
+          <caret line="83" column="11" lean-forward="true" selection-start-line="83" selection-start-column="11" selection-end-line="83" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/system/account.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="750">
+          <caret line="50" column="19" lean-forward="false" selection-start-line="50" selection-start-column="19" selection-end-line="50" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/system/role.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="750">
+          <caret line="50" column="41" lean-forward="true" selection-start-line="50" selection-start-column="41" selection-end-line="50" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/gather/merchants_count_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4590">
+          <caret line="306" column="59" lean-forward="true" selection-start-line="306" selection-start-column="59" selection-end-line="306" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/member/member_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/product/product_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2951">
+          <caret line="323" column="38" lean-forward="true" selection-start-line="323" selection-start-column="38" selection-end-line="323" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/banner/banner_add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="49" column="45" lean-forward="false" selection-start-line="49" selection-start-column="45" selection-end-line="49" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/product/board_set.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="22" lean-forward="false" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2625">
+          <caret line="175" column="8" lean-forward="false" selection-start-line="175" selection-start-column="8" selection-end-line="180" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/banner/banner_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="89" lean-forward="false" selection-start-line="34" selection-start-column="79" selection-end-line="34" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/setting/system_information.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="358">
+          <caret line="156" column="32" lean-forward="false" selection-start-line="156" selection-start-column="32" selection-end-line="156" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/setting/case.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="751">
+          <caret line="70" column="37" lean-forward="true" selection-start-line="70" selection-start-column="37" selection-end-line="70" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/setting/system_information_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1097">
+          <caret line="99" column="74" lean-forward="false" selection-start-line="99" selection-start-column="74" selection-end-line="99" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/setting/information.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="12" lean-forward="false" selection-start-line="23" selection-start-column="12" selection-end-line="28" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/member/member.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="104" column="56" lean-forward="false" selection-start-line="104" selection-start-column="56" selection-end-line="104" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/member/member_group_message.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="103" column="0" lean-forward="true" selection-start-line="103" selection-start-column="0" selection-end-line="103" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/product/budget.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="129">
+          <caret line="63" column="76" lean-forward="false" selection-start-line="63" selection-start-column="61" selection-end-line="63" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/setting/case_assessment.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="115" column="7" lean-forward="true" selection-start-line="115" selection-start-column="7" selection-end-line="130" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/setting/system_information_class_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="95" column="30" lean-forward="true" selection-start-line="95" selection-start-column="30" selection-end-line="95" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/member/member_group_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="321">
+          <caret line="97" column="51" lean-forward="true" selection-start-line="97" selection-start-column="51" selection-end-line="97" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/setting/figure_type.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="245">
+          <caret line="139" column="7" lean-forward="true" selection-start-line="139" selection-start-column="7" selection-end-line="146" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/member/member_group.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1189">
+          <caret line="32" column="63" lean-forward="false" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/member/member_select.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="142" column="81" lean-forward="false" selection-start-line="142" selection-start-column="60" selection-end-line="142" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/member/member_group_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="56" column="18" lean-forward="true" selection-start-line="56" selection-start-column="18" selection-end-line="56" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/order/house_config.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="91" column="65" lean-forward="false" selection-start-line="91" selection-start-column="65" selection-end-line="91" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/gather/board_color_count.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="103">
+          <caret line="76" column="23" lean-forward="true" selection-start-line="76" selection-start-column="23" selection-end-line="76" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/member/member_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="40" column="92" lean-forward="false" selection-start-line="40" selection-start-column="92" selection-end-line="40" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/setting/figure_type_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3900">
+          <caret line="260" column="7" lean-forward="true" selection-start-line="260" selection-start-column="7" selection-end-line="265" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/product/board_set_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="765">
+          <caret line="51" column="34" lean-forward="false" selection-start-line="51" selection-start-column="34" selection-end-line="51" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/order/member_order_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2235">
+          <caret line="149" column="100" lean-forward="false" selection-start-line="149" selection-start-column="100" selection-end-line="149" selection-end-column="100" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/welcome.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="8" lean-forward="false" selection-start-line="7" selection-start-column="8" selection-end-line="7" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/order/order.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/order/order_detail.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2040">
+          <caret line="136" column="13" lean-forward="true" selection-start-line="136" selection-start-column="13" selection-end-line="136" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/product/board_color_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1380">
+          <caret line="92" column="19" lean-forward="false" selection-start-line="92" selection-start-column="19" selection-end-line="92" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/js/jquery.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8279">
+          <caret line="3" column="18520" lean-forward="false" selection-start-line="3" selection-start-column="18520" selection-end-line="3" selection-end-column="18520" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/js/jquery.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116655">
+          <caret line="7789" column="19" lean-forward="false" selection-start-line="7789" selection-start-column="19" selection-end-line="7789" selection-end-column="19" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/product/system_config_editor.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1995">
+          <caret line="133" column="70" lean-forward="false" selection-start-line="133" selection-start-column="49" selection-end-line="133" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/banner/banner.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="810">
+          <caret line="54" column="20" lean-forward="false" selection-start-line="54" selection-start-column="20" selection-end-line="56" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/secuity.html" />
+    <entry file="file://$PROJECT_DIR$/src/admin/product/system_config.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1275">
+          <caret line="85" column="32" lean-forward="true" selection-start-line="85" selection-start-column="32" selection-end-line="85" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/system/account_add.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2430">
+          <caret line="162" column="69" lean-forward="false" selection-start-line="162" selection-start-column="50" selection-end-line="162" selection-end-column="69" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/order/member_order_push.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="162" column="47" lean-forward="true" selection-start-line="162" selection-start-column="47" selection-end-line="162" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="24" column="1" lean-forward="true" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
+          <folding>
+            <marker date="1561732068554" expanded="true" signature="7539:7556" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/order/member_order.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="129" column="6" lean-forward="true" selection-start-line="129" selection-start-column="6" selection-end-line="129" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/admin/merchants/merchants.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="86" column="43" lean-forward="false" selection-start-line="86" selection-start-column="29" selection-end-line="86" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

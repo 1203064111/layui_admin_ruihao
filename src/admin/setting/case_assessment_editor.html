@@ -1,0 +1,234 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+    <script src="https://unpkg.com/qiniu-js@2.5.4/dist/qiniu.min.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">头像</label>
+        <div class="layui-upload">
+            <img class="layui-upload-img"  id="member_img" style="width: 60px;height: 60px">
+            <input type="file" name="file" id='file' style="display:none" onChange='changeFile("file","#member_img")'/>
+            <!--<button type="button" class="layui-btn" id="upload_img"  name="upload_img" data-type="member_img">-->
+                <!--<i class="layui-icon">&#xe67c;</i>上传图片-->
+            <!--</button>-->
+        </div>
+    </div>
+    <div class="layui-form-item" >
+
+        <label class="layui-form-label">用户名</label>
+        <div class="layui-input-inline">
+            <input readonly="readonly" type="text" id="member_name" name="member_name" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <!--<div class="layui-card">-->
+            <!--<div class="layui-card-header">评论星级</div>-->
+            <!---->
+        <!--</div>-->
+        <label class="layui-form-label">评论星级</label>
+        <div class="layui-input-inline">
+            <div id="test-rate-dome9"></div>
+        </div>
+    </div>
+
+
+
+
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">使用后</label>-->
+        <!--<div class="layui-upload">-->
+            <!--<img class="layui-upload-img"  id="after_img">-->
+            <!--<input type="file" name="file2" id='file2' style="display:none" onChange='changeFile("file2","#after_img")'/>-->
+            <!--<button type="button" class="layui-btn" id="upload_img2"  name="upload_img2" data-type="after_img">-->
+                <!--<i class="layui-icon">&#xe67c;</i>上传图片-->
+            <!--</button>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="layui-form-item" style="margin-top: 10px">-->
+        <!--<label class="layui-form-label">首页权重</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input type="text" id="sort" name="sort" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">面板系列颜色组合</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<select name="board_set_id" id="board_set_id"  lay-verify="required" lay-filter="role">-->
+                <!--<option value=""></option>-->
+            <!--</select>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">状态</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input type="checkbox" id="case_state" name="case_state" lay-filter="case_state" lay-skin="switch" lay-text="ON|OFF" value="1">-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">评论内容</label>
+    </div>
+    <div style="margin: 10px;background: #ffffff">
+
+        <div id="demo">
+
+        </div>
+    </div>
+    <div class="layui-form-item" >
+        <label class="layui-form-label">评论图片</label>
+        <div class="layui-upload" style="float:left">
+            <img class="layui-upload-img"  id="first_img" style="width: 100px;height: 100px">
+            <input type="file" name="file1" id='file1' style="display:none" onChange='changeFile("file1","#first_img")'/>
+            <!--<button type="button" class="layui-btn" id="upload_img1"  name="upload_img1" data-type="first_img">-->
+            <!--<i class="layui-icon">&#xe67c;</i>上传图片-->
+            <!--</button>-->
+        </div>
+        <div class="layui-upload" style="float:left;margin-left:20px">
+            <img class="layui-upload-img"  id="sec_img" style="width: 100px;height: 100px">
+            <input type="file" name="file2" id='file2' style="display:none" onChange='changeFile("file2","#sec_img")'/>
+            <!--<button type="button" class="layui-btn" id="upload_img2"  name="upload_img2" data-type="sec_img">-->
+            <!--<i class="layui-icon">&#xe67c;</i>上传图片-->
+            <!--</button>-->
+        </div>
+        <div class="layui-upload" style="float:left;margin-left:20px">
+            <img class="layui-upload-img"  id="third_img" style="width: 100px;height: 100px">
+            <input type="file" name="file3" id='file3' style="display:none" onChange='changeFile("file3","#third_img")'/>
+            <!--<button type="button" class="layui-btn" id="upload_img3"  name="upload_img3" data-type="third_img">-->
+            <!--<i class="layui-icon">&#xe67c;</i>上传图片-->
+            <!--</button>-->
+        </div>
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<div class="layui-input-block">-->
+            <!--<button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>-->
+            <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+        <!--</div>-->
+    <!--</div>-->
+</form>
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload','form','layedit','rate'], function(){
+        var $ = layui.$
+                ,form = layui.form,rate=layui.rate,upload = layui.upload,layedit = layui.layedit;
+
+        var index=layeditRender(layedit,'demo',{height:300});
+
+
+        // uploadRender(upload,'#upload_img','#case_img');//渲染上传图片
+        var assessment_id=getParameter(0,"assessment_id");
+
+        // post(home_url+"/houseController/v1.0/getBoardSetsByBoardNoPage",{},function (data) {
+        //     $.each(data, function (index, item) {
+        //         $('#board_set_id').append(new Option(item.set_name, item.set_id));// 下拉菜单里添加元素
+        //     });
+        //     if(!isNull(board_set_id)){
+        //         $('#board_set_id').val(board_set_id);//设置默认选中项
+        //     }
+        //     form.render("select");
+        // })
+
+        if(assessment_id!="-1"){
+            post(home_url+"/memberController/v1.0/getCaseAssessmentDetail",{assessment_id:assessment_id},function (data) {
+                var star=data.assessment_star;
+                var imgs = data.assessment_imgs;
+                var img =imgs.split(',');
+                console.log(img[0])
+                $("#first_img").attr('src', img[0]);
+                $("#sec_img").attr('src', img[1]);
+                $("#third_img").attr('src', img[2]);
+                // board_set_id=data.board_set_id;
+                $("#member_name").val(data.member_name);
+                // $("#member_name").val(data.member_img);
+                // $("#assessment_star").val(data.assessment_star);
+//只读
+                rate.render({
+                    elem: '#test-rate-dome9'
+                    ,value: star
+                    ,readonly: true
+                });
+                // $("#sort").val(data.sort);
+                $("#member_img").attr('src', data.member_img);
+                // $("#before_img").attr('src', data.before_img);
+                // $("#after_img").attr('src', data.after_img);
+                // $("#case_state").attr("checked", data.case_state=="1"?true:false);
+                // $("#board_set_id").val(data.board_set_id)
+                layedit.setContent(index,data.assessment_desc,false)
+                form.render();
+            })
+        }else{
+
+        }
+
+        var $ = layui.$, active = {
+            member_img: function(){
+                var pic = document.getElementById("file");
+                pic.click();
+            },
+            before_img: function(){
+                var pic = document.getElementById("file1");
+                pic.click();
+            },
+            after_img: function(){
+                var pic = document.getElementById("file2");
+                pic.click();
+            }
+
+        };
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["member_img"]=$("#member_img")[0].src;
+            params["assessment_imgs"]=$("#before_img")[0].src;
+            // params["after_img"]=$("#after_img")[0].src;
+
+            params["assessment_id"]=assessment_id;
+            params["assessment_desc"]=layedit.getContent(index);
+            if("1"!=params["case_state"]){
+                params["case_state"]="0";
+            }
+            // if(case_id=="-1"){
+            //     post(home_url+"/houseController/v1.0/insertCase",params,function () {
+            //         window.parent.location.reload();//刷新父页面
+            //         var index = parent.layer.getFrameIndex(window.name)//当前层的index
+            //         parent.layer.close(index)//关闭当前层
+            //     })
+            // }else{
+            //     params["case_id"]=case_id;
+            //     post(home_url+"/houseController/v1.0/updateCase",params,function () {
+            //         window.parent.location.reload();//刷新父页面
+            //         var index = parent.layer.getFrameIndex(window.name)//当前层的index
+            //         parent.layer.close(index)//关闭当前层
+            //     })
+            // }
+
+        });
+
+    });
+</script>
+</body>
+</html>

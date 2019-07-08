@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <title>瑞好</title>
+            <meta name="renderer" content="webkit">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+            <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+            <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+            <link rel="stylesheet" href="../common.css">
+            <script src="../../layuiadmin/layui/layui.js"></script>
+            <script src="../js/jquery.js"></script>
+            <script src="../js/jquery.min.js"></script>
+            <script src="../common.js"></script>
+        </head>
+
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button id="send" class="layui-btn layuiadmin-btn-list" style="display: none" data-type="send">发货</button>
+                <button id="storehouse_send" class="layui-btn layuiadmin-btn-list" style="display: none" data-type="storehouse_send">仓库发货</button>
+            </div>
+            订单详情
+            <table id="orderMerchantsBean" lay-filter="orderMerchantsBean"></table>
+            <table id="orderGroupBean" lay-filter="orderGroupBean"></table>
+        </div>
+    </div>
+    <div class="layui-card">
+        <div class="layui-card-body">
+            配送信息
+            <table id="orderAddressBean" lay-filter="orderAddressBean"></table>
+        </div>
+    </div>
+
+    <div class="layui-card">
+        <div class="layui-card-body">
+            产品信息
+            <table id="orderProductBeans" lay-filter="orderProductBeans"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','table', 'form'], function(){
+
+        var table = layui.table
+                ,form = layui.form;
+        var orderMerchantsBean={};
+
+        var order_merchants_id=getParameter(0,"order_merchants_id");
+
+        post(home_url+"/orderController/v1.0/getOrderMerchantsDetail",{order_merchants_id:order_merchants_id},function (data) {
+            orderMerchantsBean=data;
+            if(data.order_state=='wait_send'&&data.is_send=='0'){
+                document.getElementById("send").style.display="flex"
+            }
+
+            if(data.order_state=='wait_receive'&&data.is_send=='0'){
+                document.getElementById("storehouse_send").style.display="flex"
+            }
+
+            tableRender2(table,'#orderMerchantsBean',[[
+                        {field:'order_merchants_no', width: 200,title: '订单号'}
+                        ,{field:'order_type_show',title: '订单类型'}
+                        ,{field:'order_total_price',title: '订单总额'}
+                        ,{field:'order_actual_price',title: '实际支付价格'}
+                        ,{field:'freight_price',title: '运费'}
+                        ,{field:'taxation_price',title: '税费'}
+                        ,{field:'order_state_show',title: '订单状态'}
+                        ,{field:'is_send_show',title: '发货状态'}
+                        ,{field:'order_remark',title: '备注'}
+                    ]],[data])
+
+            if(data.order_type=='group'){
+                tableRender2(table,'#orderGroupBean',[[
+                    {field:'group_state_show',title: '团购状态'}
+                    ,{field:'need_count',title: '需要人数'}
+                    ,{field:'now_count',title: '已有人数'}
+                ]],[data.orderGroupBean])
+            }
+
+            tableRender2(table,'#orderAddressBean',[[
+                {field:'address_name',title: '收货人姓名'}
+                ,{field:'address_mobile',title: '收货人手机号'}
+                ,{field:'address_name',title: '收货地址',width:500,templet:function (d) {
+                    return '<p>'+d.address_province+d.address_city+d.address_country+d.address_detailed+'</p>';
+                }}
+            ]],[data.orderAddressBean])
+
+            tableRender2(table,'#orderProductBeans',[[
+                {field:'product_name',title: '产品名称'}
+                ,{field:'specification_name',title: '规格名称'}
+                ,{field:'specification_img',title: '规格图片',templet:function (d) {
+                    return '<div onclick="show_img(this)"><img src="'+d.specification_img+'" width="50px" height="50px"></div>';
+                }}
+                ,{field:'product_count',title: '购买数量'}
+                ,{field:'specification_price',title: '规格单价',templet:function (d) {
+                    if(data.order_type=='goods'){
+                        return '<p>'+d.specification_price+'</p>';
+                    }else if(data.order_type=='group'){
+                        return '<p>'+d.group_price+'</p>';
+                    }
+
+                }}
+            ]],data.orderProductBeans)
+        })
+
+
+        var $ = layui.$, active = {
+            send: function(){
+                layer.confirm('确定发货吗？', function(index) {
+                    post(home_url+'/orderController/v1.0/sendOrderMerchants',{order_merchants_id:orderMerchantsBean.order_merchants_id},function () {
+                        window.location.reload();
+                    })
+                });
+            },
+            storehouse_send: function(){
+                layer.open({
+                    type: 2
+                    ,title: '仓库发货'
+                    ,content: 'order_send.html?order_merchants_id='+orderMerchantsBean.order_merchants_id
+                    ,area: ['90%','90%']
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+</script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

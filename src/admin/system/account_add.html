@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+
+</head>
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="system_name" name="system_name" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">头像</label>
+        <div class="layui-card-body">
+            <div class="layui-upload">
+                <img class="layui-upload-img" id="test-upload-normal-img">
+                <button type="button" class="layui-btn" id="system_img" name="system_img">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">账号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="system_account" name="system_account" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+            <select name="role_id" id="role_id" lay-verify="required" lay-filter="role">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div id="productUrl">
+        <div class="layui-form-item">
+            <label class="layui-form-label">经销商</label>
+            <div style="display: flex">
+                <select name="merchants_id" id="merchants_id" lay-filter="merchants_id" lay-search>
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input placeholder="密码由6-21字母和数字组成 如：a123456" type="password" id="system_password" name="system_password" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">确认密码</label>
+        <div class="layui-input-inline">
+            <input placeholder="密码由6-21字母和数字组成 如：a123456" type="password" id="system_password2" name="system_password2" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload','form'], function(){
+        var $ = layui.$
+                ,form = layui.form, upload = layui.upload;;
+
+        uploadRender(upload,'#system_img','#test-upload-normal-img');//渲染上传图片
+
+        if ($("#role_id").val() == '0') {
+            $("#productUrl").hide();
+        } else if ($("#role_id").val() == '59') {
+            $("#productUrl").show();
+        } else {
+            $("#productUrl").hide();
+
+        }
+        form.on('select(role)', function (data) {
+
+            if (data.value == '0') {
+
+                $("#productUrl").hide();
+
+                $("#merchants_id").attr("lay-verify", "");
+            } else if (data.value == '59') {
+
+                $("#productUrl").show();
+
+                $("#merchants_id").attr("lay-verify", "required");
+            } else {
+
+                $("#productUrl").hide();
+                $("#merchants_id").attr("lay-verify", "");
+            }
+            form.render();
+        });
+        post(home_url + "/merchantsController/v1.0/getMerchantssNoPage", {}, function (data) {
+            merchantsBeans = data;
+            $.each(data, function (index, item) {
+                $('#merchants_id').append(new Option(item.merchants_name, item.merchants_id));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        })
+        var role_id="";
+
+        post(home_url+"/systemController/v1.0/getSystemRolesNoPage",{role_type:"1"},function (data) {
+            $.each(data, function (index, item) {
+                $('#role_id').append(new Option(item.role_name, item.role_id));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        })
+
+
+        var account_id=getParameter(0,"account_id")
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["system_img"]=$("#test-upload-normal-img")[0].src;
+            params["system_type"]="1";
+
+            var pass =$("#system_password").val();
+            var rePass =$("#system_password2").val();
+            var regExp=/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,21}$/;
+            console.log(pass);
+            if(!regExp.test(pass)){
+                tip("密码由6-21字母和数字组成");
+                return;
+            }
+
+            if(rePass!=pass){
+                tip("2次密码不一致");
+                return;
+            }
+
+            post(home_url+"/systemController/v1.0/insertSystemAccount",params,function () {
+                window.parent.location.reload();//刷新父页面
+                var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                parent.layer.close(index)//关闭当前层
+            })
+
+        });
+    });
+</script>
+</body>
+</html>

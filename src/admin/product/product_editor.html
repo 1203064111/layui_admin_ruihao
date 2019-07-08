@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="" style="margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="product_name" name="product_name" required  lay-verify="required" autocomplete="off"  class="layui-input">
+        </div>
+        <label class="layui-form-label">产品产地</label>
+        <div class="layui-input-inline">
+            <input type="text" id="product_address" name="product_address" required  lay-verify="required" autocomplete="off"  class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品简介</label>
+        <div class="layui-input-inline">
+            <textarea type="text" style="width: 400px" id="product_desc" name="product_desc" required  lay-verify="required" autocomplete="off"  class="layui-textarea"></textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品图片</label>
+        <div class="layui-upload">
+            <img class="layui-upload-img" src="./../images/add.jpg" id="product_img" onclick="uploadProduct_img()">
+            <button type="button" style="display: none" id="upload_img"  name="upload_img">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品分类</label>
+        <div  style="display: flex">
+            <select name="parent_id" id="parent_id"  lay-verify="required" lay-filter="parent_id">
+                <option value=""></option>
+            </select>
+
+            <select name="class_id" id="class_id"  lay-verify="required" lay-filter="class_id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品类型</label>
+        <div class="layui-input-inline">
+            <select name="product_type" id="product_type"  lay-verify="required" lay-filter="role">
+                <option value=""></option>
+                <option value="1">正常产品</option>
+                <option value="2">完税跨境产品</option>
+                <option value="3">跨境产品</option>
+            </select>
+        </div>
+        <label class="layui-form-label">运费模板</label>
+        <div class="layui-input-inline">
+            <select name="freight_id" id="freight_id"  lay-verify="required" lay-filter="role">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品状态</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" id="product_state" name="product_state" lay-filter="product_state" lay-skin="switch" lay-text="ON|OFF" value="1">
+        </div>
+        <label class="layui-form-label">促销状态</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" id="is_promotion" name="is_promotion" lay-filter="is_promotion" lay-skin="switch" lay-text="ON|OFF" value="1">
+        </div>
+        <label class="layui-form-label">团购状态</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" id="is_group" name="is_group" lay-filter="is_group" lay-skin="switch" lay-text="ON|OFF" value="1">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">产品轮播图</label>
+        <div id="imgs">
+
+        </div>
+        <button type="button" style="display: none" id="upload_imgs"  name="upload_imgs">
+            <i class="layui-icon">&#xe67c;</i>上传图片
+        </button>
+    </div>
+    <div class="layui-form-item" style="display:flex;">
+        <label class="layui-form-label">服务标签</label>
+        <div id="service" class="layui-col-md12">
+
+        </div>
+    </div>
+    <div class="layui-form-item" style="display:flex;">
+        <label class="layui-form-label">图文详情</label>
+        <div style="background: #ffffff;width: 800px">
+            <div id="demo">
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <div id="specification"></div>
+    <button type="button" style="display: none" id="specification_imgs"  name="specification_imgs">
+        <i class="layui-icon">&#xe67c;</i>上传图片
+    </button>
+
+    <div class="layui-form-item" style="margin-top: 20px">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script id="service_demo" type="text/html">
+    {{# layui.each(d, function(index, item){ }}
+    {{#  if((item.is_check)=="1"){ }}
+    <input type="checkbox" name="{{index}}" title="{{item.service_name}}" lay-filter="service"  lay-skin="primary" checked>
+    {{#  } }}
+    {{#  if((item.is_check)!="1"){ }}
+    <input type="checkbox" name="{{index}}" title="{{item.service_name}}" lay-filter="service"  lay-skin="primary">
+    {{#  } }}
+
+    {{#  }); }}
+</script>
+
+<script id="imgs_demo" type="text/html">
+    {{# layui.each(d, function(index, item){ }}
+    <img class="layui-upload-img" src={{item}} >
+    <i onclick="deleteImg('{{index}}')" class="layui-icon layui-icon-close"></i>
+    {{#  }); }}
+    <img class="layui-upload-img" src="./../images/add.jpg" id="product_imgs" onclick="uploadProduct_imgs()">
+</script>
+<script id="specification_demo" type="text/html">
+    <div style="background: #ffffff;height:50px;display: flex;align-items: center">
+        <p style="color:cornflowerblue;font-size: 13px;margin-left: 20px">产品规格</p>
+        <button  class="layui-btn" style="margin-left: 20px" onclick="addSpecification()">添加</button>
+    </div>
+    <div style="background: #efefef;height:40px;display: flex;align-items: center">
+        <div style="flex:2;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">规格名称</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">规格图片</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">库存</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">原价</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">售价(包含税费)</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">团购价</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">销售佣金</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">操作</p>
+        </div>
+    </div>
+    {{# layui.each(d, function(index, item){ }}
+    <div style="background: #efefef;display: flex;align-items: center;margin-top: 5px">
+        <div style="flex:2;display:flex;align-items: center;justify-content: center">
+            <input type="text" class="layui-input" required  lay-verify="required"  autocomplete="off"
+                   value="{{item.specification_name}}"
+                   onchange='editorSpecification("{{index}}","specification_name",this.value)'>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <img style="width: 40px;height: 40px" src="{{item.specification_img}}"  onclick="uploadSpecification_imgs('{{index}}')">
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <input type="text" class="layui-input" required  lay-verify="required"  autocomplete="off"
+                   value="{{item.specification_stock}}"
+                   onchange='editorSpecification("{{index}}","specification_stock",this.value)'>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <input type="text" class="layui-input" required  lay-verify="required"  autocomplete="off"
+                   value="{{item.specification_origin_price}}"
+                   onchange='editorSpecification("{{index}}","specification_origin_price",this.value)'>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <input type="text" class="layui-input" required  lay-verify="required"  autocomplete="off"
+                   value="{{item.specification_price}}"
+                   onchange='editorSpecification("{{index}}","specification_price",this.value)'>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <input type="text" class="layui-input"
+                   value="{{item.group_price}}"
+                   onchange='editorSpecification("{{index}}","group_price",this.value)'>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <input type="text" class="layui-input"
+                   value="{{item.profit_price}}"
+                   onchange='editorSpecification("{{index}}","profit_price",this.value)'>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" onclick="deleteSpecification('{{index}}')"><i class="layui-icon layui-icon-delete"></i></a>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" onclick="selectGoods('{{index}}')"><i class="layui-icon layui-icon-edit"></i>商品</a>
+        </div>
+    </div>
+    {{#  }); }}
+</script>
+
+
+
+<script>
+    var freight_id="";
+    var class_id="";
+    var class_parent_id="";
+    var serviceBeans=[];
+    var productClassBeans=[];
+    var service_ids=[];
+
+    var imgBeans=[];
+    var productSpecificationBeans=[];
+
+    specificaion_index=0;
+
+    var productSpecificationGoodsBeans=[];
+
+    var form;
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','upload','autocomplete', 'form','layedit'], function(){
+        form = layui.form;
+        var $ = layui.$
+                , upload = layui.upload,autocomplete=layui.autocomplete,layedit = layui.layedit;
+
+        var desc_index=layeditRender(layedit,'demo',{height:300});
+
+        uploadRender(upload,'#upload_img','#product_img');//渲染上传图片
+        uploadRender(upload,'#upload_imgs','#product_imgs',function (src) {
+            imgBeans.push(src);
+            renderImgs()
+        });//渲染上传图片
+
+        uploadRender(upload,'#specification_imgs','#product_imgs',function (src) {
+            productSpecificationBeans[specificaion_index].specification_img=src;
+            renderSpecification()
+        });
+
+        var product_id=getParameter(0,"product_id")
+        var type=getParameter(1,"type")//1：直接从发布页进来 2：从商品列表进来
+
+
+        post(home_url+"/goodsController/v1.0/getProductClassLinks",{},function (data) {
+            productClassBeans=data;
+            $.each(data, function (index, item) {
+                $('#parent_id').append(new Option(item.class_name, item.class_id));// 下拉菜单里添加元素
+                if(class_parent_id==item.class_id){
+                    $.each(item.productClassBeans, function (rowID, node) {
+                        $('#class_id').append(new Option(node.class_name, node.class_id));// 下拉菜单里添加元素
+                    });
+                }
+            });
+
+            if(!isNull(class_parent_id)){
+                $('#parent_id').val(class_parent_id);//设置默认选中
+                $('#class_id').val(class_id);//设置默认选中
+            }
+            form.render("select");
+        })
+
+
+        form.on('select(parent_id)',function (data) {
+            var sonBeans=[];
+            for(var i=0;i<productClassBeans.length;i++){
+                var productClassBean=productClassBeans[i];
+                if(data.value==productClassBean.class_id){
+                    sonBeans=productClassBean.productClassBeans;
+                }
+            }
+            $('#class_id').empty();
+            $('#class_id').append(new Option("", ""));
+            $.each(sonBeans, function (index, item) {
+                $('#class_id').append(new Option(item.class_name, item.class_id));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+
+        post(home_url+"/goodsController/v1.0/getServicesNoPage",{},function (data) {
+            serviceBeans=data;
+            renderService();
+        })
+
+        post(home_url+"/goodsController/v1.0/getFreightsNoPage",{},function (data) {
+            $.each(data, function (index, item) {
+                $('#freight_id').append(new Option(item.freight_name, item.freight_id));// 下拉菜单里添加元素
+            });
+            if(!isNull(freight_id)){
+                $('#freight_id').val(freight_id);//设置默认选中项
+            }
+            form.render("select");
+        })
+
+        if(product_id!="-1"){
+            post(home_url+"/goodsController/v1.0/getProductDetail",{product_id:product_id},function (data) {
+                freight_id=data.freight_id;
+                class_id=data.class_id;
+                productSpecificationBeans=data.productSpecificationBeans;
+                renderSpecification();
+
+                class_parent_id=data.class_parent_id;
+                if(data.service_ids){
+                    service_ids=data.service_ids.split(',');
+                    renderService();
+                }
+                if(data.product_imgs){
+                    imgBeans=data.product_imgs.split(',');
+                    renderImgs();
+                }
+
+                $("#product_name").val(data.product_name)
+                $("#product_desc").val(data.product_desc)
+                $("#product_address").val(data.product_address)
+                $("#product_img").attr('src', data.product_img);
+
+                $("#product_type").val(data.product_type)
+
+
+                $("#parent_id").val(data.class_parent_id)
+                $.each(productClassBeans, function (index, item) {
+                    if(class_parent_id==item.class_id){
+                        $.each(item.productClassBeans, function (rowID, node) {
+                            $('#class_id').append(new Option(node.class_name, node.class_id));// 下拉菜单里添加元素
+                        });
+                    }
+                });
+                $("#class_id").val(data.class_id)
+
+                $("#freight_id").val(data.freight_id)
+                $("#product_state").attr("checked", data.product_state=="1"?true:false);
+                $("#is_promotion").attr("checked", data.is_promotion=="1"?true:false);
+                $("#is_group").attr("checked", data.is_group=="1"?true:false);
+
+                form.render();
+                layedit.setContent(desc_index,data.product_url_desc,false)
+
+            })
+        }else{
+            renderImgs();
+            renderSpecification();
+        }
+
+
+        form.on('checkbox(service)', function(data){
+            serviceBeans[data.elem.name].is_check=data.elem.checked?"1":"0";
+        });
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["product_img"]=$("#product_img")[0].src;
+            params["product_imgs"]=imgBeans.toString();
+            params["product_url_desc"]=layedit.getContent(desc_index);
+            params["specifications"]=JSON.stringify(productSpecificationBeans)
+
+            var service_ids=[];
+            for(var i=0;i<serviceBeans.length;i++){
+                var serviceBean=serviceBeans[i];
+                if(serviceBean.is_check=='1'){
+                    service_ids.push(serviceBean.service_id)
+                }
+            }
+            params["service_ids"]=service_ids.toString();
+            if("1"!=params["product_state"]){
+                params["product_state"]="0";
+            }
+            if("1"!=params["is_group"]){
+                params["is_group"]="0";
+            }
+            if("1"!=params["is_promotion"]){
+                params["is_promotion"]="0";
+            }
+            if(product_id=="-1") {
+                post(home_url + "/goodsController/v1.0/insertProduct", params, function () {
+                    if(type=='1'){
+                        window.location.reload();//刷新当前页面
+                    }else{
+                        window.parent.location.reload();//刷新父页面
+                        var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                        parent.layer.close(index)//关闭当前层
+                    }
+                })
+            }else{
+                params["product_id"]=product_id;
+                post(home_url + "/goodsController/v1.0/updateProduct", params, function () {
+                    if(type=='1'){
+                        window.location.reload();//刷新当前页面
+                    }else{
+                        window.parent.location.reload();//刷新父页面
+                        var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                        parent.layer.close(index)//关闭当前层
+                    }
+                })
+            }
+        });
+    });
+
+
+    function selectGoods(index) {
+        productSpecificationGoodsBeans=productSpecificationBeans[index].productSpecificationGoodsBeans;
+
+        layer.open({
+            type: 2
+            ,title: '编辑商品'
+            ,content: 'production_specification.html'
+            ,area: ['90%','90%']
+            ,btn: ['确定', '关闭']
+            ,yes:function (index2, layero) {
+                productSpecificationGoodsBeans = layero.find("iframe")[0].contentWindow.productSpecificationGoodsBeans;
+                productSpecificationBeans[index].productSpecificationGoodsBeans=productSpecificationGoodsBeans;
+
+                layer.close(index2);
+            }
+        });
+    }
+
+    function editorSpecification(index,key,value){
+        productSpecificationBeans[index][key]=value;
+    }
+
+    function addSpecification(){
+        productSpecificationBeans.push({specification_name:"",
+            specification_img:"",specification_stock:"",
+            specification_origin_price:"",
+            specification_price:"",
+            group_price:"",
+            profit_price:"",
+            productSpecificationGoodsBeans:[]})
+        renderSpecification();
+    }
+
+    function deleteSpecification(index) {
+        productSpecificationBeans.splice(index,1);
+        renderSpecification();
+    }
+
+    function uploadSpecification_imgs(index){
+        specificaion_index=index;
+        $("#specification_imgs").click();
+    }
+
+    function renderSpecification(){
+        layui.use(['laytpl','element'], function(){
+            var laytpl = layui.laytpl;
+            var element=layui.element;
+
+            var getTpl = specification_demo.innerHTML
+                    ,view = document.getElementById('specification');
+            laytpl(getTpl).render(productSpecificationBeans
+                    , function(html){
+                        view.innerHTML = html;
+                        element.render()
+                    });
+        });
+    }
+
+    function renderService(){
+        for(var i=0;i<serviceBeans.length;i++){
+            var serviceBean =serviceBeans[i];
+            for(var j=0;j<service_ids.length;j++){
+                if(serviceBean.service_id==service_ids[j]){
+                    serviceBean.is_check='1';
+                    break;
+                }
+            }
+            if(serviceBean.is_check!='1'){
+                serviceBean.is_check='0';
+            }
+        }
+
+
+        layui.use(['laytpl','element'], function(){
+            var laytpl = layui.laytpl;
+            var element=layui.element;
+
+            var getTpl = service_demo.innerHTML
+                    ,view = document.getElementById('service');
+            laytpl(getTpl).render(serviceBeans
+                    , function(html){
+                        view.innerHTML = html;
+                        element.render()
+                    });
+        });
+
+        form.render();
+    }
+
+
+
+    function renderImgs(){
+        layui.use(['laytpl','element'], function(){
+            var laytpl = layui.laytpl;
+            var element=layui.element;
+
+            var getTpl = imgs_demo.innerHTML
+                    ,view = document.getElementById('imgs');
+            laytpl(getTpl).render(imgBeans
+                    , function(html){
+                        view.innerHTML = html;
+                        element.render()
+                    });
+        });
+    }
+
+    function deleteImg(index) {
+        imgBeans.splice(index,1);
+        renderImgs()
+    }
+
+    function uploadProduct_img(){
+        $("#upload_img").click();
+    }
+    function uploadProduct_imgs(){
+        $("#upload_imgs").click();
+    }
+</script>
+</body>
+</html>

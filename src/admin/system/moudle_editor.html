@@ -1,0 +1,104 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">模块名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="moudle_name" name="moudle_name" required  lay-verify="required"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">路由</label>
+        <div class="layui-input-inline">
+            <input type="text" id="moudle_url" name="moudle_url"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">权重(越大越在前)</label>
+        <div class="layui-input-inline">
+            <input type="text" id="sort" name="sort" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">图标</label>
+        <div class="layui-input-inline">
+            <input type="text" id="moudle_remark" name="moudle_remark"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form'], function(){
+
+        var $ = layui.$
+                ,form = layui.form;
+
+        var moudle_id=getParameter(0,"moudle_id")
+        var parent_id=getParameter(1,"parent_id")
+
+        if(moudle_id!="-1"){
+            post(home_url+"/systemController/v1.0/getMoudleDetail",{moudle_id:moudle_id},function (data) {
+                $("#moudle_name").val(data.moudle_name)
+                $("#moudle_url").val(data.moudle_url)
+                $("#sort").val(data.sort)
+                $("#moudle_remark").val(data.moudle_remark)
+            })
+        }else{
+
+        }
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["moudle_type"]="1";
+            params["parent_id"]=parent_id;
+
+            if(moudle_id=="-1"){
+                post(home_url+"/systemController/v1.0/insertMoudle",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }else{
+                params["moudle_id"]=moudle_id;
+                post(home_url+"/systemController/v1.0/updateMoudle",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+
+        });
+    });
+</script>
+</body>
+</html>

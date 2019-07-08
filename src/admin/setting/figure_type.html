@@ -1,0 +1,264 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-form-item">
+                <!--<div class="layui-inline">-->
+                    <!--<label class="layui-form-label">用户名</label>-->
+                    <!--<div class="layui-input-block">-->
+                        <!--<input type="text" name="member_name" placeholder="请输入" autocomplete="off" class="layui-input">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="layui-inline">
+                    <label class="layui-form-label">样图标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="figure_name" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">户型</label>
+                    <div class="layui-input-block">
+                        <select name="house_type_id" id="house_type_id"  lay-filter="house_type_id">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">风格</label>
+                    <div class="layui-input-block">
+
+                        <select name="house_style_id" id="house_style_id"  lay-filter="house_style_id">
+                            <option value="">请先选择户型</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">面板系列</label>
+                    <div class="layui-input-block">
+                        <select name="board_set_id" id="board_set_id"   lay-filter="board_set_id">
+                            <option value=""></option>
+                        </select>
+
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">面板颜色</label>
+                    <div class="layui-input-block">
+                        <select name="board_color_id" id="board_color_id"  lay-filter="board_color_id">
+                            <option value="" >请先选择面板系列</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <label class="layui-form-label">图型</label>
+                    <div class="layui-input-block">
+                        <select name="figure_type">
+                            <option value="">不限</option>
+                            <option value="up">上图</option>
+                            <option value="down">下图</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add">添加</button>
+            </div>
+
+            <table id="LAY-app-content-list" lay-filter="LAY-app-content-list"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+</script>
+
+<script>
+    var class_id="";
+    var class_parent_id="";
+    var productClassBeans=[];
+
+    var style_class_id = "";
+    var style_parent_id= "";
+    var typeClassBeans=[];
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table'], function(){
+        var table = layui.table
+                ,form = layui.form;
+
+        tableRender(table,'#LAY-app-content-list',home_url+'/houseController/v1.0/getFigureTypes',{},
+                [[
+                    {type:'checkbox'}
+                    // {field:'figure_id', title: 'ID'}
+                    ,{field:'zizeng',  title: '序号',type:'numbers'}
+                    ,{field:'figure_name',  title: '样图标题'}
+                    ,{field:'house_type_name',  title: '户型'}
+                    ,{field:'house_style_name',  title: '风格'}
+                    ,{field:'board_set_name',  title: '面板系列'}
+                    ,{field:'board_color_name',  title: '面板颜色'}
+                    ,{field:'figure_type_show',  title: '图型'}
+                    // ,{field:'figure_img',  title: '配置图',templet:function (d) {
+                    //         return '<div onclick="show_img(this)"><img src="'+d.figure_img+'" width="50px" height="50px"></div>';
+                    //     }}
+                    // ,{field:'figure_state_show',  title: '是否默认'}
+
+                    ,{field: 'right', title: '操作', width: 100, toolbar:"#barDemo"}
+                ]],function () {
+
+                })
+        form.on('submit(LAY-user-front-search)', function(data){
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-app-content-list', {
+                where: field
+            });
+        });
+        post(home_url+"/houseController/v1.0/getHouseTypeLinks",{},function (data) {
+            console.log(data)
+            typeClassBeans=data;
+            $.each(data, function (index, item) {
+                $('#house_type_id').append(new Option(item.type_name, item.type_id));// 下拉菜单里添加元素
+                if(style_parent_id==item.type_id){
+                    $.each(item.houseStyleBeans, function (rowID, node) {
+                        $('#house_style_id').append(new Option(node.style_name,node.style_id));// 下拉菜单里添加元素
+                    });
+                }
+            });
+            if(!isNull(style_parent_id)){
+                $('#house_type_id').val(style_parent_id);//设置默认选中
+                $('#house_style_id').val(style_class_id);//设置默认选中
+            }
+            form.render("select");
+        })
+        form.on('select(house_type_id)',function (data) {
+            var styleBeans=[];
+            for(var i=0;i<typeClassBeans.length;i++){
+                var typeClassBean=typeClassBeans[i];
+                if(data.value==typeClassBean.type_id){
+                    styleBeans=typeClassBean.houseStyleBeans;
+                }
+            }
+            $('#house_style_id').empty();
+            $('#house_style_id').append(new Option("", ""));
+            $.each(styleBeans, function (index, item) {
+                $('#house_style_id').append(new Option(item.style_name, item.style_id));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+        post(home_url+"/houseController/v1.0/getBoardSetLinks",{},function (data) {
+            productClassBeans=data;
+            $.each(data, function (index, item) {
+                $('#board_set_id').append(new Option(item.set_name, item.set_id));// 下拉菜单里添加元素
+                if(class_parent_id==item.set_id){
+                    $.each(item.boardColorBeans, function (rowID, node) {
+                        $('#board_color_id').append(new Option(node.color_name, node.color_id));// 下拉菜单里添加元素
+                    });
+                }
+            });
+
+            if(!isNull(class_parent_id)){
+                $('#board_set_id').val(class_parent_id);//设置默认选中
+                $('#board_color_id').val(class_id);//设置默认选中
+            }
+
+            form.render("select");
+        })
+        form.on('select(board_set_id)',function (data) {
+            var sonBeans=[];
+            for(var i=0;i<productClassBeans.length;i++){
+                var productClassBean=productClassBeans[i];
+                if(data.value==productClassBean.set_id){
+                    sonBeans=productClassBean.boardColorBeans;
+                }
+            }
+            $('#board_color_id').empty();
+            $('#board_color_id').append(new Option("", ""));
+            $.each(sonBeans, function (index, item) {
+                $('#board_color_id').append(new Option(item.color_name, item.color_id));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+
+        table.on('tool(LAY-app-content-list)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'edit'){
+                layer.open({
+                    type: 2
+                    ,title: '编辑配置样图'
+                    ,content: 'figure_type_editor.html?figure_id='+data.figure_id
+                    ,area: ["90%",'90%']
+                });
+            }
+        });
+        var $ = layui.$, active = {
+            batchdel: function(){
+                var checkStatus = table.checkStatus('LAY-app-content-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                layer.confirm('确定删除吗？', function(index) {
+                    var figure_ids=[];
+                    for(var i=0;i<checkData.length;i++){
+                        figure_ids.push(checkData[i].figure_id)
+                    }
+                    post(home_url+'/houseController/v1.0/deleteFigureType',{figure_ids:figure_ids.toString()},function () {
+                        table.reload("LAY-app-content-list");
+                        layer.close(index)
+                    })
+                });
+            },
+            add: function(){
+                layer.open({
+                    type: 2
+                    ,title: '添加样图'
+                    ,content: 'figure_type_editor.html?figure_id=-1'
+                    ,area: ['400px','80%']
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+    });
+</script>
+</body>
+</html>

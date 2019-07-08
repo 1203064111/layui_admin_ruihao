@@ -1,0 +1,140 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+    <script src="https://unpkg.com/qiniu-js@2.5.4/dist/qiniu.min.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item" style="margin-top: 10px">
+        <label class="layui-form-label">分类名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="class_name" name="class_name"  required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">分类编码</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<input type="text" id="class_code" name="class_code" readonly="readonly" required  lay-verify="required"  autocomplete="off" class="layui-input">-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类封面</label>
+        <div class="layui-upload">
+            <img class="layui-upload-img"  id="class_img">
+            <input type="file" name="file" id='file' style="display:none" onChange='changeFile("file","#class_img")'/>
+            <button type="button" class="layui-btn" id="upload_img"  name="upload_img" data-type="class_img">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类类型</label>
+        <div class="layui-input-inline">
+            <select name="class_type" id="class_type" disabled="disabled"  lay-verify="required" lay-filter="role">
+                <option value=""></option>
+                <option value="about">关于我们</option>
+                <option value="more">发现更多</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类状态</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" id="class_state" name="class_state" lay-filter="class_state" lay-skin="switch" lay-text="ON|OFF" value="1">
+        </div>
+    </div>
+    <div style="margin: 10px;background: #ffffff">
+        <div id="demo">
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+</form>
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload','form','layedit'], function(){
+
+        var $ = layui.$
+            ,form = layui.form,upload = layui.upload;
+
+        // uploadRender(upload,'#upload_img','#class_img');//渲染上传图片
+
+        var class_id=getParameter(0,"class_id")
+        if(class_id!="-1"){
+            post(home_url+"/informationController/v1.0/getSystemInformationClass",{class_id:class_id},function (data) {
+                $("#class_name").val(data.class_name)
+                // $("#class_code").val(data.class_code)
+                $("#class_type").val(data.class_type)
+                $("#class_img").attr('src', data.class_img);
+                $("#class_state").attr("checked", data.class_state=="1"?true:false);
+
+                form.render();
+            })
+        }else{
+
+        }
+        var $ = layui.$, active = {
+            class_img: function(){
+                var pic = document.getElementById("file");
+                pic.click();
+            }
+        };
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["class_img"]=$("#class_img")[0].src;
+            if("1"!=params["class_state"]){
+                params["class_state"]="0";
+            }
+
+            if(class_id=="-1"){
+                post(home_url+"/informationController/v1.0/insertSystemInformationClass",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }else{
+                params["class_id"]=class_id;
+                post(home_url+"/informationController/v1.0/updateSystemInformationClass",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+
+        });
+
+    });
+</script>
+</body>
+</html>

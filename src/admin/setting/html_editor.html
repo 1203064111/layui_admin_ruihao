@@ -1,0 +1,87 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+    <script src="https://unpkg.com/qiniu-js@2.5.4/dist/qiniu.min.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item" style="margin-top: 10px">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-inline">
+            <input type="text" id="html_name" name="html_name" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div style="margin: 10px;background: #ffffff">
+        <div id="demo">
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form','layedit'], function(){
+        var $ = layui.$
+                ,form = layui.form,layedit = layui.layedit;
+
+        var index=layeditRender(layedit,'demo',{height:300});
+
+        var html_id=getParameter(0,"html_id")
+        if(html_id!="-1"){
+            post(home_url+"/settingController/v1.0/getHtmlDetail",{html_id:html_id},function (data) {
+                $("#html_name").val(data.html_name)
+                layedit.setContent(index,data.html_url_desc,false)
+            })
+        }else{
+
+        }
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["html_id"]=html_id;
+            params["html_url_desc"]=layedit.getContent(index);
+            if(html_id=="-1"){
+                post(home_url+"/settingController/v1.0/insertHtml",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }else{
+                params["html_id"]=html_id;
+                post(home_url+"/settingController/v1.0/updateHtml",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+
+        });
+
+    });
+</script>
+</body>
+</html>

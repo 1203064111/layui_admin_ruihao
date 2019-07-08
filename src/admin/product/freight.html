@@ -1,0 +1,114 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add">添加</button>
+            </div>
+
+            <table id="LAY-app-content-list" lay-filter="LAY-app-content-list"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+</script>
+
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table'], function(){
+        var table = layui.table
+                ,form = layui.form;
+
+        tableRender(table,'#LAY-app-content-list',home_url+'/goodsController/v1.0/getFreights',{},
+                [[
+                    {type:'checkbox'},
+                    {field:'freight_id',  width: 20,title: 'ID'}
+                    ,{field:'freight_name',  title: '模板名称'}
+                    ,{field:'freight_type_show',  title: '计算方式'}
+                    ,{field:'freight_way_show',  title: '付费方式'}
+                    ,{field:'freight_range',  title: '首范围'}
+                    ,{field:'freight_price',  title: '首价格'}
+                    ,{field:'freight_add_range',  title: '加价范围'}
+                    ,{field:'freight_add_price',  title: '加价价格'}
+                    ,{field:'create_time', title: '创建时间'}
+                    ,{field: 'right', title: '操作', width: 100, toolbar:"#barDemo"}
+                ]],function () {
+
+                })
+
+        table.on('tool(LAY-app-content-list)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'edit'){
+                layer.open({
+                    type: 2
+                    ,title: '添加运费'
+                    ,content: 'freight_editor.html?freight_id='+data.freight_id
+                    ,area: ['90%','90%']
+                });
+            }
+        });
+
+        var $ = layui.$, active = {
+            batchdel: function(){
+                var checkStatus = table.checkStatus('LAY-app-content-list')
+                        ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                layer.confirm('确定删除吗？', function(index) {
+                    var freight_ids=[];
+                    for(var i=0;i<checkData.length;i++){
+                        freight_ids.push(checkData[i].freight_id)
+                    }
+                    post(home_url+'/goodsController/v1.0/deleteFreight',{freight_ids:freight_ids.toString()},function () {
+                        table.reload("LAY-app-content-list");
+                        layer.close(index)
+                    })
+                });
+            },
+            add: function(){
+                layer.open({
+                    type: 2
+                    ,title: '添加运费'
+                    ,content: 'freight_editor.html?freight_id=-1'
+                    ,area:['90%','90%']
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">预约编号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="order_no" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">用户账户</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="member_account" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">提交时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="create_time" class="layui-input" id="test-laydate-normal-cn" placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">修改时间</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="update_time" class="layui-input" id="test-laydate-normal-up" placeholder="yyyy-MM-dd">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">线下服务店</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="merchants_name" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">预约状态</label>
+                    <div class="layui-input-block">
+                        <select name="order_state">
+                            <option value="">不限</option>
+                            <option value="0">未完成</option>
+                            <option value="1">已到店未购买</option>
+                            <option value="2">已到店已购买</option>
+                            <option value="10">已关闭</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">推送状态</label>
+                    <div class="layui-input-block">
+                        <select name="push_state">
+                            <option value="">不限</option>
+                            <option value="0">未推送</option>
+                            <option value="1">推送成功</option>
+                            <option value="2">推送失败</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">预约渠道</label>
+                    <div class="layui-input-block">
+                        <select name="order_resource">
+                            <option value="">不限</option>
+                            <option value="web">网页端</option>
+                            <option value="mobile">手机端</option>
+                        </select>
+                    </div>
+                </div>
+                <!--<div class="layui-inline">-->
+                    <!--<label class="layui-form-label">活动日期</label>-->
+                    <!--<div class="layui-input-inline">-->
+                        <!--<input type="text" name="start_time" class="layui-input" id="test-laydate-start" placeholder="开始日期">-->
+                    <!--</div>-->
+                    <!--<div class="layui-form-mid">-->
+                        <!-- - -->
+                    <!--</div>-->
+                    <!--<div class="layui-input-inline">-->
+                        <!--<input type="text" name="end_time" class="layui-input" id="test-laydate-end" placeholder="结束日期">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="layui-inline">-->
+                    <!--<label class="layui-form-label">起始日期</label>-->
+                    <!--<div class="layui-input-inline">-->
+                        <!--<input type="text" name="start_time" id="LAY-component-form-group-date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="layui-inline">-->
+                    <!--<label class="layui-form-label">终止日期</label>-->
+                    <!--<div class="layui-input-inline">-->
+                        <!--<input type="text" name="end_time" id="LAY-component-form-group-date-1" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>
+
+            </div>
+
+            <table id="LAY-app-content-list" lay-filter="LAY-app-content-list"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail"><i class="layui-icon layui-icon-edit"></i>详情</a>
+    {{#  if(d.order_state != 10 ){ }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="close"><i class="layui-icon layui-icon-edit"></i>关闭预约</a>
+    {{# }}}
+    {{#  if(d.push_state == 0 || d.push_state == 2){ }}
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="push"><i class="layui-icon layui-icon-edit"></i>推送</a>
+    {{# }}}
+</script>
+
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table','laydate'], function(){
+        var table = layui.table
+                ,form = layui.form,laydate=layui.laydate;
+        // laydate.render({
+        //     elem: '#LAY-component-form-group-date'
+        // });
+        // laydate.render({
+        //     elem: '#LAY-component-form-group-date-1'
+        // });
+
+        //示例代码
+
+        //常规用法
+        laydate.render({
+            elem: '#test-laydate-normal-cn'
+        });
+        laydate.render({
+            elem: '#test-laydate-normal-up'
+        });
+
+        //开始日期
+        var insStart = laydate.render({
+            elem: '#test-laydate-start'
+            ,min: 0
+            ,done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#test-laydate-end'
+            ,min: 0
+            ,done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+        //监听搜索
+        form.on('submit(LAY-user-front-search)', function(data){
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-app-content-list', {
+                where: field
+            });
+        });
+        var cate = layui.data(db_name);
+        var systemAccountBean=cate.systemAccountBean;
+
+        tableRender(table,'#LAY-app-content-list',home_url+'/memberController/v1.0/getMemberOrders',{merchants_id:getNull(systemAccountBean.merchants_id+"","")},
+                [[
+                    {type:'checkbox'}
+                    // {field:'order_id', title: 'ID'}
+                    ,{field:'zizeng',  title: '序号',type:'numbers'}
+                    ,{field:'order_no',  title: '预约编号'}
+                    ,{field:'merchants_name',  title: '线下服务店'}
+                    ,{field:'create_time',  title: '提交时间' ,sort:true}
+                    ,{field:'update_time',  title: '修改时间'}
+                    ,{field:'budget_range',  title: '预算范围'}
+                    ,{field:'member_account',  title: '用户账号'}
+                    ,{field:'order_resource_show',  title: '预约渠道' }
+                    ,{field:'order_state_show',  title: '预约状态'}
+                    ,{field:'config_price',  title: '配置价格' ,sort:true}
+
+                    //
+                    ,{field:'order_img',  title: '二维码',templet:function (d) {
+                            return '<div onclick="show_img(this)"><img src="http://life2.rehau.cn/'+d.order_img+'" width="50px" height="50px"></div>';
+                        }}
+                    ,{field: 'right', title: '操作', width: 300, toolbar:"#barDemo"}
+                ]],function () {
+
+                })
+
+        table.on('tool(LAY-app-content-list)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                layer.open({
+                    type: 2
+                    ,title: '预约详情'
+                    ,content: 'member_order_editor.html?order_id='+data.order_id
+                    ,area: ['90%','90%']
+                });
+            }
+            if(obj.event === 'close'){
+                post(home_url+'/memberController/v1.0/updateMemberOrder',{order_id:data.order_id,order_state:10},function () {
+                    table.reload("LAY-app-content-list");
+                })
+            }
+            if(obj.event === 'push'){
+                layer.open({
+                    type: 2
+                    ,title: '填写推送信息'
+                    ,content: 'member_order_push.html?order_id='+data.order_id
+                    ,area: ['90%','90%']
+                });
+            }
+        });
+        table.on('sort(LAY-app-content-list)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            console.log(obj.field); //当前排序的字段名
+            console.log(obj.type); //当前排序类型：desc（降序）、asc（升序）、null（空对象，默认排序）
+            console.log(this); //当前排序的 th 对象
+
+            //尽管我们的 table 自带排序功能，但并没有请求服务端。
+            //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+            table.reload('LAY-app-content-list', { //testTable是表格容器id
+                initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。 layui 2.1.1 新增参数
+                ,where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    field: obj.field //排序字段
+                    ,order: obj.type //排序方式
+                }
+            });
+            // layer.msg('服务端排序。order by '+ obj.field + ' ' + obj.type);
+        });
+        var $ = layui.$, active = {
+            batchdel: function(){
+                var checkStatus = table.checkStatus('LAY-app-content-list')
+                    ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                layer.confirm('确定删除吗？', function(index) {
+                    var order_ids=[];
+                    for(var i=0;i<checkData.length;i++){
+                        order_ids.push(checkData[i].order_id)
+                    }
+                    post(home_url+'/memberController/v1.0/deleteMemberOrder',{order_ids:order_ids.toString()},function () {
+                        table.reload("LAY-app-content-list");
+                        layer.close(index)
+                    })
+                });
+            },
+
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+    });
+</script>
+</body>
+</html>

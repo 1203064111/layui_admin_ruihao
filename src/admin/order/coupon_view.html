@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+    <script src="https://unpkg.com/qiniu-js@2.5.4/dist/qiniu.min.js"></script>
+
+</head>
+<body>
+
+<form class="layui-form" action="" style="margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">优惠券名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="coupon_name" name="coupon_name" required lay-verify="required" autocomplete="off" readonly="readonly"
+                   class="layui-input">
+        </div>
+
+        <label class="layui-form-label">面额</label>
+        <div class="layui-input-inline">
+            <input type="number" id="coupon_price" name="coupon_price" required lay-verify="required" autocomplete="off" readonly="readonly"
+                   placeholder="面值是数值，限2位小数"
+                   class="layui-input">
+        </div>
+
+
+
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">每人限领</label>
+        <div class="layui-input-inline">
+            <input type="number" id="people_limit" name="people_limit" required lay-verify="required" autocomplete="off" readonly="readonly"
+                   placeholder="输入整数"
+                   class="layui-input">
+        </div>
+        <label class="layui-form-label">使用门槛</label>
+        <div class="layui-input-inline">
+            <input type="number" id="coupon_full_price" name="coupon_full_price" required lay-verify="required" autocomplete="off" readonly="readonly"
+                   placeholder="输入正整数，输入0无限制"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">有效日期</label>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="start_time" readonly="readonly" name="start_time" placeholder="开始日期">
+        </div>
+        <div class="layui-form-mid">
+            -
+        </div>
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="end_time" readonly="readonly" name="end_time" placeholder="结束日期">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">可使用商品</label>
+        <div class="layui-input-inline">
+            <select name="coupon_range" id="coupon_range" readonly="readonly" lay-verify="required" lay-filter="parent_id">
+                <option value="1">全场通用</option>
+                <option value="2">部分商品</option>
+            </select>
+        </div>
+        <label class="layui-form-label">优惠类型</label>
+        <div class="layui-input-inline">
+            <select name="coupon_resource" id="coupon_resource" readonly="readonly" lay-verify="required" lay-filter="parent_id">
+                <option value="1">全场赠券</option>
+                <option value="2">用户领取</option>
+            </select>
+        </div>
+        <label class="layui-form-label">优惠劵状态</label>
+        <div class="layui-input-inline">
+            <select name="coupon_state" id="coupon_state" lay-verify="required"  readonly="readonly" lay-filter="parent_id">
+                <option value="0">无效</option>
+                <option value="1">有效</option>
+            </select>
+        </div>
+
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">总发行量</label>
+        <div class="layui-input-inline">
+            <input  type="number" id="issue_num" name="issue_num" required lay-verify="required" autocomplete="off" readonly="readonly"
+                    placeholder="输入正整数，输入0无限制"
+                    class="layui-input">
+        </div>
+        <label class="layui-form-label">已领取</label>
+        <div class="layui-input-inline">
+            <input  type="number" id="take_num" name="take_num" required lay-verify="required" autocomplete="off" readonly="readonly"
+                    placeholder="输入正整数，输入0无限制"
+                    class="layui-input">
+        </div>
+
+        <label class="layui-form-label">已使用</label>
+        <div class="layui-input-inline">
+            <input  type="number" id="used_num" name="used_num" required lay-verify="required" autocomplete="off" readonly="readonly"
+                    placeholder="输入正整数，输入0无限制"
+                    class="layui-input">
+        </div>
+
+    </div>
+
+</form>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="deleteCargo"><i class="layui-icon layui-icon-delete"></i>删除</a>
+</script>
+
+<script>
+    var provinceBeans=[];
+    var cityBeans=[];
+    var countryBeans=[];
+    var couponBean={};
+    var table;
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload','table','laydate', 'form'], function () {
+        var $ = layui.$
+                , form = layui.form,laydate=layui.laydate, upload = layui.upload;
+        table=layui.table;
+//开始日期
+        var insStart = laydate.render({
+            elem: '#start_time'
+            ,min: 0
+            ,done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#end_time'
+            ,min: 0
+            ,done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+        // uploadRender(upload, '#upload_img', '#merchants_img');//渲染上传图片
+
+        // var $ = layui.$, active = {
+        //     merchants_img: function(){
+        //         var pic = document.getElementById("file");
+        //         pic.click();
+        //     }
+        // };
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+
+        var coupon_id = getParameter(0, "coupon_id")
+        if (coupon_id != "-1") {
+            post(home_url + "/orderController/v1.0/getCouponDetail", {coupon_id: coupon_id}, function (data) {
+                couponBean=data;
+
+
+                $("#coupon_name").val(data.coupon_name)
+                $("#issue_num").val(data.issue_num)
+                $("#take_num").val(data.take_num)
+                $("#used_num").val(data.used_num)
+                $("#remain_num").val(data.remain_num)
+                $("#coupon_price").val(data.coupon_price)
+                $("#people_limit").val(data.people_limit)
+                $("#coupon_full_price").val(data.coupon_full_price)
+                $("#coupon_range").val(data.coupon_range)
+                $("#coupon_resource").val(data.coupon_resource)
+                $("#start_time").val(data.start_time)
+                $("#end_time").val(data.end_time)
+                // $("#merchants_img").attr('src', data.merchants_img);
+
+                $("#remark").val(data.remark)
+
+            })
+        }
+
+
+
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var params = data.field;
+            // params["merchants_img"] = $("#merchants_img")[0].src;
+
+            if (coupon_id == "-1") {
+                post(home_url + "/orderController/v1.0/insertCoupon", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            } else {
+                params["coupon_id"] = coupon_id;
+                post(home_url + "/orderController/v1.0/updateCoupon", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+        });
+
+
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+    
+
+
+
+
+
+</script>
+</body>
+</html>

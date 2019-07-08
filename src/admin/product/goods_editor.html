@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+
+
+</head>
+<body>
+
+<form class="layui-form" action="" style="margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="goods_name" name="goods_name" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品sku</label>
+        <div class="layui-input-inline">
+            <input type="text" id="goods_sku" name="goods_sku" required lay-verify="required" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品图片</label>
+        <div class="layui-upload">
+            <img class="layui-upload-img" id="goods_img">
+            <button type="button" class="layui-btn" id="upload_img" name="upload_img">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">商品类型</label>
+        <div class="layui-input-inline">
+            <select name="goods_type" id="goods_type" lay-verify="required" lay-filter="role">
+                <option value=""></option>
+                <option value="1">正常商品</option>
+                <option value="2">完税跨境商品</option>
+                <option value="3">跨境商品</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="record">
+        <div class="layui-form-item">
+            <label class="layui-form-label">备案</label>
+            <div style="display: flex">
+                <select name="record_id" id="record_id" lay-filter="record_id" lay-search>
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+
+    var record_id;
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload', 'form'], function () {
+        var $ = layui.$
+            , form = layui.form, upload = layui.upload;
+        uploadRender(upload, '#upload_img', '#goods_img');//渲染上传图片
+
+        var goods_id = getParameter(0, "goods_id")
+        var type = getParameter(1, "type")//1：直接从发布页进来 2：从商品列表进来
+        if (goods_id != "-1") {
+            post(home_url + "/goodsController/v1.0/getGoodsDetail", {goods_id: goods_id}, function (data) {
+                   record_id=data.record_id;
+                post(home_url + "/recordController/v1.0/getRecordsThrough", {}, function (data) {
+                    $.each(data, function (index, item) {
+                        $('#record_id').append(new Option(item.record_number, item.record_id));// 下拉菜单里添加元素
+                    });
+                    $('#record_id').val(record_id);//设置默认选中*/
+                    form.render("select");
+                })
+                $("#goods_name").val(data.goods_name)
+                $("#goods_sku").val(data.goods_sku)
+                $("#goods_img").attr('src', data.goods_img);
+                $("#goods_type").val(data.goods_type)
+                form.render("select");
+
+                if ($("#goods_type").val() == '1') {
+                    $("#record").hide();
+                } else if ($("#goods_type").val() == '2') {
+                    $("#record").show();
+                } else {
+                    $("#record").show();
+                }
+                form.on('select(role)', function (data) {
+                    if (data.value == '1') {
+                        $("#record").hide();
+                        $("#record_id").attr("lay-verify", "");
+                        $("#record_id").val("");
+                    } else if (data.value == '2') {
+                        $("#record").show();
+                        $("#record_id").attr("lay-verify", "required");
+                    } else if (data.value == '3') {
+                        $("#record").show();
+                        $("#record_id").attr("lay-verify", "required");
+                    }
+                    form.render("select");
+                });
+
+            })
+
+        } else {
+
+            post(home_url + "/recordController/v1.0/getRecordsThrough", {}, function (data) {
+
+
+                if ($("#goods_type").val() == '1') {
+                    $("#record").hide();
+                } else if ($("#goods_type").val() == '2') {
+                    $("#record").show();
+                } else {
+                    $("#record").show();
+                }
+                form.on('select(role)', function (data) {
+                    if (data.value == '1') {
+                        $("#record").hide();
+                        $("#record_id").attr("lay-verify", "");
+                        $("#record_id").val("");
+                    } else if (data.value == '2') {
+                        $("#record").show();
+                        $("#record_id").attr("lay-verify", "required");
+                    } else if (data.value == '3') {
+                        $("#record").show();
+                        $("#record_id").attr("lay-verify", "required");
+                    }
+                    form.render("select");
+                });
+
+
+                $.each(data, function (index, item) {
+                    $('#record_id').append(new Option(item.record_number, item.record_id));// 下拉菜单里添加元素
+                });
+                /*  $('#record_id').val(record_id);//设置默认选中*/
+                form.render("select");
+            })
+
+
+        }
+
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var params = data.field;
+            params["goods_img"] = $("#goods_img")[0].src;
+            if (goods_id == "-1") {
+                post(home_url + "/goodsController/v1.0/insertGoods", params, function () {
+                    if (type == '1') {
+                        window.location.reload();//刷新当前页面
+                    } else {
+                        window.parent.location.reload();//刷新父页面
+                        var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                        parent.layer.close(index)//关闭当前层
+                    }
+                })
+            } else {
+                params["goods_id"] = goods_id;
+                post(home_url + "/goodsController/v1.0/updateGoods", params, function () {
+                    if (type == '1') {
+                        window.location.reload();//刷新当前页面
+                    } else {
+                        window.parent.location.reload();//刷新父页面
+                        var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                        parent.layer.close(index)//关闭当前层
+                    }
+                })
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+    <style>
+        .layui-upload-img{width: 92px; height: 92px; margin: 0 10px 10px 0;}
+    </style>
+</head>
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="system_name" name="system_name" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">头像</label>
+        <div class="layui-card-body">
+        <div class="layui-upload">
+            <img class="layui-upload-img" id="test-upload-normal-img">
+            <button type="button" class="layui-btn" id="system_img" name="system_img">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+            <select name="role_id" id="role_id" lay-verify="required" lay-filter="role">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload','form'], function(){
+        var $ = layui.$
+                ,form = layui.form, upload = layui.upload;;
+
+        uploadRender(upload,'#system_img','#test-upload-normal-img');//渲染上传图片
+
+        var role_id="";
+
+        post(home_url+"/systemController/v1.0/getSystemRolesNoPage",{role_type:"1"},function (data) {
+            $.each(data, function (index, item) {
+                $('#role_id').append(new Option(item.role_name, item.role_id));// 下拉菜单里添加元素
+            });
+            if(!isNull(role_id)){
+                $('#role_id').val(role_id);//设置默认选中项
+            }
+            form.render("select");
+        })
+
+        //监听选择框改变事件
+//        form.on('select(role_id)',function(data) {
+//            console.log(data.value)
+//        });
+
+
+        var account_id=getParameter(0,"account_id")
+        if(account_id!="-1"){
+            post(home_url+"/systemController/v1.0/getSystemAccountDetail",{account_id:account_id},function (data) {
+                role_id=data.role_id;
+
+                $('#role_id').val(data.role_id);
+                $("#system_name").val(data.system_name);
+                $("#test-upload-normal-img").attr('src', data.system_img);
+
+                form.render("select");
+            })
+        }else{
+
+        }
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["system_img"]=$("#test-upload-normal-img")[0].src;
+            params["account_id"]=account_id;
+            post(home_url+"/systemController/v1.0/updateSystemAccount",params,function () {
+                window.parent.location.reload();//刷新父页面
+                var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                parent.layer.close(index)//关闭当前层
+            })
+
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+
+</head>
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item" style="margin-top: 20px">
+        <label class="layui-form-label">商家名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="shop_name" name="shop_name" required lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input" >
+        </div>
+
+        <label class="layui-form-label">商家地址</label>
+        <div class="layui-input-inline">
+            <input type="text" name="shop_address" id="shop_address" required lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input" >
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系人</label>
+        <div class="layui-input-inline">
+            <input type="text" id="shop_account" name="shop_account" required lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input" >
+        </div>
+
+        <label class="layui-form-label">联系手机号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="shop_phone" name="shop_phone" required lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input" >
+        </div>
+
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">商家logo</label>
+        <div class="layui-upload">
+            <img class="layui-upload-img" id="shop_img" onclick="select_img('#upload_img')">
+            <button type="button" class="layui-btn" style="display: none" id="upload_img" name="upload_img" >
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+
+    var member_id = "";
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload', 'form'], function () {
+        var $ = layui.$
+            , form = layui.form, upload = layui.upload;
+        ;
+        var member_id = getParameter(0, "member_id")
+        var shop_id = getParameter(1, "shop_id")
+        uploadRender(upload, '#upload_img', '#shop_img');//渲染上传图片
+
+        post(home_url + "/memberController/v1.0/getShopDetail", {shop_id: shop_id}, function (data) {
+            $('#shop_name').val(data.shop_name);
+            $('#shop_address').val(data.shop_address);
+            $('#shop_account').val(data.shop_account);
+            $("#shop_phone").val(data.shop_phone);
+            $("#shop_img").attr('src', data.shop_img);
+            form.render("select");
+        })
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var params = data.field;
+            params["shop_img"] = $("#shop_img")[0].src;
+            params["member_id"] = member_id;
+            if(shop_id=="-1"){
+                post(home_url + "/memberController/v1.0/insertShop", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }else{
+                params["shop_id"] = shop_id;
+                post(home_url + "/memberController/v1.0/updateShop", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+        });
+
+    });
+
+</script>
+</body>
+</html>

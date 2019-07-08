@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+    <script src="https://unpkg.com/qiniu-js@2.5.4/dist/qiniu.min.js"></script>
+
+</head>
+<body>
+
+<form class="layui-form" action="" style="margin-top: 10px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">经销商名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="merchants_name" name="merchants_name" required lay-verify="required" autocomplete="off" readonly="readonly"
+                   class="layui-input">
+        </div>
+        <label class="layui-form-label">经销商昵称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="merchants_nick_name" name="merchants_nick_name" required lay-verify="required" autocomplete="off"readonly="readonly"
+                   class="layui-input">
+        </div>
+        <label class="layui-form-label">联系人</label>
+        <div class="layui-input-inline">
+            <input type="text" id="merchants_contact_name" name="merchants_contact_name" required lay-verify="required" autocomplete="off" readonly="readonly"
+                   class="layui-input">
+        </div>
+
+
+
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">联系电话</label>
+        <div class="layui-input-inline">
+            <input type="text" id="merchants_contact_mobile" name="merchants_contact_mobile" required lay-verify="required" autocomplete="off" readonly="readonly"
+                   class="layui-input">
+        </div>
+        <label class="layui-form-label">经销商账户</label>
+        <div class="layui-input-inline">
+            <input type="text" id="merchants_account" name="merchants_account" required lay-verify="required" autocomplete="off" readonly="readonly"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">经销商等级</label>
+        <div class="layui-input-inline">
+            <select name="merchants_level" id="merchants_level" lay-verify="required" lay-filter="parent_id" readonly="readonly">
+                <option value="Gold">Gold</option>
+                <option value="Diamond">Diamond</option>
+            </select>
+        </div>
+        <label class="layui-form-label">VIP等级</label>
+        <div class="layui-input-inline">
+            <select name="merchants_vip_level" id="merchants_vip_level" lay-verify="required" lay-filter="parent_id" readonly="readonly">
+                <option value="1">一级</option>
+                <option value="2">二级</option>
+                <option value="3">三级</option>
+                <option value="4">四级</option>
+                <option value="5">五级</option>
+            </select>
+        </div>
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">经销商头像</label>-->
+        <!--<div class="layui-upload">-->
+            <!--<img class="layui-upload-img"  id="merchants_img">-->
+            <!--<input type="file" name="file" id='file' style="display:none" onChange='changeFile("file","#merchants_img")'/>-->
+            <!--<button type="button" class="layui-btn"  id="upload_img" name="upload_img" data-type="merchants_img" >-->
+                <!--<i class="layui-icon">&#xe67c;</i>上传图片-->
+            <!--</button>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">省市区</label>
+        <div class="layui-input-inline">
+            <select name="merchants_province" id="merchants_province" lay-verify="required" lay-filter="merchants_province" readonly="readonly">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="merchants_city" id="merchants_city" lay-verify="required" lay-filter="merchants_city" readonly="readonly">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <select name="merchants_country" id="merchants_country" lay-verify="required" lay-filter="merchants_country" readonly="readonly">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">详细地址</label>
+        <div class="layui-input-inline">
+            <input type="text" id="merchants_detail_address" name="merchants_detail_address" required lay-verify="required" autocomplete="off" readonly="readonly"
+                   class="layui-input" style="width: 400px">
+        </div>
+    </div>
+
+
+
+
+</form>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            预约统计
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">昨日预约</label>
+            <div class="layui-input-inline" style="width:100px">
+                <input type="text"  id="last_day_num" name="last_day_num" required lay-verify="required" autocomplete="off" readonly="readonly"
+                       class="layui-input">
+            </div>
+            <label class="layui-form-label">上周预约</label>
+            <div class="layui-input-inline" style="width:100px">
+                <input type="text" id="last_week_num" name="last_week_num" required lay-verify="required" autocomplete="off" readonly="readonly"
+                       class="layui-input">
+            </div>
+            <label class="layui-form-label">总预约</label>
+            <div class="layui-input-inline" style="width:100px">
+                <input type="text" id="order_num" name="order_num" required lay-verify="required" autocomplete="off" readonly="readonly"
+                       class="layui-input">
+            </div>
+            <label class="layui-form-label">预约金额</label>
+            <div class="layui-input-inline" style="width:100px">
+                <input type="text" id="order_price" name="order_price" required lay-verify="required" autocomplete="off" readonly="readonly"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+
+        </div>
+
+
+
+    </div>
+
+
+</div>
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            预约记录
+        </div>
+
+        <div class="layui-card-body">
+
+
+            <table id="LAY-app-content-list" lay-filter="LAY-app-content-list"></table>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="deleteCargo"><i class="layui-icon layui-icon-delete"></i>删除</a>
+</script>
+
+<script>
+    var provinceBeans=[];
+    var cityBeans=[];
+    var countryBeans=[];
+    var merchantsBean={};
+    var table;
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload','table', 'form'], function () {
+        var $ = layui.$
+                , form = layui.form, upload = layui.upload;
+        table=layui.table;
+
+        // uploadRender(upload, '#upload_img', '#merchants_img');//渲染上传图片
+
+        // var $ = layui.$, active = {
+        //     merchants_img: function(){
+        //         var pic = document.getElementById("file");
+        //         pic.click();
+        //     }
+        // };
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        $.getJSON("../city.json", function (data){
+            provinceBeans=data;
+            renderAddress(provinceBeans,merchantsBean);
+        });
+
+        form.on('select(merchants_province)',function (data) {
+            for(var i=0;i<provinceBeans.length;i++){
+                var provinceBean=provinceBeans[i];
+                if(data.value==provinceBean.name){
+                    cityBeans=provinceBean.cityBeans;
+                }
+            }
+            $('#merchants_city').empty();
+            $('#merchants_city').append(new Option("", ""));
+            $('#merchants_country').empty();
+            $('#merchants_country').append(new Option("", ""));
+            $.each(cityBeans, function (rowID, item) {
+                $('#merchants_city').append(new Option(item.name, item.name));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+
+        form.on('select(merchants_city)',function (data) {
+            for(var i=0;i<cityBeans.length;i++){
+                var cityBean=cityBeans[i];
+                if(data.value==cityBean.name){
+                    countryBeans=cityBean.cityBeans;
+                }
+            }
+            $('#merchants_country').empty();
+            $('#merchants_country').append(new Option("", ""));
+            $.each(countryBeans, function (rowID, item) {
+                $('#merchants_country').append(new Option(item.name, item.name));// 下拉菜单里添加元素
+            });
+            form.render("select");
+        });
+
+
+        function renderAddress(provinceBeans,merchantsBean) {
+            $.each(provinceBeans, function (index, item) {
+                $('#merchants_province').append(new Option(item.name, item.name));// 下拉菜单里添加元素
+                if(merchantsBean.merchants_province==item.name){
+                    cityBeans=item.cityBeans;
+                    $.each(cityBeans, function (rowID, node) {
+                        $('#merchants_city').append(new Option(node.name, node.name));// 下拉菜单里添加元素
+                        if(merchantsBean.merchants_city==node.name){
+                            countryBeans=node.cityBeans;
+                            $.each(countryBeans, function (rowID, menu) {
+                                $('#merchants_country').append(new Option(menu.name, menu.name));// 下拉菜单里添加元素
+                            });
+                        }
+
+                    });
+                }
+            });
+
+            $("#merchants_province").val(merchantsBean.merchants_province);
+            $("#merchants_city").val(merchantsBean.merchants_city);
+            $("#merchants_country").val(merchantsBean.merchants_country);
+            form.render("select");
+        }
+
+        var merchants_id = getParameter(0, "merchants_id");
+        var last_day_num = getParameter(1, "last_day_num");
+        $("#last_day_num").val(last_day_num);
+        console.log(last_day_num)
+        var last_week_num = getParameter(2, "last_week_num");
+        $("#last_week_num").val(last_week_num);
+        var order_num = getParameter(3, "order_num");
+        $("#order_num").val(order_num);
+        var order_price = getParameter(4, "order_price");
+        $("#order_price").val(order_price);
+        if (merchants_id != "-1") {
+            post(home_url + "/merchantsController/v1.0/getMerchantsDetail", {merchants_id: merchants_id}, function (data) {
+                merchantsBean=data;
+
+
+                $("#merchants_name").val(data.merchants_name)
+                $("#merchants_nick_name").val(data.merchants_nick_name)
+                $("#merchants_account").val(data.merchants_account)
+                $("#merchants_level").val(data.merchants_level)
+                $("#merchants_vip_level").val(data.merchants_vip_level)
+                $("#merchants_contact_name").val(data.merchants_contact_name)
+                $("#merchants_contact_mobile").val(data.merchants_contact_mobile)
+                // $("#merchants_img").attr('src', data.merchants_img);
+
+                $("#merchants_detail_address").val(data.merchants_detail_address)
+                renderAddress(provinceBeans,merchantsBean);
+            })
+        }
+
+
+
+        tableRender(table,'#LAY-app-content-list',home_url+'/memberController/v1.0/getMemberOrders',{merchants_id:merchants_id},
+            [[
+                {type:'checkbox'}
+                // {field:'order_id', title: 'ID'}
+                ,{field:'zizeng',  title: '序号',type:'numbers'}
+                ,{field:'order_no',  title: '预约编号'}
+                ,{field:'merchants_name',  title: '线下服务店'}
+                ,{field:'create_time',  title: '提交时间'}
+                ,{field:'update_time',  title: '修改时间'}
+                ,{field:'member_account',  title: '用户账号'}
+                ,{field:'order_resource_show',  title: '预约渠道'}
+                ,{field:'order_state_show',  title: '预约状态'}
+                ,{field:'config_price',  title: '配置价格'}
+
+                //
+                // ,{field:'order_img',  title: '二维码',templet:function (d) {
+                //         return '<div onclick="show_img(this)"><img src="http://life2.rehau.cn/'+d.order_img+'" width="50px" height="50px"></div>';
+                //     }}
+                // ,{field: 'right', title: '操作', width: 100, toolbar:"#barDemo"}
+            ]],function () {
+
+            })
+
+
+        //监听提交
+        form.on('submit(formDemo)', function (data) {
+            var params = data.field;
+            // params["merchants_img"] = $("#merchants_img")[0].src;
+
+            if (merchants_id == "-1") {
+                post(home_url + "/merchantsController/v1.0/insertMerchants", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            } else {
+                params["merchants_id"] = merchants_id;
+                post(home_url + "/merchantsController/v1.0/updateMerchants", params, function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+        });
+
+
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+    
+
+
+
+
+
+</script>
+</body>
+</html>

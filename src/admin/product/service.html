@@ -1,0 +1,108 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add">添加</button>
+            </div>
+
+            <table id="LAY-app-content-list" lay-filter="LAY-app-content-list"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+</script>
+
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table'], function(){
+        var table = layui.table
+                ,form = layui.form;
+
+        tableRender(table,'#LAY-app-content-list',home_url+'/goodsController/v1.0/getServices',{},
+                [[
+                    {type:'checkbox'},
+                    {field:'service_id', title: 'ID'}
+                    ,{field:'service_name',  title: '服务内容'}
+                    ,{field:'create_time', title: '创建时间'}
+                    ,{field: 'right', title: '操作', width: 200, toolbar:"#barDemo"}
+                ]],function () {
+
+                })
+
+        table.on('tool(LAY-app-content-list)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'edit'){
+                layer.open({
+                    type: 2
+                    ,title: '添加服务'
+                    ,content: 'service_editor.html?service_id='+data.service_id
+                    ,area: '400px'
+                });
+            }
+        });
+
+        var $ = layui.$, active = {
+            batchdel: function(){
+                var checkStatus = table.checkStatus('LAY-app-content-list')
+                        ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                layer.confirm('确定删除吗？', function(index) {
+                    var service_ids=[];
+                    for(var i=0;i<checkData.length;i++){
+                        service_ids.push(checkData[i].service_id)
+                    }
+                    post(home_url+'/goodsController/v1.0/deleteService',{service_ids:service_ids.toString()},function () {
+                        table.reload("LAY-app-content-list");
+                        layer.close(index)
+                    })
+                });
+            },
+            add: function(){
+                layer.open({
+                    type: 2
+                    ,title: '添加服务'
+                    ,content: 'service_editor.html?service_id=-1'
+                    ,area: '400px'
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>
+</body>
+</html>

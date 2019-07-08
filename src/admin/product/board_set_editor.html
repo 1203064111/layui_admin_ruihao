@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <title>瑞好</title>
+            <meta name="renderer" content="webkit">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+            <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+            <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+            <link rel="stylesheet" href="../common.css">
+            <script src="../../layuiadmin/layui/layui.js"></script>
+            <script src="../js/jquery.js"></script>
+            <script src="../js/jquery.min.js"></script>
+            <script src="../common.js"></script>
+            <script src="https://unpkg.com/qiniu-js@2.5.4/dist/qiniu.min.js"></script>
+        </head>
+
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">材料系列</label>
+        <div class="layui-input-inline">
+            <input type="text" id="set_name" name="set_name" required  lay-verify="required"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">排序</label>
+        <div class="layui-input-inline">
+            <input type="text" id="sort" name="sort" required  lay-verify="required"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">材料封面</label>
+        <div class="layui-upload">
+            <img class="layui-upload-img"  id="set_img">
+            <input type="file" name="file" id='file' style="display:none" onChange='changeFile("file","#set_img")'/>
+            <button type="button" class="layui-btn" id="upload_img"  name="upload_img" data-type="set_img">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">整体效果图</label>
+        <div class="layui-upload">
+            <img class="layui-upload-img"  id="set_total_img">
+            <input type="file" name="file1" id='file1' style="display:none" onChange='changeFile("file1","#set_total_img")'/>
+            <button type="button" class="layui-btn" id="upload_img1"  name="upload_img1" data-type="set_total_img">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">材料状态</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" id="set_state" name="set_state" lay-filter="set_state" lay-skin="switch" lay-text="ON|OFF" value="1">
+        </div>
+    </div>
+
+    <div style="margin: 10px;background: #ffffff">
+        <label class="layui-form-label">电脑端</label>
+        <div id="demo">
+
+        </div>
+    </div>
+
+    <div style="margin: 10px;background: #ffffff">
+        <label class="layui-form-label">手机端</label>
+        <div id="demo2">
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form','layedit'], function(){
+
+
+        var $ = layui.$
+            ,form = layui.form,layedit = layui.layedit;
+        var index=layeditRender(layedit,'demo',{height:300});
+        var index2=layeditRender(layedit,'demo2',{height:300});
+        // uploadRender(upload,'#upload_img','#set_img');//渲染上传图片
+
+        var set_id=getParameter(0,"set_id");
+
+        if(set_id!="-1"){
+            post(home_url+"/houseController/v1.0/getBoardSetDetail",{set_id:set_id},function (data) {
+                $("#set_name").val(data.set_name);
+                $("#sort").val(data.sort);
+
+                $("#color_name").val(data.color_name)
+                $("#set_img").attr('src', data.set_img);
+                $("#set_total_img").attr('src', data.set_total_img);
+
+                $("#set_state").attr("checked", data.set_state=="1"?true:false);
+                layedit.setContent(index,data.set_desc,false)
+                layedit.setContent(index2,data.mobile_set_desc,false)
+                form.render();
+            })
+        }else{
+
+        }
+
+        var $ = layui.$, active = {
+            set_img: function(){
+                var pic = document.getElementById("file");
+                pic.click();
+            },
+            set_total_img: function(){
+                var pic = document.getElementById("file1");
+                pic.click();
+            }
+
+
+        };
+
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["set_desc"]=layedit.getContent(index);
+            params["mobile_set_desc"]=layedit.getContent(index2);
+            params["set_img"]=$("#set_img")[0].src;
+
+            params["set_total_img"]=$("#set_total_img")[0].src;
+            if("1"!=params["set_state"]){
+                params["set_state"]="0";
+            }
+            if(set_id=="-1"){
+                post(home_url+"/houseController/v1.0/insertBoardSet",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }else{
+                params["set_id"]=set_id;
+                post(home_url+"/houseController/v1.0/updateBoardSet",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+
+        });
+        
+
+    });
+
+</script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">材料</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="set_name" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <select name="set_state">
+                            <option value="">不限</option>
+                            <option value="1">上线</option>
+                            <option value="0">下线</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add">添加</button>
+            </div>
+
+            <table id="LAY-app-content-list" lay-filter="LAY-app-content-list"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="moudle"><i class="layui-icon layui-icon-edit"></i>颜色分类</a>
+</script>
+
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table'], function(){
+        var table = layui.table
+                ,form = layui.form;
+
+
+        var setBeans=[];
+        tableRender(table,'#LAY-app-content-list',home_url+'/houseController/v1.0/getBoardSets',{},
+                [[
+                    {type:'checkbox'}
+                    // {field:'set_id', title: 'ID'}
+                    ,{field:'zizeng',  title: '序号',type:'numbers'}
+                    ,{field:'set_name',  title: '材料名称'}
+                    ,{field:'set_img',  title: '材料封面',templet:function (d) {
+                        return '<div onclick="show_img(this)"><img src="'+d.set_img+'" width="50px" height="50px"></div>';
+                    }}
+                    ,{field:'set_state',  title: '材料状态',templet:function (d) {
+                        if(d.set_state=="1"){
+                            return '<input type="checkbox" id="set_state" name="set_state" lay-filter="set_state" lay-skin="switch" ' +
+                                    'lay-text="ON|OFF" value="1" checked>';
+                        }else{
+                            return '<input type="checkbox" id="set_state" name="set_state" lay-filter="set_state" lay-skin="switch" ' +
+                                    'lay-text="ON|OFF" value="1">';
+                        }
+                    }}
+                    ,{field: 'right', title: '操作', width: 200, toolbar:"#barDemo"}
+                ]],function (data) {
+                setBeans=data;
+                })
+        form.on('submit(LAY-user-front-search)', function(data){
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-app-content-list', {
+                where: field
+            });
+        });
+        form.on('switch(set_state)', function(data){
+            var index=data.othis.parents("tr").attr("data-index");
+            post(home_url+"/houseController/v1.0/updateBoardSet",
+                    {set_id:setBeans[index].set_id,
+                        set_state:data.elem.checked?"1":"0"},function () {
+                    table.reload("LAY-app-content-list",{});
+            },function () {
+                table.reload("LAY-app-content-list",{})
+            })
+        });
+
+        table.on('tool(LAY-app-content-list)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'edit'){
+                layer.open({
+                    type: 2
+                    ,title: '编辑材料'
+                    ,content: 'board_set_editor.html?set_id='+data.set_id
+                    ,area: ['90%','90%']
+                });
+            }else if(obj.event === 'moudle'){
+                layer.open({
+                    type: 2
+                    ,title: '颜色分类'
+                    ,content: 'board_color.html?set_id='+data.set_id
+                    ,area: ['95%','95%']
+                });
+            }
+        });
+
+        var $ = layui.$, active = {
+            batchdel: function(){
+                var checkStatus = table.checkStatus('LAY-app-content-list')
+                        ,checkData = checkStatus.data; //得到选中的数据
+
+                console.log(checkData)
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                layer.confirm('确定删除吗？', function(index) {
+                    var set_ids=[];
+                    for(var i=0;i<checkData.length;i++){
+                        set_ids.push(checkData[i].set_id)
+                    }
+                    post(home_url+'/houseController/v1.0/deleteBoardSet',{set_ids:set_ids.toString()},function () {
+                        table.reload("LAY-app-content-list");
+                        layer.close(index)
+                    })
+                });
+            },
+            add: function(){
+                layer.open({
+                    type: 2
+                    ,title: '添加材料'
+                    ,content: 'board_set_editor.html?set_id=-1'
+                    ,area: ['90%','90%']
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+</script>
+</body>
+</html>

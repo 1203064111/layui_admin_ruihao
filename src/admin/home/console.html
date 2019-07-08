@@ -1,0 +1,908 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+  <link rel="stylesheet" href="../common.css">
+  <script src="../../layuiadmin/layui/layui.js"></script>
+  <script src="../js/jquery.js"></script>
+  <script src="../js/jquery.min.js"></script>
+  <!--<script src="../common.js"></script>-->
+</head>
+<body>
+
+<div class="layui-fluid">
+  <div class="layui-row layui-col-space15">
+
+    <div class="layui-col-sm6 layui-col-md3">
+      <div class="layui-card">
+        <div class="layui-card-header">
+          今日预约总数
+          <!--<span class="layui-badge layui-bg-blue layuiadmin-badge">周</span>-->
+        </div>
+        <div class="layui-card-body layuiadmin-card-list">
+          <p class="layuiadmin-big-font" id="today_order_total_count"></p>
+          <!--<label id="down_board_height" name="down_board_height"  class="zhengan-lable" data-value="100"></label>-->
+          <!--<p>-->
+            <!--今日预约总数-->
+            <!--<span class="layuiadmin-span-color">88万 <i class="layui-inline layui-icon layui-icon-flag"></i></span>-->
+          <!--</p>-->
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-sm6 layui-col-md3">
+      <div class="layui-card">
+        <div class="layui-card-header">
+          昨日预约总数
+          <!--<span class="layui-badge layui-bg-cyan layuiadmin-badge">月</span>-->
+        </div>
+        <div class="layui-card-body layuiadmin-card-list">
+          <p class="layuiadmin-big-font" id="yester_order_total_count"></p>
+          <!--<p>-->
+            <!--昨日预约总数-->
+            <!--<span class="layuiadmin-span-color">10% <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>-->
+          <!--</p>-->
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-sm6 layui-col-md3">
+      <div class="layui-card">
+        <div class="layui-card-header">
+          近7天预约总数
+          <!--<span class="layui-badge layui-bg-green layuiadmin-badge">年</span>-->
+        </div>
+        <div class="layui-card-body layuiadmin-card-list">
+
+          <p class="layuiadmin-big-font" id="last_order_total_count"></p>
+          <!--<p>-->
+            <!--近7天预约总数-->
+            <!--<span class="layuiadmin-span-color">*** <i class="layui-inline layui-icon layui-icon-dollar"></i></span>-->
+          <!--</p>-->
+        </div>
+      </div>
+    </div>
+    <div class="layui-col-sm6 layui-col-md3">
+      <div class="layui-card">
+        <div class="layui-card-header">
+          当日预约金额
+          <!--<span class="layui-badge layui-bg-orange layuiadmin-badge">月</span>-->
+        </div>
+        <div class="layui-card-body layuiadmin-card-list">
+
+          <p class="layuiadmin-big-font" id="today_order_total_price"></p>
+          <!--<p>-->
+            <!--当日预约金额-->
+            <!--<span class="layuiadmin-span-color">15% <i class="layui-inline layui-icon layui-icon-user"></i></span>-->
+          <!--</p>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="layui-row layui-col-space15">
+
+
+      <div class="layui-card">
+        <div class="layui-card-header">运营快捷入口</div>
+        <div class="layui-card-body">
+
+          <div class="layui-carousel layadmin-carousel layadmin-shortcut">
+            <div carousel-item>
+              <ul class="layui-row layui-col-space10">
+                <li class="layui-col-xs3">
+                  <a lay-href="order/member_order.html">
+                    <i class="layui-icon layui-icon-console"></i>
+                    <cite>预约列表</cite>
+                  </a>
+                </li>
+                <li class="layui-col-xs3 merchants">
+                  <a lay-href="gather/member_order_count.html">
+                    <i class="layui-icon layui-icon-chart"></i>
+                    <cite>预约统计</cite>
+                  </a>
+                </li>
+                <li class="layui-col-xs3 merchants">
+                  <a lay-href="gather/member_order_count.html">
+                    <i class="layui-icon layui-icon-template-1"></i>
+                    <cite>预约金额</cite>
+                  </a>
+                </li>
+                <li class="layui-col-xs3 merchants">
+                  <a lay-href="member/member_login.html">
+                    <i class="layui-icon layui-icon-survey"></i>
+                    <cite>登录日志</cite>
+                  </a>
+                </li>
+                <!--<li class="layui-col-xs3">-->
+                  <!--<a layadmin-event="im">-->
+                    <!--<i class="layui-icon layui-icon-chat"></i>-->
+                    <!--<cite>其他</cite>-->
+                  <!--</a>-->
+                <!--</li>-->
+
+              </ul>
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    <div class="layui-col-sm12">
+      <div class="layui-card">
+        <div class="layui-card-header">预约统计
+          <div class="layui-btn-group layuiadmin-btn-group">
+            <!--<a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs">近一周</a>-->
+            <!--<a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs">近一月</a>-->
+            <!--<a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs">手动</a>-->
+
+          </div>
+        </div>
+        <div class="layui-card-body">
+
+            <div style="padding-bottom: 10px;">
+              <button class="layui-btn layuiadmin-btn-list" data-type="one">近一周</button>
+              <button class="layui-btn layuiadmin-btn-list" data-type="two">本月</button>
+              <div class="layui-inline">
+                <label class="layui-form-label">选择时间</label>
+                <div class="layui-input-inline" style="width: 200px;">
+                  <input type="text" class="layui-input" id="test-laydate-format-range1" placeholder=" ~ ">
+                </div>
+              </div>
+              <button class="layui-btn layuiadmin-btn-list" data-type="select">查询</button>
+            </div>
+
+          <div class="layui-row">
+            <div class="layui-col-sm8">
+          <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-heaparea2">
+            <div carousel-item id="LAY-index-heaparea2">
+              <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+            </div>
+          </div>
+            </div>
+            <div class="layui-col-sm4">
+              <div class="layuiadmin-card-list">
+                <p class="layuiadmin-normal-font" >本月预约总数</p>
+                <p class="layuiadmin-normal-font" id="current_month_total"></p>
+
+                <span>同比上月</span>
+                <span id="month_count_percent"></span>
+              </div>
+              <div class="layuiadmin-card-list">
+                <p class="layuiadmin-normal-font">近一周预约数量</p>
+                <p class="layuiadmin-normal-font" id="current_week_total"></p>
+                <span>同比上一周</span>
+                <span id="week_count_percent"></span>
+              </div>
+
+            </div>
+
+        </div>
+      </div>
+      <!--<div class="layui-card">-->
+        <!--<div class="layui-card-header">-->
+          <!--预约统计-->
+          <!---->
+        <!--</div>-->
+        <!--<div class="layui-card-body">-->
+          <!--<div class="layui-row">-->
+            <!--<div class="layui-col-sm8">-->
+              <!--<div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-pagetwo">-->
+                <!--<div carousel-item id="LAY-index-pagetwo">-->
+                  <!--<div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>-->
+                <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-col-sm4">-->
+              <!--<div class="layuiadmin-card-list">-->
+                <!--<p class="layuiadmin-normal-font">本月预约总数</p>-->
+                <!--<span>同比上月</span>-->
+                <!--<div class="layui-progress layui-progress-big" lay-showPercent="yes">-->
+                  <!--<div class="layui-progress-bar" lay-percent="30%"></div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="layuiadmin-card-list">-->
+                <!--<p class="layuiadmin-normal-font">本周预约数量</p>-->
+                <!--<span>同比上周</span>-->
+                <!--<div class="layui-progress layui-progress-big" lay-showPercent="yes">-->
+                  <!--<div class="layui-progress-bar" lay-percent="20%"></div>-->
+                <!--</div>-->
+              <!--</div>-->
+
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    </div>
+    <div class="layui-col-sm12">
+      <div class="layui-card">
+        <div class="layui-card-header">
+          预约金额统计
+          <div class="layui-btn-group layuiadmin-btn-group">
+            <!--<a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs">近一周</a>-->
+            <!--<a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs">近一月</a>-->
+            <!--<a href="javascript:;" class="layui-btn layui-btn-primary layui-btn-xs">手动</a>-->
+          </div>
+        </div>
+        <div class="layui-card-body">
+          <div style="padding-bottom: 10px;">
+            <button class="layui-btn layuiadmin-btn-list" data-type="one1">近一周</button>
+            <button class="layui-btn layuiadmin-btn-list" data-type="two2">本月</button>
+            <div class="layui-inline">
+              <label class="layui-form-label">选择时间</label>
+              <div class="layui-input-inline" style="width: 200px;">
+                <input type="text" class="layui-input" id="test-laydate-format-range0" placeholder=" ~ ">
+              </div>
+            </div>
+            <button class="layui-btn layuiadmin-btn-list" data-type="select3">查询</button>
+          </div>
+          <div class="layui-row">
+            <div class="layui-col-sm8">
+              <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-normline">
+                <div carousel-item id="LAY-index-normline">
+                  <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                </div>
+              </div>
+            </div>
+            <div class="layui-col-sm4">
+              <div class="layuiadmin-card-list">
+                <p class="layuiadmin-normal-font" >本月预约总额</p>
+                <p class="layuiadmin-normal-font" id="current_month_price"></p>
+
+                <span>同比上月</span>
+                <span id="month_price_percent"></span>
+              </div>
+              <div class="layuiadmin-card-list">
+                <p class="layuiadmin-normal-font">近一周预约总额</p>
+                <p class="layuiadmin-normal-font" id="current_week_price"></p>
+                <span>同比上一周</span>
+                <span id="week_price_percent"></span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+</div>
+
+<script>
+    var is_debug=false;
+    var home_url='http://life1.rehau.cn/';
+    if(is_debug){
+        home_url='http://localhost:8180/tst-consumer-huixiang/';
+    }
+    function getCurrentMonthFirst(){
+        var date = new Date();
+        date.setDate(1);
+        var month = parseInt(date.getMonth()+1);
+        var day = date.getDate();
+        if (month < 10) {
+            month = '0' + month
+        }
+        if (day < 10) {
+            day = '0' + day
+        }
+        return date.getFullYear() + '-' + month + '-' + day;
+    }
+
+    function isNull(value){
+        if(!value||value===''||value==='undefined'){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function getNull(value,result){
+        return this.isNull(value)?result:value;
+    }
+    // 日期月份/天的显示，如果是1位数，则在前面加上'0'
+    function getFormatDate(arg) {
+        if (arg == undefined || arg == '') {
+            return '';
+        }
+
+        var re = arg + '';
+        if (re.length < 2) {
+            re = '0' + re;
+        }
+
+        return re;
+    }
+    function post(url,params,doSuccess,doFailed){
+        var cate = layui.data("ruihao");
+        var systemAccountBean=cate.systemAccountBean;
+
+        if(!isNull(systemAccountBean)){
+            console.log(systemAccountBean);
+            params["account_id1"]=getNull(systemAccountBean.account_id+"","-1");
+            params["system_token"]=systemAccountBean.system_token+"";
+            params["merchants_id"]=systemAccountBean.merchants_id+"";
+
+
+        }
+        $.post(url,params, function(data) {
+            var response =data;
+            if (response.status === 'ok') {
+                doSuccess(response.data,response.total);
+            } else if (response.status === 'error') {
+                layer.msg(response.error, {
+                    offset: '15px'
+                    ,icon: 2
+                    ,time: 1000
+                })
+                if(doFailed){
+                    doFailed(response.error);
+                }
+            } else {
+                window.location.href = './user/login.html';
+                layer.msg("登录失效,请重新登录", {
+                    offset: '15px'
+                    ,icon: 2
+                    ,time: 1000
+                })
+
+            }
+        }.bind(this));
+    }
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','laydate'], function () {
+        var laydate = layui.laydate;
+        var cate = layui.data("ruihao");
+        var systemAccountBean=cate.systemAccountBean;
+
+        if(!isNull(systemAccountBean)){
+
+            if(!isNull(systemAccountBean.merchants_id)){
+                console.log("merchants hide ");
+                $(".merchants").hide();
+            }
+
+        }
+        //示例代码
+
+        //常规用法
+        laydate.render({
+            elem: '#test-laydate-normal-cn'
+        });
+
+        //国际版
+        laydate.render({
+            elem: '#test-laydate-normal-en'
+            ,lang: 'en'
+        });
+
+        //年选择器
+        laydate.render({
+            elem: '#test-laydate-type-year'
+            ,type: 'year'
+        });
+
+        //年月选择器
+        laydate.render({
+            elem: '#test-laydate-type-month'
+            ,type: 'month'
+        });
+
+        //日期选择器
+        laydate.render({
+            elem: '#test-laydate-type-date'
+            //,type: 'date' //type 默认为 date，所以可不填
+        });
+
+        //时间选择器
+        laydate.render({
+            elem: '#test-laydate-type-time'
+            ,type: 'time'
+        });
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#test-laydate-type-datetime'
+            ,type: 'datetime'
+        });
+
+        //日期范围
+        laydate.render({
+            elem: '#test-laydate-range-date'
+            ,range: true
+        });
+
+        //年范围
+        laydate.render({
+            elem: '#test-laydate-range-year'
+            ,type: 'year'
+            ,range: true
+        });
+
+        //年月范围
+        laydate.render({
+            elem: '#test-laydate-range-month'
+            ,type: 'month'
+            ,range: true
+        });
+
+        //时间范围
+        laydate.render({
+            elem: '#test-laydate-range-time'
+            ,type: 'time'
+            ,range: true
+        });
+
+        //日期时间范围
+        laydate.render({
+            elem: '#test-laydate-range-datetime'
+            ,type: 'datetime'
+            ,range: true
+        });
+
+        //自定义格式
+        laydate.render({
+            elem: '#test-laydate-format-date1'
+            ,format: 'yyyy年MM月dd日'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-date2'
+            ,format: 'dd/MM/yyyy'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-month'
+            ,type: 'month'
+            ,format: 'yyyyMM'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-time'
+            ,type: 'time'
+            ,format: 'H点m分'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-range1'
+            ,range: '~'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-range0'
+            ,range: '~'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-range2'
+            ,type: 'datetime'
+            ,range: '到'
+            ,format: 'yyyy年M月d日H时m分s秒'
+        });
+
+        //同时绑定多个
+        lay('.test-laydate-item').each(function(){
+            laydate.render({
+                elem: this
+                ,trigger: 'click'
+            });
+        });
+        //区块轮播切换
+        layui.use(['admin', 'carousel'], function(){
+            var $ = layui.$
+                ,admin = layui.admin
+                ,carousel = layui.carousel
+                ,element = layui.element
+                ,device = layui.device();
+
+            //轮播切换
+            $('.layadmin-carousel').each(function(){
+                var othis = $(this);
+                carousel.render({
+                    elem: this
+                    ,width: '100%'
+                    ,arrow: 'none'
+                    ,interval: othis.data('interval')
+                    ,autoplay: othis.data('autoplay') === true
+                    ,trigger: (device.ios || device.android) ? 'click' : 'hover'
+                    ,anim: othis.data('anim')
+                });
+            });
+
+            element.render('progress');
+
+        });
+        post(home_url+"/orderController/v1.0/getOrderCountBySeven",{order_id:1},function (data) {
+            // console.log(data[0].num);
+            document.getElementById('last_order_total_count').innerHTML = data[0].num;
+        })
+        post(home_url+"/orderController/v1.0/getOrderCountByYesterday",{order_id:1},function (data) {
+            // console.log(data[0].num);
+            document.getElementById('yester_order_total_count').innerHTML = data[0].num;
+        })
+        post(home_url+"/orderController/v1.0/getOrderCountByToday",{order_id:1},function (data) {
+            // console.log(data[0].num);
+            // console.log(data[0].price);
+            document.getElementById('today_order_total_price').innerHTML = data[0].price;
+            document.getElementById('today_order_total_count').innerHTML = data[0].num;
+        })
+        post(home_url+"/orderController/v1.0/getOrderCount",{order_id:1},function (data) {
+            console.log(data.currentMonthCount);
+            document.getElementById('current_month_total').innerHTML = data.currentMonthCount;
+            if(data.monthCountPercent<0){
+                document.getElementById('month_count_percent').innerHTML = '下降'+data.monthCountPercent*-1+'%';
+            }else if(data.monthCountPercent>0){
+                document.getElementById('month_count_percent').innerHTML = '上升'+data.monthCountPercent*1+'%';
+            }else{
+                document.getElementById('month_count_percent').innerHTML = '稳定'+data.monthCountPercent*1+'%';
+            }
+            document.getElementById('current_week_total').innerHTML = data.currentWeekCount;
+            if(data.weekCountPercent<0){
+                document.getElementById('week_count_percent').innerHTML = '下降'+data.weekCountPercent*-1+'%';
+            }else if(data.weekCountPercent>0){
+                document.getElementById('week_count_percent').innerHTML = '上升'+data.weekCountPercent*1+'%';
+            }else{
+                document.getElementById('week_count_percent').innerHTML = '稳定'+data.weekCountPercent*1+'%';
+            }
+
+            document.getElementById('current_month_price').innerHTML = data.currentMonthPrice;
+            if(data.monthPricePercent<0){
+                document.getElementById('month_price_percent').innerHTML = '下降'+data.monthPricePercent*-1+'%';
+            }else if(data.monthPricePercent>0){
+                document.getElementById('month_price_percent').innerHTML = '上升'+data.monthPricePercent*1+'%';
+            }else{
+                document.getElementById('month_price_percent').innerHTML = '稳定'+data.monthPricePercent*1+'%';
+            }
+            document.getElementById('current_week_price').innerHTML = data.currentWeekPrice;
+            if(data.weekPricePercent<0){
+                document.getElementById('week_price_percent').innerHTML = '下降'+data.weekPricePercent*-1+'%';
+            }else if(data.weekPricePercent>0){
+                document.getElementById('week_price_percent').innerHTML = '上升'+data.weekPricePercent*1+'%';
+            }else{
+                document.getElementById('week_price_percent').innerHTML = '稳定'+data.weekPricePercent*1+'%';
+            }
+
+        })
+
+        layui.use(['carousel', 'echarts'], function(){
+            var $ = layui.$
+                ,carousel = layui.carousel
+                ,echarts = layui.echarts;
+            var data1 = [];
+            var data2 = [];
+            var data3 = [];
+            var data4 = [];
+
+            //标准折线图
+            var echnormline = [], normline = [
+                {
+                    title : {
+                        text: '预约金额统计',
+                        // subtext: '纯属虚构'
+                    },
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['预约金额统计']
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            data : data1
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value',
+                            axisLabel : {
+                                formatter: '{value} '
+                            }
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'预约金额统计',
+                            type:'line',
+                            data:data2
+
+                        },
+
+                    ]
+                }
+            ]
+                ,elemnormline = $('#LAY-index-normline').children('div')
+                ,rendernormline = function(index){
+                echnormline[index] = echarts.init(elemnormline[index], layui.echartsTheme);
+                echnormline[index].setOption(normline[index]);
+                window.onresize = echnormline[index].resize;
+            };
+            if(!elemnormline[0]) return;
+            // rendernormline(0);
+
+            post(home_url + "/orderController/v1.0/getOrderPricesByTime", {order_id:1}, function (data) {
+
+                // console.log(data)
+                for(var i=0; i < data.length; i++){
+                    data2.push(data[i].price);
+                    data1.push(data[i].time);
+                }
+                // console.log(data1);
+                // console.log(data2);
+                if(data.length>0){
+                    rendernormline(0);
+                    for(var i=0;i<data.length;i++){
+                        data2.pop();
+                        data1.pop();
+                    }
+
+                    // console.log(data1);
+                    // console.log(data2);
+                }
+
+
+            });
+
+
+            $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
+            //堆积面积图2
+            var echheaparea = [], heaparea = [
+                {
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:['预约数量']
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            data : data3,
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : [
+                        {
+                            name:'预约数量',
+                            type:'line',
+                            stack: '总量',
+                            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                            data:data4
+                        },
+
+                    ]
+                }
+            ]
+                ,elemheaparea2 = $('#LAY-index-heaparea2').children('div')
+                ,renderheaparea2 = function(index){
+                echheaparea[index] = echarts.init(elemheaparea2[index], layui.echartsTheme);
+                echheaparea[index].setOption(heaparea[index]);
+                window.onresize = echheaparea[index].resize;
+            };
+            if(!elemheaparea2[0]) return;
+            // renderheaparea2(0);
+            post(home_url + "/orderController/v1.0/getOrderCountsByTime", {order_id:1}, function (data) {
+
+                // console.log(data)
+                for(var i=0; i < data.length; i++){
+                    data4.push(data[i].num);
+                    data3.push(data[i].time);
+                }
+                // console.log(data1);
+                // console.log(data2);
+                if(data.length>0){
+                    renderheaparea2(0);
+                    for(var i=0;i<data.length;i++){
+                        data4.pop();
+                        data3.pop();
+                    }
+
+                    // console.log(data1);
+                    // console.log(data2);
+                }
+
+
+            });
+            var $ = layui.$, active = {
+                one1: function () {
+                    // var start_time = '';
+                    // var end_time = '';
+                    // console.log(start_time);
+                    post(home_url + "/orderController/v1.0/getOrderPricesByTime", {order_id:1}, function (data) {
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data2.push(data[i].price);
+                            data1.push(data[i].time);
+                        }
+                        console.log(data1);
+                        console.log(data2);
+                        if(data.length>0){
+                            rendernormline(0);
+                            for(var i=0;i<data.length;i++){
+                                data2.pop();
+                                data1.pop();
+                            }
+                        }
+
+
+                    });
+                },
+                two2: function(){
+                    var start_time = getCurrentMonthFirst();
+                    var day2 = new Date();
+                    var end_time = day2.getFullYear()+"-" + getFormatDate((day2.getMonth()+1)) + "-" + getFormatDate(day2.getDate());
+
+                    console.log(start_time);
+                    console.log(end_time);
+                    post(home_url + "/orderController/v1.0/getOrderPricesByTime", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data2.push(data[i].price);
+                            data1.push(data[i].time);
+                        }
+                        console.log(data1);
+                        console.log(data2);
+                        if(data.length>0){
+                            rendernormline(0);
+                            for(var i=0;i<data.length;i++){
+                                data2.pop();
+                                data1.pop();
+                            }
+                        }
+
+
+                    });
+                },
+
+
+                select3: function(){
+                    var timeData = $("#test-laydate-format-range0").val();
+                    if(timeData==null || timeData===''){
+                        return layer.msg('请选择时间');
+                    }
+                    console.log(end_time);
+                    var timeValue = timeData.split(" ~ ");
+                    var start_time = timeValue[0];
+                    var end_time = timeValue[1];
+
+
+                    post(home_url + "/orderController/v1.0/getOrderPricesByTime", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+
+                        // console.log(2019-04-02 ~ 2019-05-05);
+
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data2.push(data[i].price);
+                            data1.push(data[i].time);
+                        }
+                        console.log(data1);
+                        console.log(data2);
+                        if(data.length>0){
+                            rendernormline(0);
+                            for(var i=0;i<data.length;i++){
+                                data2.pop();
+                                data1.pop();
+                            }
+                        }
+
+
+                    });
+                },
+                one: function () {
+                    // var start_time = '';
+                    // var end_time = '';
+                    // console.log(start_time);
+                    post(home_url + "/orderController/v1.0/getOrderCountsByTime", {order_id:1}, function (data) {
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data4.push(data[i].num);
+                            data3.push(data[i].time);
+                        }
+                        console.log(data3);
+                        console.log(data4);
+                        if(data.length>0){
+                            renderheaparea2(0);
+                            for(var i=0;i<data.length;i++){
+                                data4.pop();
+                                data3.pop();
+                            }
+                        }
+
+
+                    });
+                },
+                two: function(){
+                    var start_time = getCurrentMonthFirst();
+                    var day2 = new Date();
+                    var end_time = day2.getFullYear()+"-" + getFormatDate((day2.getMonth()+1)) + "-" + getFormatDate(day2.getDate());
+
+                    console.log(start_time);
+                    console.log(end_time);
+                    post(home_url + "/orderController/v1.0/getOrderCountsByTime", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data4.push(data[i].num);
+                            data3.push(data[i].time);
+                        }
+                        console.log(data3);
+                        console.log(data4);
+                        if(data.length>0){
+                            renderheaparea2(0);
+                            for(var i=0;i<data.length;i++){
+                                data4.pop();
+                                data3.pop();
+                            }
+                        }
+
+
+                    });
+                },
+
+
+                select: function(){
+                    var timeData = $("#test-laydate-format-range1").val();
+                    if(timeData==null || timeData===''){
+                        return layer.msg('请选择时间');
+                    }
+                    var timeValue = timeData.split(" ~ ");
+                    var start_time = timeValue[0];
+                    var end_time = timeValue[1];
+                    console.log(end_time);
+
+                    post(home_url + "/orderController/v1.0/getOrderCountsByTime", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+
+                        // console.log(2019-04-02 ~ 2019-05-05);
+
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data4.push(data[i].num);
+                            data3.push(data[i].time);
+                        }
+                        console.log(data3);
+                        console.log(data4);
+                        if(data.length>0){
+                            renderheaparea2(0);
+                            for(var i=0;i<data.length;i++){
+                                data4.pop();
+                                data3.pop();
+                            }
+                        }
+
+
+                    });
+                }
+            };
+
+        });
+    });
+</script>
+</body>
+</html>

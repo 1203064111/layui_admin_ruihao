@@ -1,0 +1,639 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户分群统计</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <!--<script src="../common.js"></script>-->
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-card">
+
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <!--<button class="layui-btn layuiadmin-btn-list" data-type="one">昨天</button>-->
+
+                <button class="layui-btn layuiadmin-btn-list" data-type="two">最近7天</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="three">最近30天</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="four">最近90天</button>
+                <div class="layui-inline">
+                    <label class="layui-form-label">选择时间</label>
+                    <div class="layui-input-inline" style="width: 200px;">
+                        <input type="text" class="layui-input" id="test-laydate-format-range1" placeholder=" ~ ">
+                    </div>
+                </div>
+                <button class="layui-btn layuiadmin-btn-list" data-type="select">查询</button>
+
+            </div>
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="exportTwo">导出7天数据</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="exportThree">导出30天数据</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="exportFour">导出90天数据</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="exportSelect">导出查询数据</button>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space15" style="width:100%">
+        <div class="layui-col-md6" style="width:100%">
+            <div class="layui-card" style="width:100%">
+                <div class="layui-card-header">用户分群统计（经销商地址为基准）</div>
+                <div class="layui-card-body">
+
+
+                    <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-plat">
+                        <div carousel-item id="LAY-index-plat">
+                            <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="../../layuiadmin/layui/layui.js"></script>
+<script>
+    var is_debug=false;
+    var home_url='http://life1.rehau.cn/';
+    var texturl="http://life2.rehau.cn/";
+    if(is_debug){
+        home_url='http://localhost:8180/tst-consumer-huixiang/';
+    }
+    function addDate(date, days) {
+        if (days == undefined || days == '') {
+            days = 1;
+        }
+        var date = new Date(date);
+        date.setDate(date.getDate() - days);
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        return date.getFullYear() + '-' + getFormatDate(month) + '-' + getFormatDate(day);
+    }
+
+    // 日期月份/天的显示，如果是1位数，则在前面加上'0'
+    function getFormatDate(arg) {
+        if (arg == undefined || arg == '') {
+            return '';
+        }
+
+        var re = arg + '';
+        if (re.length < 2) {
+            re = '0' + re;
+        }
+
+        return re;
+    }
+    function post(url,params,doSuccess,doFailed){
+        // var cate = layui.data(db_name);
+        // var systemAccountBean=cate.systemAccountBean;
+
+        // if(!isNull(systemAccountBean)){
+        //     params["account_id1"]=getNull(systemAccountBean.account_id+"","-1");
+        //     params["system_token"]=systemAccountBean.system_token+"";
+        // }
+        $.post(url,params, function(data) {
+            var response =data;
+            if (response.status === 'ok') {
+                doSuccess(response.data,response.total);
+            } else if (response.status === 'error') {
+                layer.msg(response.error, {
+                    offset: '15px'
+                    ,icon: 2
+                    ,time: 1000
+                })
+                if(doFailed){
+                    doFailed(response.error);
+                }
+            } else {
+                window.location.href = './user/login.html';
+                layer.msg("登录失效,请重新登录", {
+                    offset: '15px'
+                    ,icon: 2
+                    ,time: 1000
+                })
+
+            }
+        }.bind(this));
+    }
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','laydate'],function(){
+        var laydate = layui.laydate;
+
+        //示例代码
+
+        //常规用法
+        laydate.render({
+            elem: '#test-laydate-normal-cn'
+        });
+
+        //国际版
+        laydate.render({
+            elem: '#test-laydate-normal-en'
+            ,lang: 'en'
+        });
+
+        //年选择器
+        laydate.render({
+            elem: '#test-laydate-type-year'
+            ,type: 'year'
+        });
+
+        //年月选择器
+        laydate.render({
+            elem: '#test-laydate-type-month'
+            ,type: 'month'
+        });
+
+        //日期选择器
+        laydate.render({
+            elem: '#test-laydate-type-date'
+            //,type: 'date' //type 默认为 date，所以可不填
+        });
+
+        //时间选择器
+        laydate.render({
+            elem: '#test-laydate-type-time'
+            ,type: 'time'
+        });
+
+        //日期时间选择器
+        laydate.render({
+            elem: '#test-laydate-type-datetime'
+            ,type: 'datetime'
+        });
+
+        //日期范围
+        laydate.render({
+            elem: '#test-laydate-range-date'
+            ,range: true
+        });
+
+        //年范围
+        laydate.render({
+            elem: '#test-laydate-range-year'
+            ,type: 'year'
+            ,range: true
+        });
+
+        //年月范围
+        laydate.render({
+            elem: '#test-laydate-range-month'
+            ,type: 'month'
+            ,range: true
+        });
+
+        //时间范围
+        laydate.render({
+            elem: '#test-laydate-range-time'
+            ,type: 'time'
+            ,range: true
+        });
+
+        //日期时间范围
+        laydate.render({
+            elem: '#test-laydate-range-datetime'
+            ,type: 'datetime'
+            ,range: true
+        });
+
+        //自定义格式
+        laydate.render({
+            elem: '#test-laydate-format-date1'
+            ,format: 'yyyy年MM月dd日'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-date2'
+            ,format: 'dd/MM/yyyy'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-month'
+            ,type: 'month'
+            ,format: 'yyyyMM'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-time'
+            ,type: 'time'
+            ,format: 'H点m分'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-range1'
+            ,range: '~'
+        });
+        laydate.render({
+            elem: '#test-laydate-format-range2'
+            ,type: 'datetime'
+            ,range: '到'
+            ,format: 'yyyy年M月d日H时m分s秒'
+        });
+
+        //同时绑定多个
+        lay('.test-laydate-item').each(function(){
+            laydate.render({
+                elem: this
+                ,trigger: 'click'
+            });
+        });
+
+        //区块轮播切换
+        layui.use(['admin', 'carousel'], function(){
+            var $ = layui.$
+                ,admin = layui.admin
+                ,carousel = layui.carousel
+                ,element = layui.element
+                ,device = layui.device();
+
+            //轮播切换
+            $('.layadmin-carousel').each(function(){
+                var othis = $(this);
+                carousel.render({
+                    elem: this
+                    ,width: '100%'
+                    ,arrow: 'none'
+                    ,interval: othis.data('interval')
+                    ,autoplay: othis.data('autoplay') === true
+                    ,trigger: (device.ios || device.android) ? 'click' : 'hover'
+                    ,anim: othis.data('anim')
+                });
+            });
+
+            element.render('progress');
+
+        });
+
+
+
+
+
+
+//柱状图
+//
+//
+//         layui.use(['carousel', 'echarts'], function(){
+//             var $ = layui.$
+//                 ,carousel = layui.carousel
+//                 ,echarts = layui.echarts;
+//             var data1 = [];
+//             var data2 = [];
+//
+//             //标准柱状图
+//             var echnormcol = [], normcol = [
+//                     {
+//                         title : {
+//                             text: '配置的总价以及对应人数',
+//                             subtext: '统计'
+//                         },
+//                         tooltip : {
+//                             trigger: 'axis'
+//                         },
+//                         legend: {
+//                             data:['对应人数']
+//                         },
+//                         calculable : true,
+//                         xAxis : [
+//                             {
+//                                 type : 'category',
+//                                 data :data1
+//                             }
+//                         ],
+//                         yAxis : [
+//                             {
+//                                 type : 'value'
+//                             }
+//                         ],
+//                         series : [
+//                             {
+//                                 name:'对应人数',
+//                                 type:'bar',
+//                                 data:data2,
+//
+//
+//                             },
+//                         ]
+//
+//
+//                     }
+//                 ]
+//                 ,elemNormcol = $('#LAY-index-normcol').children('div'),
+//                 renderNormcol = function(index){
+//                     echnormcol[index] = echarts.init(elemNormcol[index], layui.echartsTheme);
+//                     echnormcol[index].setOption(normcol[index]);
+//                     window.onresize = echnormcol[index].resize;
+//                 };
+//             if(!elemNormcol[0]) return;
+            // renderNormcol(0);
+
+
+        layui.use(['carousel', 'echarts'], function(){
+            var $ = layui.$
+                ,carousel = layui.carousel
+                ,echarts = layui.echarts;
+            var data1 = [];
+            var echplat = [], plat = [
+                {
+                    title : {
+                        // text: '2011全国GDP（亿元）',
+                        // subtext: '数据来自国家统计局'
+                    },
+                    tooltip : {
+                        trigger: 'item'
+                    },
+                    dataRange: {
+                        orient: 'horizontal',
+                        min: 0,
+                        max: 1000,
+                        text:['高','低'],           // 文本，默认为数值文本
+                        splitNumber:0,
+                    },
+                    series : [
+                        {
+                            name: '地域分布',
+                            type: 'map',
+                            mapType: 'china',
+                            mapLocation: {
+                                x: 'center'
+                            },
+                            selectedMode : 'multiple',
+                            itemStyle:{
+                                normal:{label:{show:true}},
+                                emphasis:{label:{show:true}}
+                            },
+                            data:data1
+                            // data:[
+                            //     {name:'西藏', value:605.83},
+                            //     {name:'青海', value:1670.44},
+                            //     {name:'宁夏', value:2102.21},
+                            //     {name:'海南', value:2522.66},
+                            //     {name:'甘肃', value:5020.37},
+                            //     {name:'贵州', value:5701.84},
+                            //     {name:'新疆', value:6610.05},
+                            //     {name:'云南', value:8893.12},
+                            //     {name:'重庆', value:10011.37},
+                            //     {name:'吉林', value:10568.83},
+                            //     {name:'山西', value:11237.55},
+                            //     {name:'天津', value:11307.28},
+                            //     {name:'江西', value:11702.82},
+                            //     {name:'广西', value:11720.87},
+                            //     {name:'陕西', value:12512.3},
+                            //     {name:'黑龙江', value:12582},
+                            //     {name:'内蒙古', value:14359.88},
+                            //     {name:'安徽', value:15300.65},
+                            //     {name:'北京', value:16251.93, selected:true},
+                            //     {name:'福建', value:17560.18},
+                            //     {name:'上海', value:19195.69, selected:true},
+                            //     {name:'湖北', value:19632.26},
+                            //     {name:'湖南', value:19669.56},
+                            //     {name:'四川', value:21026.68},
+                            //     {name:'辽宁', value:22226.7},
+                            //     {name:'河北', value:24515.76},
+                            //     {name:'河南', value:26931.03},
+                            //     {name:'浙江', value:32318.85},
+                            //     {name:'山东', value:45361.85},
+                            //     {name:'江苏', value:49110.27},
+                            //     {name:'广东', value:53210.28, selected:true}
+                            // ]
+                        }
+                    ]
+                }
+            ]
+                ,elemplat = $('#LAY-index-plat').children('div')
+                ,renderplat = function(index){
+                echplat[index] = echarts.init(elemplat[index], layui.echartsTheme);
+                echplat[index].setOption(plat[index]);
+                window.onresize = echplat[index].resize;
+            };
+            if(!elemplat[0]) return;
+            // renderplat(0);
+            post(home_url + "/memberController/v1.0/getMemberAddressDataByDate", {order_id:1}, function (data) {
+
+                console.log(data)
+                // for(var i=0; i < data.length; i++){
+                //     data2.push(data[i].total);
+                //     data1.push(data[i].address);
+                // }
+                for(var i=0; i < data.length; i++){
+                    data1[i] = {value:data[i].total,name:data[i].address};
+                    console.log(data1[i]);
+                }
+                console.log(data1);
+                if(data.length>0){
+                    renderplat(0);
+                    for(var i=0;i<data.length;i++){
+                        data1.pop();
+                    }
+
+                    console.log(data1);
+                }
+
+
+            });
+            var $ = layui.$, active = {
+                four: function () {
+                    var day1 = new Date();
+                    day1.setTime(day1.getTime()-24*60*60*1000*90);
+                    var start_time = day1.getFullYear()+"-" + getFormatDate((day1.getMonth()+1)) + "-" + getFormatDate(day1.getDate());
+                    var day2 = new Date();
+                    var end_time = day2.getFullYear()+"-" + getFormatDate((day2.getMonth()+1)) + "-" + getFormatDate(day2.getDate());
+
+                    console.log(start_time);
+                    post(home_url + "/memberController/v1.0/getMemberAddressDataByDate", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data1[i] = {value:data[i].total,name:data[i].address};
+                            console.log(data1[i]);
+                        }
+                        console.log(data1);
+
+                        if(data.length>0){
+                            renderplat(0);
+                            for(var i=0;i<data.length;i++){
+                                data1.pop();
+                            }
+                        }
+
+
+                    });
+                },
+                exportFour: function () {
+                    var day1 = new Date();
+                    day1.setTime(day1.getTime()-24*60*60*1000*90);
+                    var start_time = day1.getFullYear()+"-" + getFormatDate((day1.getMonth()+1)) + "-" + getFormatDate(day1.getDate());
+                    var day2 = new Date();
+                    var end_time = day2.getFullYear()+"-" + getFormatDate((day2.getMonth()+1)) + "-" + getFormatDate(day2.getDate());
+
+                    console.log(start_time);
+                    post(home_url + "/memberController/v1.0/exportMemberAddressDataByDate", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+                        console.log(data)
+                        window.location.href=texturl+data;
+                    });
+                },
+                two: function(){
+                    var day1 = new Date();
+                    day1.setTime(day1.getTime()-24*60*60*1000*7);
+                    var start_time = day1.getFullYear()+"-" + getFormatDate((day1.getMonth()+1)) + "-" + getFormatDate(day1.getDate());
+                    var day2 = new Date();
+                    var end_time = day2.getFullYear()+"-" + getFormatDate((day2.getMonth()+1)) + "-" + getFormatDate(day2.getDate());
+
+                    console.log(start_time);
+                    post(home_url + "/memberController/v1.0/getMemberAddressDataByDate", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data1[i] = {value:data[i].total,name:data[i].address};
+                            console.log(data1[i]);
+                        }
+                        console.log(data1);
+
+                        if(data.length>0){
+                            renderplat(0);
+                            for(var i=0;i<data.length;i++){
+
+                                data1.pop();
+                            }
+                        }
+
+
+                    });
+                },
+                exportTwo: function(){
+                    var day1 = new Date();
+                    day1.setTime(day1.getTime()-24*60*60*1000*7);
+                    var start_time = day1.getFullYear()+"-" + getFormatDate((day1.getMonth()+1)) + "-" + getFormatDate(day1.getDate());
+                    var day2 = new Date();
+                    var end_time = day2.getFullYear()+"-" + getFormatDate((day2.getMonth()+1)) + "-" + getFormatDate(day2.getDate());
+
+                    console.log(start_time);
+                    post(home_url + "/memberController/v1.0/exportMemberAddressDataByDate", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+                        console.log(data)
+                        window.location.href=texturl+data;
+                    });
+                },
+                three: function(){
+                    var day1 = new Date();
+                    day1.setTime(day1.getTime()-24*60*60*1000*30);
+                    var start_time = day1.getFullYear()+"-" + getFormatDate((day1.getMonth()+1)) + "-" + getFormatDate(day1.getDate());
+                    var day2 = new Date();
+                    var end_time = day2.getFullYear()+"-" + getFormatDate((day2.getMonth()+1)) + "-" + getFormatDate(day2.getDate());
+
+                    console.log(start_time);
+                    post(home_url + "/memberController/v1.0/getMemberAddressDataByDate", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data1[i] = {value:data[i].total,name:data[i].address};
+                            console.log(data1[i]);
+                        }
+                        console.log(data1);
+
+                        if(data.length>0){
+                            renderplat(0);
+                            for(var i=0;i<data.length;i++){
+
+                                data1.pop();
+                            }
+                        }
+
+
+                    });
+                },
+                exportThree: function(){
+                    var day1 = new Date();
+                    day1.setTime(day1.getTime()-24*60*60*1000*30);
+                    var start_time = day1.getFullYear()+"-" + getFormatDate((day1.getMonth()+1)) + "-" + getFormatDate(day1.getDate());
+                    var day2 = new Date();
+                    var end_time = day2.getFullYear()+"-" + getFormatDate((day2.getMonth()+1)) + "-" + getFormatDate(day2.getDate());
+
+                    console.log(start_time);
+                    post(home_url + "/memberController/v1.0/exportMemberAddressDataByDate", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+                        console.log(data)
+                        window.location.href=texturl+data;
+                    });
+                },
+
+                select: function(){
+                    var timeData = $("#test-laydate-format-range1").val();
+                    if(timeData==null || timeData===''){
+                        return layer.msg('请选择时间');
+                    }
+                    var timeValue = timeData.split(" ~ ");
+                    var start_time = timeValue[0];
+                    var end_time = timeValue[1];
+                    console.log(end_time);
+
+                    post(home_url + "/memberController/v1.0/getMemberAddressDataByDate", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+
+                        // console.log(2019-04-02 ~ 2019-05-05);
+
+
+                        console.log(data)
+                        for(var i=0; i < data.length; i++){
+                            data1[i] = {value:data[i].total,name:data[i].address};
+                            console.log(data1[i]);
+                        }
+                        console.log(data1);
+
+                        if(data.length>0){
+                            renderplat(0);
+                            for(var i=0;i<data.length;i++){
+
+                                data1.pop();
+                            }
+                        }
+
+
+                    });
+                },
+                exportSelect: function(){
+                    var timeData = $("#test-laydate-format-range1").val();
+                    if(timeData==null || timeData===''){
+                        return layer.msg('请选择时间');
+                    }
+                    var timeValue = timeData.split(" ~ ");
+                    var start_time = timeValue[0];
+                    var end_time = timeValue[1];
+                    console.log(end_time);
+
+                    post(home_url + "/memberController/v1.0/exportMemberAddressDataByDate", {order_id:1,start_time:start_time,end_time:end_time}, function (data) {
+
+                        console.log(data)
+                        window.location.href=texturl+data;
+                    });
+                }
+            };
+
+            $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
+
+        });
+    });
+</script>
+</body>
+</html>
+
+

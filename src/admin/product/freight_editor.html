@@ -1,0 +1,457 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<form class="layui-form" action="" style="margin-top: 20px">
+    <div class="layui-form-item">
+        <label class="layui-form-label">运费名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="freight_name" name="freight_name" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">默认首件数(件/重量/体积)</label>
+        <div class="layui-input-inline">
+            <input type="text" id="freight_range" name="freight_range" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">默认首费(¥)</label>
+        <div class="layui-input-inline">
+            <input type="text" id="freight_price" name="freight_price" required  lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">默认续件数(件/重量/体积)</label>
+        <div class="layui-input-inline">
+            <input type="text" id="freight_add_range" name="freight_add_range" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">默认续费(¥)</label>
+        <div class="layui-input-inline">
+            <input type="text" id="freight_add_price" name="freight_add_price" required  lay-verify="required" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">运费方式(¥)</label>
+        <div class="layui-input-inline">
+            <select name="freight_way" id="freight_way"  lay-verify="required" lay-filter="freight_way">
+                <option value=""></option>
+                <option value="1">买家承担运费</option>
+                <option value="2">卖家承担运费</option>
+            </select>
+        </div>
+        <label class="layui-form-label">计算方式(¥)</label>
+        <div class="layui-input-inline">
+            <select name="freight_type" id="freight_type"  lay-verify="required" lay-filter="freight_type">
+                <option value=""></option>
+                <option value="1">按件</option>
+                <option value="2">按重量</option>
+                <option value="3">按体积</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="city">
+
+    </div>
+    <div id="free">
+
+    </div>
+    <div class="layui-form-item" style="margin-top: 20px">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+
+
+
+</form>
+
+
+<script id="city_demo" type="text/html">
+    <div style="background: #ffffff;height:50px;display: flex;align-items: center">
+        <p style="color:cornflowerblue;font-size: 13px;margin-left: 20px">运费城市价格设置</p>
+        <button  class="layui-btn" style="margin-left: 20px" onclick="addFreightCity()">添加</button>
+    </div>
+    <div style="background: #efefef;height:40px;display: flex;align-items: center">
+        <div style="flex:2;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">运送到</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">首件数(件/重量/体积)</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">首费(¥)</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">续件数(件/重量/体积)</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">续费(¥)</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">操作</p>
+        </div>
+    </div>
+    {{# layui.each(d, function(index, item){ }}
+        <div style="background: #efefef;display: flex;align-items: center">
+            <div style="flex:2;display:flex;align-items: center;justify-content: center">
+                <p style="color:cornflowerblue;font-size: 15px;">{{item.city_names}}</p>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" onclick="showFreightCity('{{index}}')"><i class="layui-icon layui-icon-edit"></i></a>
+            </div>
+            <div style="flex:1;display:flex;align-items: center;justify-content: center">
+                <input type="text" class="layui-input" required  lay-verify="required"  autocomplete="off"
+                       value="{{item.freight_range}}"
+                       onchange='editor("{{index}}","freight_range",this.value)'>
+            </div>
+            <div style="flex:1;display:flex;align-items: center;justify-content: center">
+                <input type="text" class="layui-input" required  lay-verify="required"  autocomplete="off"
+                       value="{{item.freight_price}}"
+                       onchange='editor("{{index}}","freight_price",this.value)'>
+            </div>
+            <div style="flex:1;display:flex;align-items: center;justify-content: center">
+                <input type="text" class="layui-input" required  lay-verify="required"  autocomplete="off"
+                       value="{{item.freight_add_range}}"
+                       onchange='editor("{{index}}","freight_add_range",this.value)'>
+            </div>
+            <div style="flex:1;display:flex;align-items: center;justify-content: center">
+                <input type="text" class="layui-input" required  lay-verify="required"  autocomplete="off"
+                       value="{{item.freight_add_price}}"
+                       onchange='editor("{{index}}","freight_add_price",this.value)'>
+            </div>
+            <div style="flex:1;display:flex;align-items: center;justify-content: center">
+                <a class="layui-btn layui-btn-normal layui-btn-xs" onclick="deleteFreightCity('{{index}}')"><i class="layui-icon layui-icon-delete"></i></a>
+            </div>
+        </div>
+    {{#  }); }}
+
+</script>
+
+
+<script id="free_demo" type="text/html">
+    <div style="background: #ffffff;height:50px;display: flex;align-items: center">
+        <p style="color:cornflowerblue;font-size: 13px;margin-left: 20px">免邮设置</p>
+        <button  class="layui-btn" style="margin-left: 20px" onclick="addFreeCity()">添加</button>
+    </div>
+    <div style="background: #efefef;height:40px;display: flex;align-items: center">
+        <div style="flex:2;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">免邮地区</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">满多少(件/重量/体积)包邮</p>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">操作</p>
+        </div>
+    </div>
+    {{# layui.each(d, function(index, item){ }}
+    <div style="background: #efefef;display: flex;align-items: center">
+        <div style="flex:2;display:flex;align-items: center;justify-content: center">
+            <p style="color:cornflowerblue;font-size: 15px;">{{item.city_names}}</p>
+            <a class="layui-btn layui-btn-normal layui-btn-xs" onclick="showFreeCity('{{index}}')"><i class="layui-icon layui-icon-edit"></i></a>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <input type="text" class="layui-input" required  lay-verify="required"  autocomplete="off"
+                   value="{{item.free_range}}"
+                   onchange='free("{{index}}","free_range",this.value)'>
+        </div>
+        <div style="flex:1;display:flex;align-items: center;justify-content: center">
+            <a class="layui-btn layui-btn-normal layui-btn-xs" onclick="deleteFreeCity('{{index}}')"><i class="layui-icon layui-icon-delete"></i></a>
+        </div>
+    </div>
+    {{#  }); }}
+
+</script>
+<script>
+    var freightCityBeans=[];
+    var freightFreeBeans=[];
+
+    var city_index=0;
+    var cityBeans=[];
+    var providerBeans=[];
+    var freeBeans=[];
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','element', 'form','laytpl'], function(){
+        var laytpl = layui.laytpl;
+        var element=layui.element;
+        var $ = layui.$
+                ,form = layui.form;
+
+        $.getJSON("../city2.json", function (data) {
+            cityBeans=data;
+        })
+
+        var freight_id=getParameter(0,"freight_id")
+        if(freight_id!="-1"){
+            post(home_url+"/goodsController/v1.0/getFreightDetail",{freight_id:freight_id},function (data) {
+                $("#freight_name").val(data.freight_name)
+                $("#freight_way").val(data.freight_way)
+                $("#freight_type").val(data.freight_type)
+                $("#freight_range").val(data.freight_range)
+                $("#freight_price").val(data.freight_price)
+                $("#freight_add_range").val(data.freight_add_range)
+                $("#freight_add_price").val(data.freight_add_price)
+                freightCityBeans=data.freightCityBeans;
+                freightFreeBeans=data.freightFreeBeans;
+                showCity()
+                showFree()
+                form.render("select");
+            })
+        }else{
+            showCity()
+            showFree()
+        }
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["freight_citys"]=JSON.stringify(freightCityBeans);
+            params["freight_frees"]=JSON.stringify(freightFreeBeans);
+
+            if(freight_id=="-1"){
+                post(home_url+"/goodsController/v1.0/insertFreight",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }else{
+                params["freight_id"]=freight_id;
+                post(home_url+"/goodsController/v1.0/updateFreight",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+
+        });
+    });
+
+    function showFreightCity(index){
+        var a=JSON.stringify(cityBeans);
+        providerBeans=JSON.parse(a);
+
+        var city_ids=split(freightCityBeans[index].city_ids);
+        for(var i=0;i<providerBeans.length;i++){
+            var tempBeans=providerBeans[i].children;
+            var count=0;
+
+            for(var j=0;j<tempBeans.length;j++){
+                for(var h=0;h<city_ids.length;h++){
+                    if(tempBeans[j]["value"]+""===city_ids[h]+""){
+                        tempBeans[j].is_check='1';
+                        count++;
+                    }
+                }
+            }
+            if(count==tempBeans.length){
+                providerBeans[i].is_check="1";
+            }
+            providerBeans[i].count=count;
+        }
+
+        for(let i=0;i<freightCityBeans.length;i++){
+            if(i!=index){
+                let city_ids= this.split(freightCityBeans[i].city_ids);
+                for(let j=0;j<city_ids.length;j++){
+                    for(var h=0;h<providerBeans.length;h++){
+                        removeArrayV2(providerBeans[h].children,"value",city_ids[j]);
+                    }
+
+                }
+            }
+        }
+
+        city_index=index;
+
+        layer.open({
+            type: 2
+            ,title: '请选择城市'
+            ,content: 'freight_add_provider.html'
+            ,area: ['90%','90%'],
+            btn: ['确定', '关闭'],
+            yes:function (index2, layero) {
+                providerBeans = layero.find("iframe")[0].contentWindow.providerBeans;
+                var province_ids=[];
+                var province_names=[];
+                var city_ids=[];
+                var city_names=[];
+                for(var i=0;i<providerBeans.length;i++){
+                    var providerBean=providerBeans[i];
+                    if(providerBean.is_check=="1"){
+                        province_ids.push(providerBean.value)
+                        province_names.push(providerBean.name)
+                    }
+                    var cityBeans=providerBeans[i].children;
+                    for(var j=0;j<cityBeans.length;j++){
+                        var cityBean=cityBeans[j];
+                        if(cityBean.is_check=="1"){
+                            city_ids.push(cityBean.value)
+                            city_names.push(cityBean.name)
+                        }
+                    }
+                }
+                freightCityBeans[index].province_ids=province_ids.toString();
+                freightCityBeans[index].province_names=province_names.toString();
+                freightCityBeans[index].city_ids=city_ids.toString();
+                freightCityBeans[index].city_names=city_names.toString();
+
+                showCity()
+                layer.close(index2);
+            }
+        });
+    }
+
+    function addFreightCity(){
+        freightCityBeans.push({freight_range:"",freight_price:"",
+            freight_add_range:"",freight_add_price:"",city_names:""})
+        showCity();
+    }
+
+    function deleteFreightCity(index) {
+        freightCityBeans.splice(index,1)
+        showCity();
+    }
+
+    function editor(index,key,value){
+        freightCityBeans[index][key]=value;
+    }
+
+
+    function showCity(){
+        layui.use(['laytpl','element'], function(){
+            var laytpl = layui.laytpl;
+            var element=layui.element;
+            var getTpl = city_demo.innerHTML
+                    ,view = document.getElementById('city');
+            laytpl(getTpl).render(freightCityBeans
+                    , function(html){
+                        view.innerHTML = html;
+                        element.render()
+                    });
+        });
+    }
+
+    function addFreeCity() {
+        freightFreeBeans.push({free_range:"",city_names:""})
+        showFree();
+    }
+
+    function showFreeCity(index){
+        var a=JSON.stringify(cityBeans);
+        freeBeans=JSON.parse(a);
+
+        var city_ids=split(freightFreeBeans[index].city_ids);
+        for(var i=0;i<freeBeans.length;i++){
+            var tempBeans=freeBeans[i].children;
+            var count=0;
+
+            for(var j=0;j<tempBeans.length;j++){
+                for(var h=0;h<city_ids.length;h++){
+                    if(tempBeans[j]["value"]+""===city_ids[h]+""){
+                        tempBeans[j].is_check='1';
+                        count++;
+                    }
+                }
+            }
+            if(count==tempBeans.length){
+                freeBeans[i].is_check="1";
+            }
+            freeBeans[i].count=count;
+        }
+
+        for(let i=0;i<freightFreeBeans.length;i++){
+            if(i!=index){
+                let city_ids= this.split(freightFreeBeans[i].city_ids);
+                for(let j=0;j<city_ids.length;j++){
+                    for(var h=0;h<freeBeans.length;h++){
+                        removeArrayV2(freeBeans[h].children,"value",city_ids[j]);
+                    }
+
+                }
+            }
+        }
+
+        city_index=index;
+
+        layer.open({
+            type: 2
+            ,title: '请选择城市'
+            ,content: 'freight_free_provider.html'
+            ,area: ['90%','90%'],
+            btn: ['确定', '关闭'],
+            yes:function (index2, layero) {
+                freeBeans = layero.find("iframe")[0].contentWindow.freeBeans;
+                var province_ids=[];
+                var province_names=[];
+                var city_ids=[];
+                var city_names=[];
+                for(var i=0;i<freeBeans.length;i++){
+                    var providerBean=freeBeans[i];
+                    if(providerBean.is_check=="1"){
+                        province_ids.push(providerBean.value)
+                        province_names.push(providerBean.name)
+                    }
+                    var cityBeans=freeBeans[i].children;
+                    for(var j=0;j<cityBeans.length;j++){
+                        var cityBean=cityBeans[j];
+                        if(cityBean.is_check=="1"){
+                            city_ids.push(cityBean.value)
+                            city_names.push(cityBean.name)
+                        }
+                    }
+                }
+                freightFreeBeans[index].province_ids=province_ids.toString();
+                freightFreeBeans[index].province_names=province_names.toString();
+                freightFreeBeans[index].city_ids=city_ids.toString();
+                freightFreeBeans[index].city_names=city_names.toString();
+
+                showFree()
+                layer.close(index2);
+            }
+        });
+    }
+
+    function free(index,key,value){
+        freightFreeBeans[index][key]=value;
+    }
+
+    function deleteFreeCity(index){
+        freightFreeBeans.splice(index,1)
+        showFree();
+    }
+
+    //展示免邮费城市
+    function showFree(){
+        layui.use(['laytpl','element'], function(){
+            var laytpl = layui.laytpl;
+            var element=layui.element;
+            var getTpl = free_demo.innerHTML
+                    ,view = document.getElementById('free');
+            laytpl(getTpl).render(freightFreeBeans
+                    , function(html){
+                        view.innerHTML = html;
+                        element.render()
+                    });
+        });
+    }
+
+</script>
+</body>
+</html>

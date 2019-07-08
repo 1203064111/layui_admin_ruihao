@@ -1,0 +1,21 @@
+.layui-upload-img{width: 92px; height: 92px; margin: 0 10px 10px 0;}
+
+.zhengan-label-div{
+    display: flex;
+    width:200px;
+    min-height: 40px;
+    align-items: center;
+    background: #ffffff;
+    word-wrap:break-word;
+    word-break:break-all;
+}
+
+.zhengan-lable{
+    margin-left: 5px;
+    font-size: 13px;
+}
+
+.zhengan-input{
+    min-height: 28px;
+    background: #ffffff;
+}

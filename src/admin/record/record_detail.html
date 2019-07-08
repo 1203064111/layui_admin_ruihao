@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>瑞好</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="../common.css">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+
+</head>
+<body>
+
+<form class="layui-form" action="">
+
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">SKU</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_sku" name="record_sku" lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">电商代码</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_electricity_code" name="record_electricity_code" required
+                   lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">电商名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_electricity_name" name="record_electricity_name" required
+                   lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">商品名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_goods_name" name="record_goods_name" required lay-verify="required"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">CIQ编码</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_ciq_code" name="record_ciq_code" required lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">商品规格</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_goods_specification" name="record_goods_specification" required
+                   lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">业务类型</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_business_types" name="record_business_types" required lay-verify="required"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">申报单位</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_the_notification" name="record_the_notification" required
+                   lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">法定单位</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_legal_units" name="record_legal_units" required lay-verify="required"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">法定计量单位折算数量</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_reduced_num" name="record_reduced_num"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">商品HS编码 </label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_hs_code" name="record_hs_code"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">入区计量单位</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_measuring_unit" name="record_measuring_unit"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">入区计量单位折算数量</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_measuring_unit_code" name="record_measuring_unit_code" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+
+
+        <label class="layui-form-label">生产企业名称 </label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_enterprise_name" name="record_enterprise_name" required lay-verify="required"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">供应商名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_supplier_name" name="record_supplier_name" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">施检机构代码</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_inspection_code" name="record_inspection_code" required lay-verify="required"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">国家地区代码</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_country_code" name="record_country_code" required lay-verify="required"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">适用标准</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_applicable_standards" name="record_applicable_standards" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">商品种类代码</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_product_code" name="record_product_code" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">产品品牌</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_product_brand" name="record_product_brand" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">英文原名</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_english_name" name="record_english_name" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">中文翻译名</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_translation_name" name="record_translation_name" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">性能指标</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_performance_indicators" name="record_performance_indicators" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">认证信息</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_authentication_information" name="record_authentication_information"
+                   placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">许可证号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_license" name="record_license" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">商品条形码</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_barcode" name="record_barcode" required lay-verify="required" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">产品有效期</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_period_validity" name="record_period_validity" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">主要成分</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_main_ingredients" name="record_main_ingredients" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+        <label class="layui-form-label">用途</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_use" name="record_use" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">是否在中国注册备案</label>
+        <div class="layui-input-inline">
+            <select name="record_in_china" id="record_in_china" lay-verify="required" lay-filter="parent_id">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+
+        </div>
+
+        <label class="layui-form-label">是否法检</label>
+        <div class="layui-input-inline">
+            <select name="record_is_pilot" id="record_is_pilot" lay-verify="required" lay-filter="parent_id">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+        <label class="layui-form-label">是否存在食药监局国家认监委备案附件</label>
+        <div class="layui-input-inline">
+
+            <select name="record_is_attachment" id="record_is_attachment" lay-verify="required" lay-filter="parent_id">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+        <label class="layui-form-label">是否存在原产地证书</label>
+        <div class="layui-input-inline">
+            <select name="record_is_origin" id="record_is_origin" lay-verify="required" lay-filter="parent_id">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">是否存在境外官方及第三方机构的检测报告</label>
+        <div class="layui-input-inline">
+            <select name="record_is_report" id="record_is_report" lay-verify="required" lay-filter="parent_id">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+
+        </div>
+
+        <label class="layui-form-label">是否存在合法采购证明</label>
+        <div class="layui-input-inline">
+            <select name="record_is_legal" id="record_is_legal" lay-verify="required" lay-filter="parent_id">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+        <label class="layui-form-label">是否存外文标签的中文翻译件</label>
+        <div class="layui-input-inline">
+            <select name="record_is_translation" id="record_is_translation" lay-verify="required"
+                    lay-filter="parent_id">
+                <option value="0">否</option>
+                <option value="1">是</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">其他</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_other" name="record_other" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+        <label class="layui-form-label">备案号</label>
+        <div class="layui-input-inline">
+            <input type="text" id="record_number" name="record_number" placeholder=""
+                   autocomplete="off" class="layui-input">
+        </div>
+
+    </div>
+    <!--  <div class="layui-form-item">
+          <div class="layui-input-block">
+              <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+              <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+          </div>
+      </div>-->
+</form>
+<script>
+
+    var product_id = "";
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'upload', 'form'], function () {
+        var $ = layui.$
+            , form = layui.form, upload = layui.upload;
+        ;
+
+        uploadRender(upload, '#system_img', '#test-upload-normal-img');//渲染上传图片
+
+
+        var record_id = getParameter(0, "record_id")
+        post(home_url + "/recordController/v1.0/getRecordDetail", {record_id: record_id}, function (data) {
+
+
+            $('#record_sku').val(data.record_sku);
+            $("#record_electricity_code").val(data.record_electricity_code);
+            $("#record_electricity_name").val(data.record_electricity_name);
+            $("#record_goods_name").val(data.record_goods_name);
+            $("#record_ciq_code").val(data.record_ciq_code);
+            $("#record_goods_specification").val(data.record_goods_specification);
+            $("#record_business_types").val(data.record_business_types);
+            $("#record_the_notification").val(data.record_the_notification);
+            $("#record_legal_units").val(data.record_legal_units);
+            $("#record_reduced_num").val(data.record_reduced_num);
+            $("#record_hs_code").val(data.record_hs_code);
+            $("#record_measuring_unit").val(data.record_measuring_unit);
+            $("#record_measuring_unit_code").val(data.record_measuring_unit_code);
+            $("#record_enterprise_name").val(data.record_enterprise_name);
+            $("#record_supplier_name").val(data.record_supplier_name);
+            $("#record_inspection_code").val(data.record_inspection_code);
+            $("#record_country_code").val(data.record_country_code);
+            $("#record_in_china").val(data.record_in_china);
+            $("#record_product_code").val(data.record_product_code);
+            $("#record_product_brand").val(data.record_product_brand);
+            $("#record_english_name").val(data.record_english_name);
+            $("#record_translation_name").val(data.record_translation_name);
+            $("#record_performance_indicators").val(data.record_performance_indicators);
+            $("#record_authentication_information").val(data.record_authentication_information);
+            $("#record_license").val(data.record_license);
+            $("#record_barcode").val(data.record_barcode);
+            $("#record_period_validity").val(data.record_period_validity);
+            $("#record_main_ingredients").val(data.record_main_ingredients);
+            $("#record_use").val(data.record_use);
+            $("#record_applicable_standards").val(data.record_applicable_standards);
+            $("#record_is_inspection").val(data.record_is_inspection);
+            $("#record_is_pilot").val(data.record_is_pilot);
+            $("#record_is_attachment").val(data.record_is_attachment);
+            $("#record_is_origin").val(data.record_is_origin);
+            $("#record_is_report").val(data.record_is_report);
+            $("#record_is_legal").val(data.record_is_legal);
+            $("#record_is_translation").val(data.record_is_translation);
+            $("#record_other").val(data.record_other);
+            $("#record_number").val(data.record_number);
+            form.render("select");
+
+        });
+    })
+
+
+
+
+</script>
+</body>
+</html>

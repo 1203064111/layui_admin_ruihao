@@ -1,0 +1,150 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+
+    <script src="../../layuiadmin/layui/layui.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../common.js"></script>
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-card">
+        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">材料</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="config_set_name" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">颜色</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="config_color_name" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">价格</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="config_price" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button class="layui-btn layuiadmin-btn-useradmin" lay-submit lay-filter="LAY-user-front-search">
+                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="layui-card-body">
+            <div style="padding-bottom: 10px;">
+                <button class="layui-btn layuiadmin-btn-list" data-type="batchdel">删除</button>
+                <button class="layui-btn layuiadmin-btn-list" data-type="add">添加</button>
+            </div>
+
+            <table id="LAY-app-content-list" lay-filter="LAY-app-content-list"></table>
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
+</script>
+
+<script>
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'table'], function(){
+        var table = layui.table
+                ,form = layui.form;
+
+        tableRender(table,'#LAY-app-content-list',home_url+'/houseController/v1.0/getSystemConfigs',{},
+                [[
+                    {type:'checkbox'}
+                    // {field:'config_id', width: 100,title: 'ID'}
+                    ,{field:'zizeng',  title: '序号',type:'numbers'}
+                    ,{field:'config_img',  title: '材料颜色图片',templet:function (d) {
+                            return '<div onclick="show_img(this)"><img src="'+d.config_img+'" width="50px" height="50px"></div>';
+                        }}
+                    ,{field:'config_set_name', title: '材料'}
+                    ,{field:'config_color_name', title: '颜色'}
+                    ,{field:'config_price', title: '单价/平方米'}
+                    ,{field: 'right', title: '操作', width: 200, toolbar:"#barDemo"}
+                ]],function () {
+
+                })
+
+        form.on('submit(LAY-user-front-search)', function(data){
+            var field = data.field;
+
+            //执行重载
+            table.reload('LAY-app-content-list', {
+                where: field
+            });
+        });
+        table.on('tool(LAY-app-content-list)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'edit'){
+                layer.open({
+                    type: 2
+                    ,title: '编辑单价信息'
+                    ,content: 'system_config_editor.html?config_id='+data.config_id+"&type=2"
+                    ,area: ['60%','60%']
+                });
+            }
+        });
+
+        var $ = layui.$, active = {
+            batchdel: function(){
+                var checkStatus = table.checkStatus('LAY-app-content-list')
+                        ,checkData = checkStatus.data; //得到选中的数据
+
+                if(checkData.length === 0){
+                    return layer.msg('请选择数据');
+                }
+
+                layer.confirm('确定删除吗？', function(index) {
+                    var config_ids=[];
+                    for(var i=0;i<checkData.length;i++){
+                        config_ids.push(checkData[i].config_id)
+                    }
+                    post(home_url+'/houseController/v1.0/deleteSystemConfig',{config_ids:config_ids.toString()},function () {
+                        table.reload("LAY-app-content-list");
+                        layer.close(index)
+                    })
+                });
+            },
+            add: function(){
+                layer.open({
+                    type: 2
+                    ,title: '添加单价信息'
+                    ,content: 'system_config_editor.html?config_id=-1'+"&type=2"
+                    ,area: ['60%','60%']
+                });
+            }
+        };
+
+        $('.layui-btn.layuiadmin-btn-list').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+
+
+</script>
+</body>
+</html>

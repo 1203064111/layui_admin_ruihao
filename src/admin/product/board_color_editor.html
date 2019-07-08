@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <title>瑞好</title>
+            <meta name="renderer" content="webkit">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+            <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+            <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+            <link rel="stylesheet" href="../common.css">
+            <script src="../../layuiadmin/layui/layui.js"></script>
+            <script src="../js/jquery.js"></script>
+            <script src="../js/jquery.min.js"></script>
+            <script src="../common.js"></script>
+        </head>
+
+<body>
+
+<form class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">颜色名称</label>
+        <div class="layui-input-inline">
+            <input type="text" id="color_name" name="color_name" required  lay-verify="required"  autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">颜色封面</label>
+        <div class="layui-upload">
+            <img class="layui-upload-img"  id="color_img">
+            <button type="button" class="layui-btn" id="upload_img"  name="upload_img">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">颜色状态</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" id="color_state" name="color_state" lay-filter="color_state" lay-skin="switch" lay-text="ON|OFF" value="1">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script>
+
+
+    layui.config({
+        base: '../../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','upload', 'form'], function(){
+
+        var $ = layui.$
+                ,form = layui.form,upload = layui.upload;
+
+        uploadRender(upload,'#upload_img','#color_img');//渲染上传图片
+
+        var color_id=getParameter(0,"color_id");
+        var set_id=getParameter(1,"set_id");
+
+        if(color_id!="-1"){
+            post(home_url+"/houseController/v1.0/getBoardColorDetail",{color_id:color_id},function (data) {
+                $("#color_name").val(data.color_name)
+                $("#color_img").attr('src', data.color_img);
+                $("#color_state").attr("checked", data.color_state=="1"?true:false);
+                form.render();
+            })
+        }else{
+
+        }
+
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            var params=data.field;
+            params["set_id"]=set_id;
+            params["color_img"]=$("#color_img")[0].src;
+            if("1"!=params["color_state"]){
+                params["color_state"]="0";
+            }
+            if(color_id=="-1"){
+                post(home_url+"/houseController/v1.0/insertBoardColor",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }else{
+                params["color_id"]=color_id;
+                post(home_url+"/houseController/v1.0/updateBoardColor",params,function () {
+                    window.parent.location.reload();//刷新父页面
+                    var index = parent.layer.getFrameIndex(window.name)//当前层的index
+                    parent.layer.close(index)//关闭当前层
+                })
+            }
+
+        });
+        
+
+    });
+
+</script>
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>
